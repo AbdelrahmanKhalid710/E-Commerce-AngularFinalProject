@@ -1,3 +1,0 @@
-hello world 
-hello assem 
-hell final
