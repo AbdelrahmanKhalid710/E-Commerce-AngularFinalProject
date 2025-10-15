@@ -1,0 +1,12 @@
+<button class="btn btn-light border-0"(click)="toggleFavorite()">
+  @if (loading) {
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  }
+  @else{
+    @if(isFavorite) {
+      <i class="fa-solid fa-heart text-danger"></i>
+    }@else {
+      <i class="fa-regular fa-heart text-secondary"></i>
+    }
+  }
+</button>
