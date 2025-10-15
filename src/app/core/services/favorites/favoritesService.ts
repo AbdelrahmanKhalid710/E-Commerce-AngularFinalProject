@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class Favorites {
-  private baseUrl = 'https://ecommerce.routemisr.com';
+  private baseUrl = 'https://ecommerce.routemisr.com/api/v1/wishlist';
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
@@ -22,10 +22,10 @@ export class Favorites {
 
   //Remove
   removeProductFromFavoriteList(productId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/api/v1/favorites/${productId}`, { headers: this.getAuthHeaders() });
+    return this.http.delete(`${this.baseUrl}/${productId}`, { headers: this.getAuthHeaders() });
   }
   //Get All Favorties for logged user
   getAllFavoriteProducts(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/api/v1/favorites`, { headers: this.getAuthHeaders() });
+    return this.http.get(this.baseUrl, { headers: this.getAuthHeaders() });
   }
 }
