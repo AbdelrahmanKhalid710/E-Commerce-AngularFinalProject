@@ -1,1 +1,31 @@
-<p>favorites-list works!</p>
+<section class="container my-5">
+  <h2>Your Favorites</h2>
+  @if(loading)
+  {
+  <div class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+  </div>
+  }
+  @else{
+  @if(favorites.length === 0)
+  {
+  <div class="alert alert-info text-center py-5" role="alert">
+    You have no favorite products yet.
+  </div>
+  }@else{
+  <div class="row g-3">
+    <!-- This is going to be a product card list -->
+
+    <!-- @for (fav of favorites; track fav._id) { -->
+  <!-- <div class="col-md-3"> -->
+    <!-- <app-product-card
+      [product]="fav"
+      [showRemoveButton]="true"
+      (remove)="removeFromList(fav._id)">
+    </app-product-card> -->
+  <!-- </div> -->
+<!-- } -->
+  </div>
+  }
+  }
+</section>
