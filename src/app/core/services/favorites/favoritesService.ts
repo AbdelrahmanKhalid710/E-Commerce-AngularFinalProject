@@ -10,7 +10,7 @@ export class Favorites {
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('userToken');
+    const token = localStorage.getItem('authToken');
     return new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
