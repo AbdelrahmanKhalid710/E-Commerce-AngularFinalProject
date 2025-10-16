@@ -1,0 +1,83 @@
+<div class="register-container d-flex justify-content-center align-items-center bg-light">
+  <div class="card register-card shadow-lg p-4">
+    <h3 class="text-center mb-3 text-success">Register</h3>
+
+    <form (ngSubmit)="registerUser()" #f="ngForm"> 
+      <div class="form-outline mb-4">
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          placeholder="Enter your name"
+          [(ngModel)]="signupObj.name"
+          name="name"
+          required
+        />
+        <label class="form-label mt-1" for="name">Full Name</label>
+      </div>
+
+      <div class="form-outline mb-4">
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="Enter your email"
+          [(ngModel)]="signupObj.email"
+          name="email"
+          required
+        />
+        <label class="form-label mt-1" for="email">Email address</label>
+      </div>
+
+      <div class="form-outline mb-4">
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          placeholder="Enter your password"
+          [(ngModel)]="signupObj.password"
+          name="password"
+          required
+        />
+        <label class="form-label mt-1" for="password">Password</label>
+      </div>
+
+      <div class="form-outline mb-4">
+        <input
+          type="Password"
+          id="rePassword"
+          class="form-control"
+          placeholder="Enter your rePassword"
+          [(ngModel)]="signupObj.rePassword"
+          name="rePassword"
+          required
+        />
+        <label class="form-label mt-1" for="rePassword">rePassword</label>
+      </div>
+
+      <div class="form-outline mb-4">
+        <input
+          type="tel"
+          id="phone"
+          class="form-control"
+          placeholder="Enter your phone number"
+          [(ngModel)]="signupObj.phone"
+          name="phone"
+          required
+        />
+        <label class="form-label mt-1" for="phone">Phone Number</label>
+      </div>
+
+      <button type="submit" class="btn btn-success w-100 mb-4" [disabled]="f.invalid">
+        Register
+      </button>
+
+      <div class="text-center">
+        <p>
+          Already have an account?
+          <a routerLink="/login" class="text-decoration-none">Login</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

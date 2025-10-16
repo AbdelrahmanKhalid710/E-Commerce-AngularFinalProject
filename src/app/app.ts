@@ -1,12 +1,12 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { FavoritesList } from "./core/components/favorites-components/favorites-list/favorites-list";
+import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FavoritesList],
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, CommonModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
-export class App {
-  protected readonly title = signal('E-Commerce-AngularFinalProject');
-}
+export class App {}

@@ -1,6 +1,24 @@
-<nav class="nav">
-  <a class="nav-link" routerLink="/">Home</a>
-  <a class="nav-link" routerLink="/favorites">Favorites</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/home">MyApp</a>
+
+    <div>
+      <a class="nav-link d-inline text-white" routerLink="/login">Login</a>
+    </div>
+    <div>
+      <a class="nav-link d-inline text-white" routerLink="/register">Register</a>
+    </div>
+    <div>
+      <a class="nav-link d-inline text-white" routerLink="/home">Home</a>
+    </div>
+    <div>
+      <a class="nav-link d-inline text-white" routerLink="/favorites">Favorites</a>
+    </div>
+  </div>
 </nav>
+
+<!-- Routed components show here -->
+<router-outlet></router-outlet>
+
 
 <router-outlet></router-outlet>
