@@ -1,0 +1,45 @@
+<section class="categories-section py-5">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold">Shop by Category</h2>
+    
+    @if (loading()) {
+      <div class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Loading categories...</p>
+      </div>
+    }
+
+    @if (error() && !loading()) {
+      <div class="alert alert-warning text-center">
+        {{ error() }}
+        <button class="btn btn-sm btn-outline-primary ms-2" (click)="loadCategories()">
+          Try Again
+        </button>
+      </div>
+    }
+
+    @if (!loading() && !error()) {
+      <div class="row g-3 justify-content-center">
+        @for (category of categories(); track category._id) {
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+            <div class="category-card text-center">
+              <div class="category-image-wrapper mb-3 mx-auto">
+                <img [src]="category.image" [alt]="category.name" 
+                     class="category-image rounded-circle shadow">
+              </div>
+              <h6 class="fw-bold mb-2 text-truncate px-2" [title]="category.name">
+                {{ category.name }}
+              </h6>
+              <a [routerLink]="['/products']" [queryParams]="{category: category.slug}" 
+                 class="btn btn-outline-primary btn-sm">
+                Shop Now
+              </a>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
