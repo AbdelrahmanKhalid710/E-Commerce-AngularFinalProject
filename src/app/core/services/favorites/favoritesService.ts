@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class Favorites {
   private baseUrl = 'https://ecommerce.routemisr.com/api/v1/wishlist';
   constructor(private http: HttpClient) { }
-
+  
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken');
     return new HttpHeaders({
