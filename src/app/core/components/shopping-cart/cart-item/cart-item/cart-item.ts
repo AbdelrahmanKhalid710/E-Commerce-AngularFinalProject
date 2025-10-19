@@ -13,7 +13,7 @@ export class CartItem {
   @Output() remove = new EventEmitter<string>();
 
   onRemove(): void {
-    this.remove.emit(this.item.productId);
+    this.remove.emit(this.item.product._id);
   }
 
 }

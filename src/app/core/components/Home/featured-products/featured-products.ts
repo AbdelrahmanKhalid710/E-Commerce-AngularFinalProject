@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api-service';
 import { ProductCard } from '../../../../shared/product-card/product-card';
 import { Product } from '../../../../../interfaces';
+import { CartService } from '../../../services/shopping-cart/cart-service/cart-service';
 
 @Component({
   selector: 'app-featured-products',
@@ -14,6 +15,7 @@ import { Product } from '../../../../../interfaces';
 })
 export class FeaturedProducts {
 private apiService = inject(ApiService);
+private cartService = inject(CartService);
   
   featuredProducts = signal<Product[]>([]);
   loading = signal(true);
@@ -42,6 +44,7 @@ private apiService = inject(ApiService);
 
   onAddToCart(product: Product): void {
     console.log('Add to cart:', product);
+    this.cartService.addProductToCart(product);
   }
 
   onToggleFavorite(product: Product): void {

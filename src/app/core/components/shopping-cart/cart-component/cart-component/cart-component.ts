@@ -15,8 +15,8 @@ export class CartComponent {
   cartItems = this.cartService.cartItems;
   total = computed(() =>
     this.cartItems().reduce((sum, item) => {
-      const price = item.priceAfterDiscount ?? item.price;
-      return sum + price * item.quantity;
+      const price = item.product.priceAfterDiscount ?? item.product.price;
+      return sum + price * item.orderQuantity;
     }, 0)
   );
 
