@@ -1,7 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, effect } from '@angular/core';
 import { ICartItem } from '../../../../../interfaces/icart-item';
 import { toCartItem } from '../../../../../app/shared/cart-util';
 import { Product } from '../../../../../interfaces';
+const CART_STORAGE_KEY = 'my-cart-items';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,25 @@ import { Product } from '../../../../../interfaces';
 export class CartService {
   private _cartItems = signal<ICartItem[]>([]);
   readonly cartItems = this._cartItems;
+
+  constructor() {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        this._cartItems.set(parsed);
+      } catch {
+        console.warn('Failed to parse cart from localStorage');
+      }
+    }
+
+    // Save to localStorage on change
+    effect(() => {
+      const current = this._cartItems();
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(current));
+    });
+
+  }
 
   addToCart(item: ICartItem): void {
     const items = this._cartItems();
@@ -34,6 +54,7 @@ export class CartService {
 
   clearCart(): void {
     this._cartItems.set([]);
+    localStorage.removeItem(CART_STORAGE_KEY);
   }
 
   getTotal(): number {
@@ -54,31 +75,4 @@ export class CartService {
     }
   }
 
-  // constructor() {
-  //   // --- MOCK DATA ---
-  //   // In a real app, this data would come from your API or be loaded from storage.
-  //   this.cartItems.set([
-  //     {
-  //       productId: 'prod_001',
-  //       title: 'Classic Crewneck T-Shirt',
-  //       price: 24.99,
-  //       quantity: 2,
-  //       imageCover: 'https://placehold.co/400x400/f1f5f9/334155?text=T-Shirt',
-  //     },
-  //     {
-  //       productId: 'prod_002',
-  //       title: 'Slim-Fit Denim Jeans',
-  //       price: 89.50,
-  //       quantity: 1,
-  //       imageCover: 'https://placehold.co/400x400/e0e7ff/4338ca?text=Jeans',
-  //     },
-  //     {
-  //       productId: 'prod_003',
-  //       title: 'Leather Ankle Boots',
-  //       price: 145.00,
-  //       quantity: 1,
-  //       imageCover: 'https://placehold.co/400x400/d1d5db/1f2937?text=Boots',
-  //     },
-  //   ]);
-  // }
 }
