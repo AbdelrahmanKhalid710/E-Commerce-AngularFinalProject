@@ -1,0 +1,6 @@
+<a routerLink="/cart" class="cart-icon">
+    🛒
+    @if (itemCount() > 0) {
+    <span class="badge">{{ itemCount() }}</span>
+    }
+</a>
