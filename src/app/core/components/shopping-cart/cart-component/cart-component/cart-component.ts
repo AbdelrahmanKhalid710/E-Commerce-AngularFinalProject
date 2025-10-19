@@ -1,11 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { ICartItem } from '../../../../../../interfaces/icart-item';
+import { CartService } from '../../../../services/shopping-cart/cart-service/cart-service';
+import { CommonModule } from '@angular/common';
+import { CartItem } from '../../cart-item/cart-item/cart-item';
 
 @Component({
   selector: 'app-cart-component',
-  imports: [],
+  imports: [CommonModule, CartItem],
   templateUrl: './cart-component.html',
   styleUrl: './cart-component.css'
 })
 export class CartComponent {
+  private cartService = inject(CartService);
+  cartItems = this.cartService.cartItems;
+  total = computed(() =>
+    this.cartItems().reduce((sum, item) => {
+      const price = item.priceAfterDiscount ?? item.price;
+      return sum + price * item.quantity;
+    }, 0)
+  );
+
+
+  removeItem(id: string): void {
+    this.cartService.removeFromCart(id);
+  }
+
+  checkout(): void {
+    console.log('Checkout payload:', {
+      items: this.cartItems(),
+      total: this.total()
+    });
+  }
+
 
 }

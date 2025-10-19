@@ -1,1 +1,11 @@
-<p>cart-item works!</p>
+<div class="cart-item">
+    <img class="item-image" [src]="item.imageCover" alt="{{ item.title }}" />
+
+    <div class="item-details">
+        <h4>{{ item.title }}</h4>
+        <p>Price: {{ item.priceAfterDiscount ?? item.price }} EGP</p>
+        <p>Quantity: {{ item.quantity }}</p>
+
+        <button class="remove-btn" (click)="onRemove()">Remove</button>
+    </div>
+</div>
