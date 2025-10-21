@@ -1,63 +1,9 @@
-
-// import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { Observable } from 'rxjs';
-
-// interface UserProfile {
-//   name: string;
-//   email: string;
-//   role: string;
-// }
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class Login {
-//   private baseUrl = 'https://ecommerce.routemisr.com'; 
-
-//   constructor(private http: HttpClient) {}
-
-//   login(credentials: any): Observable<any> {
-//     return this.http.post(`${this.baseUrl}/api/v1/auth/signin`, credentials);
-//   }
-
-//   saveToken(token: string): void {
-//     localStorage.setItem('authToken', token);
-//   }
-
-//   saveUser(user: UserProfile): void {
-//     localStorage.setItem('userProfile', JSON.stringify(user));
-//   }
-
-//   getUser(): UserProfile | null {
-//     const userJson = localStorage.getItem('userProfile');
-//     return userJson ? JSON.parse(userJson) as UserProfile : null;
-//   }
-
-//   getToken(): string | null {
-//     return localStorage.getItem('authToken');
-//   }
-
-//   isAuthenticated(): boolean {
-//     return !!this.getToken() && !!this.getUser();
-//   }
-
-//   // ✅ NEW: get role of current user
-//   getUserRole(): string | null {
-//     const user = this.getUser();
-//     return user ? user.role : null;
-//   }
-
-//   // ✅ NEW: check if user is admin
-//   isAdmin(): boolean {
-//     return this.getUserRole() === 'admin';
-//   }
-// }
-
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
+// Define the user profile interface
 export interface UserProfile {
   name: string;
   email: string;
@@ -70,21 +16,27 @@ export interface UserProfile {
 export class Login {
   private baseUrl = 'https://ecommerce.routemisr.com';
 
-  // 🧠 Signals
+  // 🧠 Signals to store data in memory (not in localStorage)
   user = signal<UserProfile | null>(null);
   token = signal<string | null>(null);
 
-  // ✅ Derived (computed) signal for authentication status
+  // ✅ Computed signal: automatically updates when user or token changes
   isAuthenticated = computed(() => !!this.user() && !!this.token());
 
   constructor(private http: HttpClient) {}
 
-  // --- Authentication Methods ---
-
+  // --- 🟢 LOGIN ---
   login(credentials: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/v1/auth/signin`, credentials);
+    return this.http.post(`${this.baseUrl}/api/v1/auth/signin`, credentials).pipe(
+      tap((response: any) => {
+        // Save user and token in memory using signals
+        if (response.token) this.saveToken(response.token);
+        if (response.user) this.saveUser(response.user);
+      })
+    );
   }
 
+  // --- 🟢 SAVE USER & TOKEN IN MEMORY ---
   saveUser(user: UserProfile): void {
     this.user.set(user);
   }
@@ -93,11 +45,13 @@ export class Login {
     this.token.set(token);
   }
 
+  // --- 🔴 LOGOUT ---
   logout(): void {
     this.user.set(null);
     this.token.set(null);
   }
 
+  // --- ⚙️ ROLE HELPERS ---
   getUserRole(): string | null {
     return this.user()?.role ?? null;
   }

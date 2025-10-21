@@ -1,0 +1,22 @@
+<div class="cart-container">
+    <h2>Your Shopping Cart</h2>
+
+    @if (cartItems().length === 0) {
+    <div class="empty-cart">
+        <p>Your cart is currently empty.</p>
+    </div>
+    } @else {
+    <div class="cart-items">
+        @for (item of cartItems(); track item.product._id) {
+        <app-cart-item [item]="item" (remove)="removeItem($event)">
+        </app-cart-item>
+        }
+    </div>
+
+    <div class="cart-summary">
+        <p class="total-label">Total:</p>
+        <p class="total-value">{{ total() }} EGP</p>
+        <button class="checkout-btn" (click)="checkout()">Proceed to Checkout</button>
+    </div>
+    }
+</div>

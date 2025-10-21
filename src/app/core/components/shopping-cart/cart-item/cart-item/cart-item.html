@@ -1,0 +1,11 @@
+<div class="cart-item">
+    <img class="item-image" [src]="item.product.imageCover" alt="{{ item.product.title }}" />
+
+    <div class="item-details">
+        <h4>{{ item.product.title }}</h4>
+        <p>Price: {{ item.product.priceAfterDiscount ?? item.product.price }} EGP</p>
+        <p>Quantity: {{ item.orderQuantity }}</p>
+
+        <button class="remove-btn" (click)="onRemove()">Remove</button>
+    </div>
+</div>

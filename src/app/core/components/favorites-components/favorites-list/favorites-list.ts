@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Favorites } from '../../../services/favorites/favoritesService';
 import { CommonModule } from '@angular/common';
 
@@ -19,10 +19,11 @@ export class FavoritesList {
   getFavorites() {
     this.favoritesService.getAllFavoriteProducts().subscribe({
       next: (res: any) => {
-        this.favorites = res.data || [];
+        this.favorites = res?.data || [];
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error fetching favorites:', err);
         this.loading = false;
       }
     });
