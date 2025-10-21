@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'home', component: Home },
   {
-    path: 'profile',component:UserProfile,canActivate: [authGuard],},
+    path: 'profile', component: UserProfile, canActivate: [authGuard] },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }
 ];
