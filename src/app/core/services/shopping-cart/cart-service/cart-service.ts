@@ -1,8 +1,10 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal, effect, inject } from '@angular/core';
 import { ICartItem } from '../../../../../interfaces/icart-item';
 import { toCartItem } from '../../../../../app/shared/cart-util';
 import { Product } from '../../../../../interfaces';
-const CART_STORAGE_KEY = 'my-cart-items';
+import { Login } from '../../Auth/login';
+
+const getCartKey = (userEmail: string) => `cart-${userEmail}`;
 
 @Injectable({
   providedIn: 'root'
@@ -10,23 +12,50 @@ const CART_STORAGE_KEY = 'my-cart-items';
 export class CartService {
   private _cartItems = signal<ICartItem[]>([]);
   readonly cartItems = this._cartItems;
+  private auth = inject(Login);
 
   constructor() {
-    const stored = localStorage.getItem(CART_STORAGE_KEY);
+
+    // EFFECT 1: Load the cart whenever the user changes.
+    // This effect runs immediately and re-runs when auth.currentUser() changes.
+    effect(() => {
+      const user = this.auth.currentUser();
+      const userEmail = user ? user.email : 'guest';
+      console.log(`User state changed. Loading cart for: ${userEmail}`);
+      this.loadCartForUser(userEmail);
+    });
+
+    // EFFECT 2: Save the cart whenever the cart data OR the user changes.
+    // This ensures the cart is saved to the correct key.
+    effect(() => {
+      const user = this.auth.currentUser();
+      const key = user ? getCartKey(user.email) : 'cart-guest';
+      const currentCart = this._cartItems();
+
+      console.log(`Saving cart to ${key}`, currentCart);
+      localStorage.setItem(key, JSON.stringify(currentCart));
+    });
+
+  }
+
+  loadCartForUser(userEmail: string): void {
+    const key = getCartKey(userEmail);
+    const stored = localStorage.getItem(key);
+    console.log('Attempting to load cart from key:', key);
+
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
         this._cartItems.set(parsed);
+        console.log('Loaded cart from localStorage:', parsed);
       } catch {
-        console.warn('Failed to parse cart from localStorage');
+        console.warn(`Failed to parse cart for key ${key}`);
+        this._cartItems.set([]);
       }
+    } else {
+      // No cart found, start with an empty one
+      this._cartItems.set([]);
     }
-
-    // Save to localStorage on change
-    effect(() => {
-      const current = this._cartItems();
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(current));
-    });
 
   }
 
@@ -54,7 +83,7 @@ export class CartService {
 
   clearCart(): void {
     this._cartItems.set([]);
-    localStorage.removeItem(CART_STORAGE_KEY);
+    console.log('Cart cleared.');
   }
 
   getTotal(): number {

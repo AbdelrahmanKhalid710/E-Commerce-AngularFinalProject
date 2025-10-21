@@ -26,11 +26,7 @@ export class CartComponent {
   }
 
   checkout(): void {
-    console.log('Checkout payload:', {
-      items: this.cartItems(),
-      total: this.total()
-    });
+    this.cartService.checkout();
   }
-
 
 }
