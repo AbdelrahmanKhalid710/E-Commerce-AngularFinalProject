@@ -2,13 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
-// Define the user profile interface
-export interface UserProfile {
-  name: string;
-  email: string;
-  role: string;
-}
+import { User } from '../../../../interfaces/iuser';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +11,7 @@ export class Login {
   private baseUrl = 'https://ecommerce.routemisr.com';
 
   // 🧠 Signals to store data in memory (not in localStorage)
-  user = signal<UserProfile | null>(null);
+  user = signal<User | null>(null);
   token = signal<string | null>(null);
 
   // ✅ Computed signal: automatically updates when user or token changes
@@ -37,7 +31,7 @@ export class Login {
   }
 
   // --- 🟢 SAVE USER & TOKEN IN MEMORY ---
-  saveUser(user: UserProfile): void {
+  saveUser(user: User): void {
     this.user.set(user);
   }
 

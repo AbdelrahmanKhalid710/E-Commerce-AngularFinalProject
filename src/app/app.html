@@ -2,26 +2,41 @@
   <div class="container">
     <a class="navbar-brand" routerLink="/home">MyApp</a>
 
-    <div>
-      <a class="nav-link d-inline text-white" routerLink="/login">Login</a>
-    </div>
-    <div>
-      <a class="nav-link d-inline text-white" routerLink="/register">Register</a>
-    </div>
-    <div>
-      <a class="nav-link d-inline text-white" routerLink="/home">Home</a>
-    </div>
-    <div>
-      <a class="nav-link d-inline text-white" routerLink="/favorites">Favorites</a>
-    </div>
-    <div>
-      <app-cart-badge />
+    <div class="d-flex align-items-center ms-auto">
+
+      <!-- 🔹 Home -->
+      <a class="nav-link text-white mx-2" routerLink="/home">Home</a>
+
+      <!-- 🔹 Favorites (visible only when logged in) -->
+      <a
+        *ngIf="isLoggedIn()"
+        class="nav-link text-white mx-2"
+        routerLink="/favorites">
+        Favorites
+      </a>
+
+      <!-- 🔹 Cart -->
+      <app-cart-badge class="mx-2"></app-cart-badge>
+
+      <!-- 🔹 Login/Profile Button -->
+      <button
+        type="button"
+        class="btn btn-light mx-2"
+        (click)="onLoginClick()">
+        {{'Profile'}}
+      </button>
+
+      <!-- 🔹 Logout (only when logged in) -->
+      <button
+        *ngIf="isLoggedIn()"
+        type="button"
+        class="btn btn-outline-light mx-2"
+        (click)="logout()">
+        Logout
+      </button>
+
     </div>
   </div>
 </nav>
-
-<!-- Routed components show here -->
-<router-outlet></router-outlet>
-
 
 <router-outlet></router-outlet>

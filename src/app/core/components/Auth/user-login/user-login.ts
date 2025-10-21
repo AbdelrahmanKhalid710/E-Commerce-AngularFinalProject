@@ -98,6 +98,11 @@ export class UserLogin {
     private router: Router
   ) {}
 
+  ngOnInit() {
+  if (this.loginService.isAuthenticated()) {
+    this.router.navigate(['/profile']);
+  }
+}
   // ✅ Handle Login Form Submission
   loginUser() {
     if (this.loginForm.invalid) {

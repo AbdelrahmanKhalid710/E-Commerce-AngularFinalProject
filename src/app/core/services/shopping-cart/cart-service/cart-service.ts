@@ -19,7 +19,7 @@ export class CartService {
     // EFFECT 1: Load the cart whenever the user changes.
     // This effect runs immediately and re-runs when auth.currentUser() changes.
     effect(() => {
-      const user = this.auth.currentUser();
+      const user = this.auth.user();
       const userEmail = user ? user.email : 'guest';
       console.log(`User state changed. Loading cart for: ${userEmail}`);
       this.loadCartForUser(userEmail);
@@ -28,7 +28,7 @@ export class CartService {
     // EFFECT 2: Save the cart whenever the cart data OR the user changes.
     // This ensures the cart is saved to the correct key.
     effect(() => {
-      const user = this.auth.currentUser();
+      const user = this.auth.user();
       const key = user ? getCartKey(user.email) : 'cart-guest';
       const currentCart = this._cartItems();
 
