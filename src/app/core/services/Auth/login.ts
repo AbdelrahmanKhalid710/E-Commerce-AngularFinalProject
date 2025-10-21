@@ -1,52 +1,52 @@
-// src/app/core/services/auth/login.service.ts
-
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+export interface UserProfile {
+  name: string;
+  email: string;
+  role: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class Login {
-  // Use a placeholder for your base URL. Get this from your environment file.
-  private baseUrl = 'https://ecommerce.routemisr.com'; 
+  private baseUrl = 'https://ecommerce.routemisr.com';
 
-  constructor(private http: HttpClient) { }
+  // 🧠 Signals
+  user = signal<UserProfile | null>(null);
+  token = signal<string | null>(null);
 
-  /**
-   * Sends user credentials to the login API endpoint.
-   * @param credentials Object containing email and password.
-   * @returns Observable of the API response.
-   */
+  // ✅ Derived (computed) signal for authentication status
+  isAuthenticated = computed(() => !!this.user() && !!this.token());
+
+  constructor(private http: HttpClient) {}
+
+  // --- Authentication Methods ---
+
   login(credentials: any): Observable<any> {
-    // Uses the /auth/signin endpoint from your Postman screenshot
     return this.http.post(`${this.baseUrl}/api/v1/auth/signin`, credentials);
   }
 
-  // --- Token Management Helpers ---
-  
-  /**
-   * Stores the JWT token in localStorage upon successful login.
-   * @param token The JWT string received from the API.
-   */
+  saveUser(user: UserProfile): void {
+    this.user.set(user);
+  }
+
   saveToken(token: string): void {
-    localStorage.setItem('authToken', token);
+    this.token.set(token);
   }
 
-  /**
-   * Retrieves the stored JWT token. Essential for authenticated requests.
-   * @returns The JWT string or null if not found.
-   */
-  getToken(): string | null {
-    return localStorage.getItem('authToken');
+  logout(): void {
+    this.user.set(null);
+    this.token.set(null);
   }
 
-  /**
-   * Checks if a user is currently authenticated (used for Route Guards).
-   * @returns boolean true if a token exists, false otherwise.
-   */
-  isAuthenticated(): boolean {
-    return !!this.getToken();
+  getUserRole(): string | null {
+    return this.user()?.role ?? null;
   }
-  
+
+  isAdmin(): boolean {
+    return this.getUserRole() === 'admin';
+  }
 }

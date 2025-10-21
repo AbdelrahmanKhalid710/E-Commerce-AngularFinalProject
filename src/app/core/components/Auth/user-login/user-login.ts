@@ -1,41 +1,66 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Login } from '../../../services/Auth/login';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-login',
   standalone: true,
-  imports: [CommonModule, RouterLink,FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './user-login.html',
   styleUrls: ['./user-login.css']
 })
-export class UserLogin { 
-  
-  loginObj:any={
-    email:'',
-    password:'',
-  };
-  constructor
-  (private loginService: Login, // Inject the new LoginService
-    private router: Router){}
+export class UserLogin {
 
-loginUser() {
-  console.log('Login button clicked! Attempting API call...');
-    this.loginService.login(this.loginObj).subscribe({
+  // ✅ Reactive Form
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)])
+  });
+
+  errorMessage: string = '';
+
+  constructor(
+    private loginService: Login,
+    private router: Router
+  ) {}
+
+  // ✅ Handle Login Form Submission
+  loginUser() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    const credentials = this.loginForm.value;
+    console.log('📤 Sending login data:', credentials);
+
+    this.loginService.login(credentials).subscribe({
       next: (response) => {
-        console.log('Login Successful:', response.message);
-        // Save the token upon successful login
-        this.loginService.saveToken(response.token);
+        console.log('✅ Login Successful:', response);
 
-        this.router.navigate(['/']); 
+        // ⚙️ Save user and token in memory (signals)
+        if (response.token) this.loginService.saveToken(response.token);
+        if (response.user) this.loginService.saveUser(response.user);
+
+        // ✅ Navigate to homepage or favorites
+        this.router.navigate(['/favorites']);
       },
-      error: (err) => {
-        console.error('Login Failed:', err.error.message);
-        // Display error to user
+      error: (err: HttpErrorResponse) => {
+        console.error('❌ Login Failed:', err);
+
+        // More user-friendly error messages
+        if (err.error?.message) this.errorMessage = err.error.message;
+        else if (err.status === 0) this.errorMessage = 'Cannot connect to the server.';
+        else this.errorMessage = 'Invalid email or password.';
       }
     });
+  }
+
+  // Optional helper for debugging signals
+  get currentUser() {
+    return this.loginService.user();
   }
 }

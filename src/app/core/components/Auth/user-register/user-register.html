@@ -1,77 +1,95 @@
 <div class="register-container d-flex justify-content-center align-items-center bg-light">
-  <div class="card register-card shadow-lg p-4">
+  <div class="card register-card shadow-lg p-4 w-50">
     <h3 class="text-center mb-3 text-success">Register</h3>
 
-    <form (ngSubmit)="registerUser()" #f="ngForm"> 
+    <!-- ✅ Reactive Form -->
+    <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+
+      <!-- Name -->
       <div class="form-outline mb-4">
         <input
           type="text"
           id="name"
           class="form-control"
           placeholder="Enter your name"
-          [(ngModel)]="signupObj.name"
-          name="name"
-          required
+          formControlName="name"
         />
         <label class="form-label mt-1" for="name">Full Name</label>
+        <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="text-danger small">
+          <span *ngIf="registerForm.get('name')?.errors?.['required']">Name is required.</span>
+          <span *ngIf="registerForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters.</span>
+        </div>
       </div>
 
+      <!-- Email -->
       <div class="form-outline mb-4">
         <input
           type="email"
           id="email"
           class="form-control"
           placeholder="Enter your email"
-          [(ngModel)]="signupObj.email"
-          name="email"
-          required
+          formControlName="email"
         />
         <label class="form-label mt-1" for="email">Email address</label>
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger small">
+          <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</span>
+          <span *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</span>
+        </div>
       </div>
 
+      <!-- Password -->
       <div class="form-outline mb-4">
         <input
           type="password"
           id="password"
           class="form-control"
           placeholder="Enter your password"
-          [(ngModel)]="signupObj.password"
-          name="password"
-          required
+          formControlName="password"
         />
         <label class="form-label mt-1" for="password">Password</label>
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger small">
+          <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</span>
+          <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Minimum 6 characters.</span>
+        </div>
       </div>
 
+      <!-- Re-enter Password -->
       <div class="form-outline mb-4">
         <input
-          type="Password"
+          type="password"
           id="rePassword"
           class="form-control"
-          placeholder="Enter your rePassword"
-          [(ngModel)]="signupObj.rePassword"
-          name="rePassword"
-          required
+          placeholder="Re-enter your password"
+          formControlName="rePassword"
         />
-        <label class="form-label mt-1" for="rePassword">rePassword</label>
+        <label class="form-label mt-1" for="rePassword">Confirm Password</label>
+        <div *ngIf="registerForm.get('rePassword')?.touched && registerForm.get('rePassword')?.value !== registerForm.get('password')?.value" class="text-danger small">
+          Passwords do not match.
+        </div>
       </div>
 
+      <!-- Phone -->
       <div class="form-outline mb-4">
         <input
           type="tel"
           id="phone"
           class="form-control"
           placeholder="Enter your phone number"
-          [(ngModel)]="signupObj.phone"
-          name="phone"
-          required
+          formControlName="phone"
         />
         <label class="form-label mt-1" for="phone">Phone Number</label>
+        <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched" class="text-danger small">
+          <span *ngIf="registerForm.get('phone')?.errors?.['required']">Phone is required.</span>
+          <span *ngIf="registerForm.get('phone')?.errors?.['pattern']">Invalid phone number format.</span>
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-success w-100 mb-4" [disabled]="f.invalid">
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-success w-100 mb-4" [disabled]="registerForm.invalid">
         Register
       </button>
 
+      <!-- Already have an account -->
       <div class="text-center">
         <p>
           Already have an account?
