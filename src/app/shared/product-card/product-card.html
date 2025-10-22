@@ -1,12 +1,12 @@
-<div class="card h-100 shadow-sm product-card">
-  @if (hasDiscount) {
-    <div class="position-absolute top-0 start-0 m-2">
-      <span class="badge bg-danger">-{{ discountPercentage }}%</span>
-    </div>
-  }
+<!-- Make the entire card clickable for product details -->
+<div class="card h-100 shadow-sm product-card" [routerLink]="['/products', product()._id]">
+  <div *ngIf="hasDiscount" class="position-absolute top-0 start-0 m-2">
+    <span class="badge bg-danger">-{{ discountPercentage }}%</span>
+  </div>
   
   <div class="position-absolute top-0 end-0 m-2">
-    <button class="btn btn-light btn-sm rounded-circle shadow" (click)="onToggleFavorite()">
+    <button class="btn btn-light btn-sm rounded-circle shadow" 
+            (click)="onToggleFavorite($event)">
       ♡
     </button>
   </div>
@@ -42,7 +42,7 @@
 
       <div class="d-flex gap-2">
         <button class="btn btn-primary btn-sm flex-fill" 
-                (click)="onAddToCart()"
+                (click)="onAddToCart($event)"
                 [disabled]="product().quantity === 0">
           {{ product().quantity === 0 ? 'Out of Stock' : 'Add to Cart' }}
         </button>

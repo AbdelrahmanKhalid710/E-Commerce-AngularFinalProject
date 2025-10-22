@@ -20,7 +20,7 @@ export class HeroSlider implements OnInit, OnDestroy {
       subtitle: "Women's Shawls That Every Woman Should Own",
       image: "https://embracejourneywithin.com/cdn/shop/collections/Shawl_Product_Photography_San_Diego_-_Shay_Studios-135.jpg?v=1715321404&width=2400",
       buttonText: "Shop Now",
-      buttonLink: "/products"
+      buttonLink: "/products?category=shawls"
     },
     {
       id: 2,
@@ -28,7 +28,7 @@ export class HeroSlider implements OnInit, OnDestroy {
       subtitle: "Stay warm and stylish this season with our premium collection",
       image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&h=500&fit=crop&auto=format",
       buttonText: "Explore",
-      buttonLink: "/products"
+      buttonLink: "/products?category=scarves"
     },
     {
       id: 3,
@@ -36,7 +36,7 @@ export class HeroSlider implements OnInit, OnDestroy {
       subtitle: "Up to 50% off on latest gadgets and tech accessories",
       image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=500&fit=crop&auto=format",
       buttonText: "Buy Now",
-      buttonLink: "/products"
+      buttonLink: "/products?category=winter"
     }
   ];
 

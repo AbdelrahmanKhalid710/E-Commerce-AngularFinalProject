@@ -1,0 +1,17 @@
+.thumbnail {
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.thumbnail:hover,
+.thumbnail.active {
+  border-color: #007bff;
+  transform: scale(1.05);
+}
+
+.main-image {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  padding: 10px;
+  background: white;
+}
