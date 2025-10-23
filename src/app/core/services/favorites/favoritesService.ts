@@ -1,18 +1,23 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Login } from '../Auth/login';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Favorites {
   private baseUrl = 'https://ecommerce.routemisr.com/api/v1/wishlist';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: Login) { }
   
+  
+
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token') || '';
+    console.log(token);
+    
     return new HttpHeaders({
-      Authorization: `Bearer ${token}`
+      token: `${token}`
     });
   }
   //AddProductToFavorite

@@ -17,7 +17,7 @@ export class Login {
   // ✅ Computed signal: automatically updates when user or token changes
   isAuthenticated = computed(() => !!this.user() && !!this.token());
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // --- 🟢 LOGIN ---
   login(credentials: any): Observable<any> {
@@ -26,6 +26,7 @@ export class Login {
         // Save user and token in memory using signals
         if (response.token) this.saveToken(response.token);
         if (response.user) this.saveUser(response.user);
+        if (response.token) this.SaveTokenInLocalStorage(response.token);
       })
     );
   }
@@ -52,5 +53,9 @@ export class Login {
 
   isAdmin(): boolean {
     return this.getUserRole() === 'admin';
+  }
+
+  SaveTokenInLocalStorage(token: string): void {
+    localStorage.setItem('token', token);
   }
 }

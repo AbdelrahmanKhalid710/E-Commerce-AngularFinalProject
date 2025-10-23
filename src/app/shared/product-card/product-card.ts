@@ -37,8 +37,9 @@ product = input.required<Product>();
     this.addToCart.emit(this.product());
   }
 
-  onToggleFavorite(event: Event): void {
-    event.stopPropagation(); // Prevent navigation when clicking favorite
+  onToggle(event: Event): void {
+    console.log('Favorite clicked');
+    //event.stopPropagation(); // Prevent navigation when clicking favorite
     this.toggleFavorite.emit(this.product());
   }
 }

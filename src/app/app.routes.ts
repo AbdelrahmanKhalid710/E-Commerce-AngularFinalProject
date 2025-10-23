@@ -12,7 +12,7 @@ import { ProductDetails } from './core/components/Products/product-details/produ
 export const routes: Routes = [
   { path: 'login', component: UserLogin },
   { path: 'register', component: UserRegister },
-  { path: 'favorites', component: FavoritesList, canActivate: [authGuard] },
+  { path: 'favorites', component: FavoritesList,  }, //canActivate: [authGuard]
   { path: 'cart', component: CartComponent },
   { path: 'products', component: ProductsList},
   { path: 'products/:id', component: ProductDetails},
