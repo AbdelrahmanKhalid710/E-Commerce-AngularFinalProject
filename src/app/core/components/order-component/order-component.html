@@ -1,0 +1,27 @@
+<h2>My Orders</h2>
+
+@if (orders.length === 0) {
+<p>You have no orders yet.</p>
+} @else {
+@for (order of orders; track order.id) {
+<div class="order-card">
+    <h3>Order #{{ order.id }}</h3>
+    <p>Status: <strong>{{ order.status }}</strong></p>
+    <p>Total: {{ order.total | currency }}</p>
+    <p>Placed on: {{ order.createdAt | date:'medium' }}</p>
+
+    <div class="order-items">
+        @for (item of order.items; track item.product._id) {
+        <div class="order-item">
+            <img [src]="item.product.imageCover" alt="{{ item.product.title }}" />
+            <div>
+                <h4>{{ item.product.title }}</h4>
+                <p>Quantity: {{ item.orderQuantity }}</p>
+                <p>Price: {{ item.product.priceAfterDiscount ?? item.product.price | currency }}</p>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+}
+}

@@ -3,6 +3,8 @@ import { ICartItem } from '../../../../../interfaces/icart-item';
 import { toCartItem } from '../../../../../app/shared/cart-util';
 import { Product } from '../../../../../interfaces';
 import { Login } from '../../Auth/login';
+import { Order } from '../../../../../interfaces/iorder';
+import { OrderService } from '../../order/order-service';
 
 const getCartKey = (userEmail: string) => `cart-${userEmail}`;
 
@@ -13,6 +15,7 @@ export class CartService {
   private _cartItems = signal<ICartItem[]>([]);
   readonly cartItems = this._cartItems;
   private auth = inject(Login);
+  private orderService = inject(OrderService);
 
   constructor() {
 
@@ -100,6 +103,22 @@ export class CartService {
         total: this.getTotal(),
       });
       // In a real app, you would typically navigate to another route or open a payment modal.
+      const order: Order = {
+        id: crypto.randomUUID(),
+        userEmail: this.auth.currentUser()?.email ?? 'guest',
+        items: this.cartItems(),
+        total: this.getTotal(),
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        shippingAddress: 'Mock Address',
+        paymentMethod: 'cash'
+      };
+
+      this.orderService.createOrder(order).subscribe(() => {
+        this.clearCart();
+        alert('Order placed!');
+      });
       alert('Checkout process started! Check the console for details.');
     }
   }

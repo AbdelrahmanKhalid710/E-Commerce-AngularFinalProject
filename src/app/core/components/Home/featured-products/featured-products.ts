@@ -44,6 +44,7 @@ private cartService = inject(CartService);
 
   onAddToCart(product: Product): void {
     console.log('Add to cart:', product);
+    alert(`Added "${product.title}" to cart.`);
     this.cartService.addProductToCart(product);
   }
 
