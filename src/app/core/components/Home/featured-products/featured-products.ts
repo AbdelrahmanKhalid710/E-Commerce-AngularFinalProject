@@ -5,6 +5,7 @@ import { ApiService } from '../../../services/api-service';
 import { ProductCard } from '../../../../shared/product-card/product-card';
 import { Product } from '../../../../../interfaces';
 import { CartService } from '../../../services/shopping-cart/cart-service/cart-service';
+import { FavoriteIcon } from '../../favorites-components/favorite-icon/favorite-icon';
 
 @Component({
   selector: 'app-featured-products',
@@ -16,6 +17,7 @@ import { CartService } from '../../../services/shopping-cart/cart-service/cart-s
 export class FeaturedProducts {
 private apiService = inject(ApiService);
 private cartService = inject(CartService);
+private favoritesService = inject(FavoriteIcon);
   
   featuredProducts = signal<Product[]>([]);
   loading = signal(true);
@@ -49,5 +51,6 @@ private cartService = inject(CartService);
 
   onToggleFavorite(product: Product): void {
     console.log('Toggle favorite:', product);
+    this.favoritesService.toggleFavorite();
   }
 }

@@ -18,7 +18,7 @@ export class FavoriteIcon {
   ngOnInit() {
     this.isFavorite = this.favoritesList.includes(this.productId);
   }
-  toggleFavorite() {
+    toggleFavorite() {
     this.loading = true;
     if (this.isFavorite) {
       this.favoritesService.removeProductFromFavoriteList(this.productId).subscribe({
