@@ -105,7 +105,7 @@ export class CartService {
       // In a real app, you would typically navigate to another route or open a payment modal.
       const order: Order = {
         id: crypto.randomUUID(),
-        userEmail: this.auth.currentUser()?.email ?? 'guest',
+        userEmail: this.auth.user()?.email ?? 'guest',
         items: this.cartItems(),
         total: this.getTotal(),
         status: 'pending',

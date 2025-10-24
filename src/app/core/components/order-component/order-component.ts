@@ -17,7 +17,7 @@ export class OrderComponent implements OnInit {
   orders: Order[] = [];
 
   ngOnInit(): void {
-    const userEmail = this.auth.currentUser()?.email;
+    const userEmail = this.auth.user()?.email;
     if (userEmail) {
       this.orderService.getOrders().subscribe(allOrders => {
         this.orders = allOrders.filter(o => o.userEmail === userEmail);
