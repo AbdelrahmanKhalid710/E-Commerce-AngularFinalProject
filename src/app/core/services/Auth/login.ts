@@ -3,7 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from '../../../../interfaces/iuser';
-
+import { inject } from '@angular/core';
+import {
+  Auth,
+  GoogleAuthProvider,
+  
+  signInWithPopup
+} from '@angular/fire/auth';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -57,5 +64,32 @@ export class Login {
 
   SaveTokenInLocalStorage(token: string): void {
     localStorage.setItem('token', token);
+  }
+  private auth = inject(Auth);
+private router = inject(Router);
+
+async loginWithGoogle(): Promise<void> {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(this.auth, provider);
+      const user = result.user;
+
+      console.log('Google Login Success:', user);
+
+
+      // Save token for session persistence
+      const token = await user.getIdToken();
+      this.saveToken(token);
+      //save User for session persistence
+      this.saveUser({
+        name: user.displayName || '',
+        email: user.email || '',
+        role: 'user'
+      });
+      // Redirect after login
+      await this.router.navigate(['/home']);
+    } catch (error) {
+      console.error(' Google login error:', error);
+    }
   }
 }
