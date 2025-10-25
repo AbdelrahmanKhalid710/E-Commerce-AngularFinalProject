@@ -34,6 +34,8 @@ export class Login {
   // --- 🟢 SAVE USER & TOKEN IN MEMORY ---
   saveUser(user: User): void {
     this.user.set(user);
+    localStorage.setItem('userId', user._id);
+    localStorage.setItem('userEmail', user.email);
   }
 
   saveToken(token: string): void {
@@ -44,6 +46,8 @@ export class Login {
   logout(): void {
     this.user.set(null);
     this.token.set(null);
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token'); 
   }
 
   // --- ⚙️ ROLE HELPERS ---
