@@ -1,41 +1,42 @@
 import { Injectable } from '@angular/core';
 import { Review } from '../../../shared/IModels';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Reviews {
-  private storageKey = 'productReviews';
-  private loadAllReviews():Review[]{
-    return JSON.parse(localStorage.getItem(this.storageKey) || '[]');
-  }
-  private saveAllReviews(reviews:Review[]): void{
-    localStorage.setItem(this.storageKey,JSON.stringify(reviews));
-  }
-
+  private baseUrl = 'http://localhost:3000/reviews';
+  constructor(private http: HttpClient) {}
+  
   //Get All Reviews For A product
-  getReviewsByProduct(productId: string):Review[]{
-    return this.loadAllReviews().filter(r => r.productId === productId);
+    getReviewsByProduct(productId: string): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.baseUrl}?productId=${productId}`);
   }
-  //Add Review
-  addReview(productId : string , userEmail:string , userName: string , rating: number, comment: string):void{
-    const allReviews = this.loadAllReviews();
-    const newReview:Review ={
+    addReview(
+    productId: string,
+    userEmail: string,
+    userName: string,
+    rating: number,
+    comment: string
+  ): Observable<Review> {
+    const newReview: Review = {
       id: crypto.randomUUID(),
       productId,
-      userEmail,
+      userEmail: userEmail, // use email as unique ID
       userName,
       rating,
       comment,
       createdAt: new Date()
     };
-    allReviews.push(newReview);
-    this.saveAllReviews(allReviews);
+
+    return this.http.post<Review>(this.baseUrl, newReview);
   }
   //delete 
-  deleteReview(reviewId:string, userEmail:string):void{
-    const allReviews = this.loadAllReviews();
-    const reviewsAfterDeletion = allReviews.filter(r =>!(r.id === reviewId && r.userEmail === userEmail));
-    this.saveAllReviews( reviewsAfterDeletion);
+ deleteReview(reviewId: string, userEmail: string): Observable<void> {
+    // In JSON Server, we can only delete by ID
+    // So make sure you stored unique `id` for each review
+    return this.http.delete<void>(`${this.baseUrl}/${reviewId}`);
   }
 }
