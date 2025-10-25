@@ -1,0 +1,57 @@
+<div class="admin-dashboard-container">
+  <header class="admin-dashboard-header">
+    <div class="admin-header-content">
+      <h1>Admin Dashboard</h1>
+      <div class="admin-user-info">
+        <span class="admin-welcome" *ngIf="currentAdmin">
+          Welcome, {{ currentAdmin.username }}
+        </span>
+        <span class="admin-role" *ngIf="currentAdmin">
+          ({{ currentAdmin.role }})
+        </span>
+        <button 
+          (click)="adminLogout()" 
+          class="btn-admin-logout"
+          aria-label="Logout from admin dashboard">
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <nav class="admin-dashboard-nav" aria-label="Admin dashboard navigation">
+    <ul class="admin-nav-list">
+      <li class="admin-nav-item">
+        <a 
+          routerLink="/admin/dashboard/users" 
+          routerLinkActive="admin-nav-active"
+          aria-current="page">
+          <span class="nav-icon" aria-hidden="true">👥</span>
+          Users Management
+        </a>
+      </li>
+      <li class="admin-nav-item">
+        <a 
+          routerLink="/admin/dashboard/orders" 
+          routerLinkActive="admin-nav-active"
+          aria-current="page">
+          <span class="nav-icon" aria-hidden="true">📦</span>
+          Orders Management
+        </a>
+      </li>
+      <li class="admin-nav-item">
+        <a 
+          routerLink="/admin/dashboard/analytics" 
+          routerLinkActive="admin-nav-active"
+          aria-current="page">
+          <span class="nav-icon" aria-hidden="true">📊</span>
+          Analytics
+        </a>
+      </li>
+    </ul>
+  </nav>
+  
+  <main class="admin-dashboard-main">
+    <router-outlet></router-outlet>
+  </main>
+</div>

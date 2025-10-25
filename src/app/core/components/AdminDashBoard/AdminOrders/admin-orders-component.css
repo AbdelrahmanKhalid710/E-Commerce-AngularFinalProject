@@ -1,0 +1,531 @@
+/* Enhanced Table Styles */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 0 0 8px 8px;
+}
+
+.admin-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px; /* Ensure table doesn't get too narrow */
+}
+
+.admin-data-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  padding: 1rem 0.75rem;
+  border-bottom: 2px solid #dee2e6;
+  text-align: left;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-data-table td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: top;
+}
+
+/* Column width classes */
+.col-order-id { width: 100px; }
+.col-customer { width: 180px; }
+.col-address { width: 120px; }
+.col-items { width: 80px; }
+.col-total { width: 100px; }
+.col-payment { width: 120px; }
+.col-status { width: 100px; }
+.col-date { width: 100px; }
+.col-actions { width: 100px; }
+
+/* Row styling */
+.even-row {
+  background-color: #fafbfc;
+}
+
+.even-row:hover {
+  background-color: #f0f4f8;
+}
+
+.admin-data-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Enhanced Order ID */
+.order-id-wrapper {
+  display: flex;
+  align-items: center;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.order-hash {
+  color: #6c757d;
+  margin-right: 2px;
+}
+
+/* Enhanced Customer Info */
+.customer-cell {
+  min-width: 180px;
+}
+
+.admin-user-info-small {
+  line-height: 1.4;
+}
+
+.admin-user-name {
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 2px;
+}
+
+.admin-user-email {
+  color: #6c757d;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+}
+
+.admin-user-phone {
+  color: #007bff;
+  font-size: 0.8rem;
+}
+
+/* Enhanced Address */
+.address-cell {
+  min-width: 120px;
+}
+
+.city-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #495057;
+}
+
+.location-icon {
+  font-size: 0.8rem;
+}
+
+/* Enhanced Items Count */
+.items-cell {
+  text-align: center;
+}
+
+.items-count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.items-badge {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  min-width: 24px;
+}
+
+.items-text {
+  color: #6c757d;
+  font-size: 0.75rem;
+}
+
+/* Enhanced Total Amount */
+.total-cell {
+  text-align: right;
+}
+
+.total-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.currency {
+  color: #6c757d;
+  font-size: 0.75rem;
+}
+
+.amount {
+  font-weight: 700;
+  color: #28a745;
+  font-size: 1rem;
+}
+
+/* Enhanced Payment Info */
+.payment-cell {
+  min-width: 120px;
+}
+
+.payment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-payment-method {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.admin-payment-cash {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.admin-payment-card {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.payment-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  justify-content: center;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.paid-dot {
+  background-color: #28a745;
+}
+
+.unpaid-dot {
+  background-color: #dc3545;
+}
+
+.payment-status.paid {
+  color: #28a745;
+}
+
+.payment-status.unpaid {
+  color: #dc3545;
+}
+
+/* Enhanced Status */
+.status-cell {
+  text-align: center;
+}
+
+.admin-order-status {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  min-width: 80px;
+}
+
+.admin-order-status-delivered {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.admin-order-status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.admin-order-status-processing {
+  background-color: #cce7ff;
+  color: #004085;
+}
+
+.admin-order-status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Enhanced Date */
+.date-cell {
+  text-align: center;
+}
+
+.order-date {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.date-short {
+  font-weight: 600;
+  color: #343a40;
+  font-size: 0.8rem;
+}
+
+.time-short {
+  color: #6c757d;
+  font-size: 0.7rem;
+}
+
+/* Enhanced Actions */
+.actions-cell {
+  text-align: center;
+}
+
+.btn-admin-action {
+  padding: 6px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: white;
+}
+
+.btn-admin-view {
+  background-color: #17a2b8;
+  color: white;
+  border-color: #17a2b8;
+}
+
+.btn-admin-view:hover {
+  background-color: #138496;
+  transform: translateY(-1px);
+}
+
+.action-icon {
+  font-size: 0.7rem;
+}
+
+/* Enhanced Loading State */
+.admin-loading {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #6c757d;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loading-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.loading-subtext {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+/* Enhanced Error State */
+.admin-error {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.error-icon {
+  font-size: 2rem;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.btn-admin-retry {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.btn-admin-retry:hover {
+  background-color: #c82333;
+}
+
+.retry-icon {
+  font-size: 0.9rem;
+}
+
+/* Enhanced Empty State */
+.admin-empty {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #6c757d;
+}
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  opacity: 0.7;
+}
+
+.empty-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.empty-subtext {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Common Header Styles (if not already in global styles) */
+.admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.admin-page-header h2 {
+  color: #343a40;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.admin-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-stat-badge {
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.admin-table-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.admin-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.admin-table-header h3 {
+  margin: 0;
+  color: #495057;
+  font-size: 1.1rem;
+}
+
+.btn-admin-refresh {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-admin-refresh:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+.admin-pagination {
+  padding: 1.5rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.btn-pagination {
+  padding: 0.5rem 1rem;
+  border: 1px solid #007bff;
+  background-color: white;
+  color: #007bff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+  min-width: 100px;
+}
+
+.btn-pagination:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-pagination:disabled {
+  border-color: #6c757d;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  color: #495057;
+  font-weight: 500;
+}
+
+.admin-loading-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,111 @@
+<div class="admin-page-header">
+  <h2>Users Management</h2>
+  <div class="admin-stats">
+    <span class="admin-stat-badge">Total Users: {{ totalUsers }}</span>
+    <span class="admin-stat-badge">Active: {{ getActiveUsersCount() }}</span>
+    <span class="admin-stat-badge">Page: {{ currentPage }} of {{ totalPages }}</span>
+  </div>
+</div>
+
+<div class="admin-table-container">
+  <div class="admin-table-header">
+    <h3>All Users ({{ totalUsers }} total)</h3>
+    <div class="admin-table-actions">
+      <button class="btn-admin-refresh" (click)="loadAdminUsers()">
+        🔄 Refresh
+      </button>
+    </div>
+  </div>
+  
+  <!-- Enhanced table with better spacing -->
+  <div class="table-responsive">
+    <table class="admin-data-table">
+      <thead>
+        <tr>
+          <th class="col-user-id">User ID</th>
+          <th class="col-name">Name</th>
+          <th class="col-email">Email</th>
+          <th class="col-date">Registration Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of adminUsers; let i = index" [class.even-row]="i % 2 === 0">
+          <td class="user-id-cell">
+            <div class="user-id-wrapper">
+              <span class="id-prefix">#</span>
+              {{ user._id?.slice(-8) || 'N/A' }}
+            </div>
+          </td>
+          
+          <td class="name-cell">
+            <div class="user-name-wrapper">
+              <div class="name-text">{{ user.name }}</div>
+            </div>
+          </td>
+          
+          <td class="email-cell">
+            <div class="email-wrapper">
+              <span class="email-icon">✉️</span>
+              {{ user.email }}
+            </div>
+          </td>
+          
+          <td class="date-cell">
+            <div class="date-wrapper">
+              <div class="date-full">{{ user.createdAt | date:'mediumDate' }}</div>
+              <div class="date-time">{{ user.createdAt | date:'shortTime' }}</div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Enhanced Pagination -->
+  <div class="admin-pagination" *ngIf="totalPages > 1">
+    <div class="pagination-controls">
+      <button 
+        class="btn-pagination btn-prev" 
+        [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)">
+        ← Previous
+      </button>
+      
+      <div class="pagination-info">
+        Page <strong>{{ currentPage }}</strong> of <strong>{{ totalPages }}</strong>
+      </div>
+      
+      <button 
+        class="btn-pagination btn-next" 
+        [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)">
+        Next →
+      </button>
+    </div>
+  </div>
+  
+  <!-- Enhanced Loading State -->
+  <div *ngIf="adminLoading" class="admin-loading">
+    <div class="loading-content">
+      <div class="admin-loading-spinner"></div>
+      <div class="loading-text">Loading users...</div>
+    </div>
+  </div>
+  
+  <!-- Enhanced Error State -->
+  <div *ngIf="adminError" class="admin-error">
+    <div class="error-content">
+      <div class="error-icon">❌</div>
+      <div class="error-text">{{ adminError }}</div>
+      <button class="btn-admin-retry" (click)="loadAdminUsers()">Retry</button>
+    </div>
+  </div>
+  
+  <!-- Enhanced Empty State -->
+  <div *ngIf="!adminLoading && adminUsers.length === 0" class="admin-empty">
+    <div class="empty-content">
+      <div class="empty-icon">👥</div>
+      <div class="empty-text">No users found</div>
+    </div>
+  </div>
+</div>

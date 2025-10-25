@@ -1,0 +1,303 @@
+<!-- analytics.component.html -->
+<div class="analytics-container" *ngIf="!isLoading; else loadingTemplate">
+  
+  <!-- Header -->
+  <div class="header">
+    <h1 class="title">📊 Analytics Dashboard</h1>
+    <button class="refresh-btn" (click)="refreshData()" [disabled]="isLoading">
+      🔄 Refresh Data
+    </button>
+  </div>
+
+  <!-- Key Metrics Cards -->
+  <div class="metrics-grid">
+    
+    <!-- Revenue Card -->
+    <div class="metric-card revenue-card">
+      <div class="card-header">
+        <span class="card-icon">💰</span>
+        <h3>Total Revenue</h3>
+      </div>
+      <div class="card-content">
+        <div class="metric-value">{{ getTotalRevenue() | currency:'EGP' }}</div>
+        <div class="metric-description">From {{ getPaidOrders() }} paid orders</div>
+      </div>
+    </div>
+
+    <!-- Orders Card -->
+    <div class="metric-card orders-card">
+      <div class="card-header">
+        <span class="card-icon">📦</span>
+        <h3>Total Orders</h3>
+      </div>
+      <div class="card-content">
+        <div class="metric-value">{{ getTotalOrders() | number }}</div>
+        <div class="metric-description">{{ getPaidOrders() }} paid • {{ getUnpaidOrders() }} unpaid</div>
+      </div>
+    </div>
+
+    <!-- Users Card -->
+    <div class="metric-card users-card">
+      <div class="card-header">
+        <span class="card-icon">👥</span>
+        <h3>Total Users</h3>
+      </div>
+      <div class="card-content">
+        <div class="metric-value">{{ getTotalUsers() | number }}</div>
+        <div class="metric-description">{{ getConversionRate() | number:'1.1-1' }}% conversion rate</div>
+      </div>
+    </div>
+
+    <!-- AOV Card -->
+    <div class="metric-card aov-card">
+      <div class="card-header">
+        <span class="card-icon">📊</span>
+        <h3>Avg Order Value</h3>
+      </div>
+      <div class="card-content">
+        <div class="metric-value">{{ getAverageOrderValue() | currency:'EGP' }}</div>
+        <div class="metric-description">Per completed order</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    
+    <!-- Payment Methods Chart -->
+    <div class="chart-card">
+      <h3>💳 Payment Methods Distribution</h3>
+      <div class="chart-container">
+        <div class="bar-chart">
+          <div class="bar-item">
+            <div class="bar-label">Cash</div>
+            <div class="bar-track">
+              <div class="bar-fill cash-fill" [style.width.%]="getPaymentPercentage('cash')">
+                <span class="bar-value">{{ getCashOrders() }} orders ({{ getCashRevenue() | currency:'EGP' }})</span>
+              </div>
+            </div>
+            <div class="bar-percentage">{{ getPaymentPercentage('cash') | number:'1.0-0' }}%</div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-label">Card</div>
+            <div class="bar-track">
+              <div class="bar-fill card-fill" [style.width.%]="getPaymentPercentage('card')">
+                <span class="bar-value">{{ getCardOrders() }} orders ({{ getCardRevenue() | currency:'EGP' }})</span>
+              </div>
+            </div>
+            <div class="bar-percentage">{{ getPaymentPercentage('card') | number:'1.0-0' }}%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Status Chart -->
+    <div class="chart-card">
+      <h3>📦 Order Status Overview</h3>
+      <div class="chart-container">
+        <div class="status-grid">
+          <div class="status-item paid">
+            <div class="status-icon">✅</div>
+            <div class="status-info">
+              <div class="status-count">{{ getPaidOrders() }}</div>
+              <div class="status-label">Paid Orders</div>
+            </div>
+          </div>
+          <div class="status-item unpaid">
+            <div class="status-icon">⏳</div>
+            <div class="status-info">
+              <div class="status-count">{{ getUnpaidOrders() }}</div>
+              <div class="status-label">Unpaid Orders</div>
+            </div>
+          </div>
+          <div class="status-item delivered">
+            <div class="status-icon">🚚</div>
+            <div class="status-info">
+              <div class="status-count">{{ getDeliveredOrders() }}</div>
+              <div class="status-label">Delivered</div>
+            </div>
+          </div>
+          <div class="status-item pending">
+            <div class="status-icon">📦</div>
+            <div class="status-info">
+              <div class="status-count">{{ getPendingDeliveryOrders() }}</div>
+              <div class="status-label">Pending Delivery</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Products Chart -->
+    <div class="chart-card full-width">
+      <h3>🏆 Top Selling Products</h3>
+      <div class="chart-container">
+        <div class="products-list">
+          <div *ngFor="let product of getTopProducts()" class="product-item">
+            <div class="product-name">{{ product.productName }}</div>
+            <div class="product-bar">
+              <div class="product-bar-track">
+                <div class="product-bar-fill" 
+                     [style.width.%]="getProductPercentage(product.revenue)">
+                </div>
+              </div>
+              <div class="product-stats">
+                <span class="sales">{{ product.sales }} sales</span>
+                <span class="revenue">{{ product.revenue | currency:'EGP' }}</span>
+                <span class="percentage">{{ getProductPercentage(product.revenue) | number:'1.0-0' }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Add this after the existing charts section -->
+
+<!-- 🌍 Geographic Analytics Section -->
+<div class="charts-section">
+  
+  <!-- Top Cities Chart -->
+  <div class="chart-card">
+    <h3>🏙️ Top Cities by Revenue</h3>
+    <div class="chart-container">
+      <div class="cities-list">
+        <div *ngFor="let city of getTopCities(); let i = index" class="city-item">
+          <div class="city-rank">#{{ i + 1 }}</div>
+          <div class="city-info">
+            <div class="city-name">{{ city.city || 'Unknown' }}</div>
+            <div class="city-stats">
+              <span class="orders">{{ city.orders }} orders</span>
+              <span class="revenue">{{ city.revenue | currency:'EGP' }}</span>
+              <span class="users">{{ city.users }} users</span>
+            </div>
+          </div>
+          <div class="city-bar">
+            <div class="city-bar-track">
+              <div class="city-bar-fill" 
+                   [style.width.%]="(city.revenue / getTotalRevenue()) * 100">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- City Summary -->
+      <div *ngIf="getCityWithMostOrders()" class="city-summary">
+        <div class="summary-item">
+          <span class="summary-label">🏆 Top City:</span>
+          <span class="summary-value">{{ getCityWithMostOrders()?.city }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">📦 Orders:</span>
+          <span class="summary-value">{{ getCityWithMostOrders()?.orders }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">💰 Revenue:</span>
+          <span class="summary-value">{{ getCityWithMostOrders()?.revenue | currency:'EGP' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Monthly Patterns Chart -->
+  <div class="chart-card">
+    <h3>📅 Monthly Performance</h3>
+    <div class="chart-container">
+      
+      <!-- Busiest Month -->
+      <div *ngIf="getBusiestMonth()" class="monthly-highlight">
+        <div class="highlight-header">
+          <span class="highlight-icon">📦</span>
+          <h4>Busiest Order Month</h4>
+        </div>
+        <div class="highlight-content">
+          <div class="highlight-month">{{ getBusiestMonth()?.month }}</div>
+          <div class="highlight-stats">
+            <span class="orders">{{ getBusiestMonth()?.orders }} orders</span>
+            <span class="revenue">{{ getBusiestMonth()?.revenue | currency:'EGP' }}</span>
+            <span class="growth" [class]="getGrowthClass(getBusiestMonth()!.growth)">
+              {{ getGrowthIndicator(getBusiestMonth()!.growth) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Peak Registration Month -->
+      <div *ngIf="getPeakRegistrationMonth()" class="monthly-highlight">
+        <div class="highlight-header">
+          <span class="highlight-icon">👥</span>
+          <h4>Peak Registration Month</h4>
+        </div>
+        <div class="highlight-content">
+          <div class="highlight-month">{{ getPeakRegistrationMonth()?.month }}</div>
+          <div class="highlight-stats">
+            <span class="registrations">{{ getPeakRegistrationMonth()?.registrations }} signups</span>
+            <span class="growth" [class]="getGrowthClass(getPeakRegistrationMonth()!.growth)">
+              {{ getGrowthIndicator(getPeakRegistrationMonth()!.growth) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- 📊 Time Patterns Section -->
+<div class="charts-section">
+  
+  <!-- Peak Hours -->
+  <div class="chart-card">
+    <h3>⏰ Peak Ordering Hours</h3>
+    <div class="chart-container">
+      <div class="hours-list">
+        <div *ngFor="let hour of getPeakHours()" class="hour-item">
+          <div class="hour-time">{{ hour.hour }}</div>
+          <div class="hour-bar">
+            <div class="hour-bar-track">
+              <div class="hour-bar-fill" 
+                   [style.width.%]="(hour.orders / getTotalOrders()) * 100">
+              </div>
+            </div>
+          </div>
+          <div class="hour-orders">{{ hour.orders }} orders</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly Pattern -->
+  <div class="chart-card">
+    <h3>📆 Weekly Order Pattern</h3>
+    <div class="chart-container">
+      <div class="weekly-pattern">
+        <div *ngFor="let day of getWeeklyPattern()" class="day-item">
+          <div class="day-name">{{ day.day }}</div>
+          <div class="day-bar">
+            <div class="day-bar-track">
+              <div class="day-bar-fill" 
+                   [style.width.%]="(day.orders / getTotalOrders()) * 100">
+              </div>
+            </div>
+          </div>
+          <div class="day-orders">{{ day.orders }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <p class="loading-text">Loading analytics data...</p>
+  </div>
+</ng-template>
