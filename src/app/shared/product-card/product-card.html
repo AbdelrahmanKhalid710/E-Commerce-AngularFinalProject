@@ -1,5 +1,5 @@
 <!-- Make the entire card clickable for product details -->
-<div class="card h-100 shadow-sm product-card">
+<div class="card h-100 shadow-sm product-card" [routerLink]="['/products', product()._id]">
   <div *ngIf="hasDiscount" class="position-absolute top-0 start-0 m-2">
     <span class="badge bg-danger">-{{ discountPercentage }}%</span>
   </div>

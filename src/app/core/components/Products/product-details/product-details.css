@@ -1,6 +1,33 @@
+/* Tab styling */
+.nav-tabs .nav-link {
+  color: #6c757d;
+  font-weight: 500;
+  border: none;
+  padding: 1rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link.active {
+  color: #007bff;
+  border-bottom: 3px solid #007bff;
+  background: transparent;
+}
+
+.nav-tabs .nav-link:hover {
+  border: none;
+  border-bottom: 3px solid #dee2e6;
+  color: #007bff;
+}
+
+.tab-content {
+  min-height: 300px;
+}
+
+/* Image thumbnails */
 .thumbnail {
   border: 2px solid transparent;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .thumbnail:hover,
@@ -14,4 +41,74 @@
   border-radius: 10px;
   padding: 10px;
   background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Price styling */
+.price-section {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Action buttons */
+.action-buttons .btn {
+  transition: all 0.3s ease;
+}
+
+.action-buttons .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Stock info */
+.stock-info {
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #28a745;
+}
+
+.stock-info .text-danger {
+  border-left-color: #dc3545;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .nav-tabs .nav-link {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .main-image {
+    margin-bottom: 1rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons .btn {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Breadcrumb styling */
+.breadcrumb {
+  background: transparent;
+  padding: 0;
+}
+
+.breadcrumb-item a {
+  text-decoration: none;
+  color: #6c757d;
+}
+
+.breadcrumb-item a:hover {
+  color: #007bff;
+}
+
+.breadcrumb-item.active {
+  color: #495057;
+  font-weight: 500;
 }

@@ -16,6 +16,20 @@
   }
 
   @if (product() && !loading()) {
+    <!-- Product Header -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+            <li class="breadcrumb-item active">{{ getProductTitle() }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Product Main Content -->
     <div class="row">
       <!-- Product Images -->
       <div class="col-md-6">
@@ -39,14 +53,6 @@
 
       <!-- Product Info -->
       <div class="col-md-6">
-        <nav aria-label="breadcrumb" class="mb-3">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-            <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
-            <li class="breadcrumb-item active">{{ getProductTitle() }}</li>
-          </ol>
-        </nav>
-
         <h1 class="h2 fw-bold mb-3">{{ getProductTitle() }}</h1>
         
         <div class="mb-3">
@@ -93,6 +99,113 @@
           <button class="btn btn-outline-secondary btn-lg">
             <i class="bi bi-heart"></i>
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <ul class="nav nav-tabs" id="productTabs">
+          <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab() === 'details'"
+                    (click)="setActiveTab('details')">
+              Product Details
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab() === 'reviews'"
+                    (click)="setActiveTab('reviews')">
+              Reviews
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content mt-4">
+          <!-- Details Tab -->
+          <div class="tab-pane fade" 
+               [class.show]="activeTab() === 'details'" 
+               [class.active]="activeTab() === 'details'">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Product Description</h5>
+                <p class="card-text">{{ getProductDescription() }}</p>
+                
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                    <h6>Product Information</h6>
+                    <ul class="list-unstyled">
+                      <li><strong>Category:</strong> {{ getProductCategory() }}</li>
+                      <li><strong>Brand:</strong> {{ getProductBrand() }}</li>
+                      <li><strong>Product ID:</strong> {{ product()?._id }}</li>
+                      <li><strong>Added:</strong> {{ product()?.createdAt | date }}</li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <h6>Shipping & Returns</h6>
+                    <ul class="list-unstyled">
+                      <li class="text-success">✓ Free shipping on orders over $50</li>
+                      <li class="text-success">✓ 30-day return policy</li>
+                      <li class="text-success">✓ Secure payment processing</li>
+                      <li class="text-success">✓ Fast delivery</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Additional Features -->
+                <div class="row mt-4">
+                  <div class="col-12">
+                    <h6>Key Features</h6>
+                    <div class="row">
+                      <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                          <i class="bi bi-award display-6 text-primary"></i>
+                          <p class="mt-2 mb-0"><strong>Premium Quality</strong></p>
+                          <small class="text-muted">High-quality materials</small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                          <i class="bi bi-truck display-6 text-primary"></i>
+                          <p class="mt-2 mb-0"><strong>Fast Shipping</strong></p>
+                          <small class="text-muted">2-3 business days</small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                          <i class="bi bi-shield-check display-6 text-primary"></i>
+                          <p class="mt-2 mb-0"><strong>Quality Guarantee</strong></p>
+                          <small class="text-muted">30-day warranty</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reviews Tab -->
+          <div class="tab-pane fade" 
+               [class.show]="activeTab() === 'reviews'" 
+               [class.active]="activeTab() === 'reviews'">
+            <!-- Add the reviews component here -->
+            <app-product-reviews [productId]="product()!._id"></app-product-reviews>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products Section (Optional) -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <h4 class="mb-4">You Might Also Like</h4>
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle me-2"></i>
+          Related products section can be added here to show similar items from the same category or brand.
         </div>
       </div>
     </div>

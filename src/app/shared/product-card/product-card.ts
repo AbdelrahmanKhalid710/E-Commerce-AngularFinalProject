@@ -39,7 +39,7 @@ product = input.required<Product>();
 
   onToggle(event: Event): void {
     console.log('Favorite clicked');
-    //event.stopPropagation(); // Prevent navigation when clicking favorite
+    event.stopPropagation(); // Prevent navigation when clicking favorite
     this.toggleFavorite.emit(this.product());
   }
 }

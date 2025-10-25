@@ -3,11 +3,12 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api-service';
 import { Product } from '../../../../../interfaces';
+import { ProductReviews } from '../../reviews/product-reviews/product-reviews'; 
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ProductReviews],
   templateUrl: './product-details.html',
   styleUrl: './product-details.css'
 })
@@ -20,6 +21,7 @@ private route = inject(ActivatedRoute);
   loading = signal(true);
   error = signal<string | null>(null);
   selectedImageIndex = signal(0);
+  activeTab = signal('details'); // Add tab state
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -54,17 +56,6 @@ private route = inject(ActivatedRoute);
       console.log('Add to cart:', product);
       // Implement cart functionality
     }
-  }
-
-  get mainImage(): string {
-    const product = this.product();
-    if (!product) return '';
-    
-    const selectedIndex = this.selectedImageIndex();
-    if (product.images && product.images.length > 0 && selectedIndex < product.images.length) {
-      return product.images[selectedIndex];
-    }
-    return product.imageCover || 'https://via.placeholder.com/500x500/CCCCCC/FFFFFF?text=No+Image';
   }
 
   // Helper methods to safely access product properties
@@ -121,5 +112,21 @@ private route = inject(ActivatedRoute);
 
   getProductImages(): string[] {
     return this.product()?.images || [];
+  }
+
+  get mainImage(): string {
+    const product = this.product();
+    if (!product) return '';
+    
+    const selectedIndex = this.selectedImageIndex();
+    if (product.images && product.images.length > 0 && selectedIndex < product.images.length) {
+      return product.images[selectedIndex];
+    }
+    return product.imageCover || 'https://via.placeholder.com/500x500/CCCCCC/FFFFFF?text=No+Image';
+  }
+
+  // Add tab switching method
+  setActiveTab(tab: string): void {
+    this.activeTab.set(tab);
   }
 }
