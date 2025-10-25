@@ -1,0 +1,48 @@
+<div class="hero-section">
+  <div class="hero-slider">
+    <!-- Slides -->
+    <div class="slides-container">
+      @for (slide of slides; track slide.id; let i = $index) {
+        <div class="slide" [class.active]="i === currentSlide()">
+          <div class="slide-image">
+            <img [src]="slide.image" [alt]="slide.title" class="img-fluid">
+            <div class="slide-overlay"></div>
+          </div>
+          
+          <div class="slide-content">
+            <div class="container">
+              <div class="row justify-content-center text-center">
+                <div class="col-lg-8 col-md-10">
+                  <h1 class="slide-title">{{ slide.title }}</h1>
+                  <p class="slide-subtitle">{{ slide.subtitle }}</p>
+                  <a [routerLink]="slide.buttonLink" class="btn btn-primary btn-lg slide-button">
+                    {{ slide.buttonText }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button class="slider-nav slider-prev" (click)="prevSlide()">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <button class="slider-nav slider-next" (click)="nextSlide()">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+
+    Indicators
+    <div class="slider-indicators">
+      @for (slide of slides; track slide.id; let i = $index) {
+        <button 
+          class="indicator" 
+          [class.active]="i === currentSlide()"
+          (click)="goToSlide(i)">
+        </button>
+      }
+    </div>
+  </div>
+</div>

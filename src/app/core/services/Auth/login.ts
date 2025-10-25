@@ -1,52 +1,56 @@
-// src/app/core/services/auth/login.service.ts
-
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { User } from '../../../../interfaces/iuser';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Login {
-  // Use a placeholder for your base URL. Get this from your environment file.
-  private baseUrl = 'https://ecommerce.routemisr.com'; 
+  private baseUrl = 'https://ecommerce.routemisr.com';
 
-  constructor(private http: HttpClient) { }
+  // 🧠 Signals to store data in memory (not in localStorage)
+  user = signal<User | null>(null);
+  token = signal<string | null>(null);
 
-  /**
-   * Sends user credentials to the login API endpoint.
-   * @param credentials Object containing email and password.
-   * @returns Observable of the API response.
-   */
+  // ✅ Computed signal: automatically updates when user or token changes
+  isAuthenticated = computed(() => !!this.user() && !!this.token());
+
+  constructor(private http: HttpClient) {}
+
+  // --- 🟢 LOGIN ---
   login(credentials: any): Observable<any> {
-    // Uses the /auth/signin endpoint from your Postman screenshot
-    return this.http.post(`${this.baseUrl}/api/v1/auth/signin`, credentials);
+    return this.http.post(`${this.baseUrl}/api/v1/auth/signin`, credentials).pipe(
+      tap((response: any) => {
+        // Save user and token in memory using signals
+        if (response.token) this.saveToken(response.token);
+        if (response.user) this.saveUser(response.user);
+      })
+    );
   }
 
-  // --- Token Management Helpers ---
-  
-  /**
-   * Stores the JWT token in localStorage upon successful login.
-   * @param token The JWT string received from the API.
-   */
+  // --- 🟢 SAVE USER & TOKEN IN MEMORY ---
+  saveUser(user: User): void {
+    this.user.set(user);
+  }
+
   saveToken(token: string): void {
-    localStorage.setItem('authToken', token);
+    this.token.set(token);
   }
 
-  /**
-   * Retrieves the stored JWT token. Essential for authenticated requests.
-   * @returns The JWT string or null if not found.
-   */
-  getToken(): string | null {
-    return localStorage.getItem('authToken');
+  // --- 🔴 LOGOUT ---
+  logout(): void {
+    this.user.set(null);
+    this.token.set(null);
   }
 
-  /**
-   * Checks if a user is currently authenticated (used for Route Guards).
-   * @returns boolean true if a token exists, false otherwise.
-   */
-  isAuthenticated(): boolean {
-    return !!this.getToken();
+  // --- ⚙️ ROLE HELPERS ---
+  getUserRole(): string | null {
+    return this.user()?.role ?? null;
   }
-  
+
+  isAdmin(): boolean {
+    return this.getUserRole() === 'admin';
+  }
 }
