@@ -8,6 +8,7 @@ import { CartComponent } from './core/components/shopping-cart/cart-component/ca
 import { UserProfile } from './core/components/Auth/UserProfile/user-profile/user-profile';
 import { ProductsList } from './core/components/Products/products-list/products-list';
 import { ProductDetails } from './core/components/Products/product-details/product-details';
+import { PaymentSuccess } from './core/components/payment-success/payment-success';
 // import { OrderComponent } from './core/components/order-component/order-component';
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
   // { path: 'orders', component: OrderComponent },
   { path: 'home', component: Home },
   { path: 'profile', component: UserProfile, canActivate: [authGuard] },
+  { path: 'payment-success', component: PaymentSuccess },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home' }
+  { path: '**', redirectTo: '/home' },
 ];

@@ -31,8 +31,8 @@ export class PaymentService {
           lang: 'en',
           note: 'Test payment',
           save_token: true,
-          successUrl: 'https://shera-ctenoid-taintlessly.ngrok-free.dev/success',
-          failureUrl: 'https://shera-ctenoid-taintlessly.ngrok-free.dev/failure',
+          successUrl: 'http://localhost:4200/payment-success',
+          failureUrl: 'http://localhost:4200/home',
         })
         .toPromise();
 
