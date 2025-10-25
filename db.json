@@ -660,6 +660,106 @@
       "updatedAt": "2025-10-25T14:27:30.423Z",
       "shippingAddress": "Mock Address",
       "paymentMethod": "cash"
+    },
+    {
+      "id": "c9937683-14b0-4cde-8b73-f95ce41455f6",
+      "userEmail": "abdelrahmanhamed559@gmail.com",
+      "items": [
+        {
+          "product": {
+            "sold": 3.0643459779910765e+303,
+            "images": [
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680403156555-3.jpeg",
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680403156555-2.jpeg",
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680403156554-1.jpeg",
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680403156556-4.jpeg"
+            ],
+            "subcategory": [
+              {
+                "_id": "6407f1bcb575d3b90bf95797",
+                "name": "Women's Clothing",
+                "slug": "women's-clothing",
+                "category": "6439d58a0049ad0b52b9003f"
+              }
+            ],
+            "ratingsQuantity": 18,
+            "_id": "6428ead5dc1175abc65ca0ad",
+            "title": "Woman Shawl",
+            "slug": "woman-shawl",
+            "description": "Material\tPolyester Blend\nColour Name\tMulticolour\nDepartment\tWomen",
+            "quantity": 220,
+            "price": 149,
+            "imageCover": "https://ecommerce.routemisr.com/Route-Academy-products/1680403156501-cover.jpeg",
+            "category": {
+              "_id": "6439d58a0049ad0b52b9003f",
+              "name": "Women's Fashion",
+              "slug": "women's-fashion",
+              "image": "https://ecommerce.routemisr.com/Route-Academy-categories/1681511818071.jpeg"
+            },
+            "brand": {
+              "_id": "64089bbe24b25627a253158b",
+              "name": "DeFacto",
+              "slug": "defacto",
+              "image": "https://ecommerce.routemisr.com/Route-Academy-brands/1678285758109.png"
+            },
+            "ratingsAverage": 4.8,
+            "createdAt": "2023-04-02T02:39:17.204Z",
+            "updatedAt": "2025-10-25T14:45:11.882Z",
+            "id": "6428ead5dc1175abc65ca0ad"
+          },
+          "orderQuantity": 1
+        },
+        {
+          "product": {
+            "sold": null,
+            "images": [
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680402411883-2.jpeg",
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680402411883-3.jpeg",
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680402411883-1.jpeg"
+            ],
+            "subcategory": [
+              {
+                "_id": "6407f1bcb575d3b90bf95797",
+                "name": "Women's Clothing",
+                "slug": "women's-clothing",
+                "category": "6439d58a0049ad0b52b9003f"
+              }
+            ],
+            "ratingsQuantity": 10,
+            "_id": "6428e7ecdc1175abc65ca090",
+            "title": "Woman Bordeaux Long Sleeve Blouse BORDEAUX",
+            "slug": "woman-bordeaux-long-sleeve-blouse-bordeaux",
+            "description": "ShellFabric1 Cotton 65% Polyester 35%",
+            "quantity": 228,
+            "price": 499,
+            "priceAfterDiscount": 349,
+            "imageCover": "https://ecommerce.routemisr.com/Route-Academy-products/1680402411833-cover.jpeg",
+            "category": {
+              "_id": "6439d58a0049ad0b52b9003f",
+              "name": "Women's Fashion",
+              "slug": "women's-fashion",
+              "image": "https://ecommerce.routemisr.com/Route-Academy-categories/1681511818071.jpeg"
+            },
+            "brand": {
+              "_id": "64089bbe24b25627a253158b",
+              "name": "DeFacto",
+              "slug": "defacto",
+              "image": "https://ecommerce.routemisr.com/Route-Academy-brands/1678285758109.png"
+            },
+            "ratingsAverage": 4.2,
+            "createdAt": "2023-04-02T02:26:52.509Z",
+            "updatedAt": "2025-10-25T14:45:11.882Z",
+            "id": "6428e7ecdc1175abc65ca090"
+          },
+          "orderQuantity": 1
+        }
+      ],
+      "total": 498,
+      "status": "pending",
+      "createdAt": "2025-10-25T15:03:49.674Z",
+      "updatedAt": "2025-10-25T15:03:49.674Z",
+      "shippingAddress": "Mock Address",
+      "paymentMethod": "cash"
     }
   ]
 }

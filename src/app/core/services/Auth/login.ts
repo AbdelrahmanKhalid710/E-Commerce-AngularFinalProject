@@ -86,6 +86,7 @@ async loginWithGoogle(): Promise<void> {
       this.saveToken(token);
       //save User for session persistence
       this.saveUser({
+        _id: user.uid,
         name: user.displayName || '',
         email: user.email || '',
         role: 'user'
