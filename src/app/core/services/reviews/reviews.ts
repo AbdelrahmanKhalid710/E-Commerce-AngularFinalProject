@@ -18,12 +18,12 @@ export class Reviews {
     return this.loadAllReviews().filter(r => r.productId === productId);
   }
   //Add Review
-  addReview(productId : string , userId:string , userName: string , rating: number, comment: string):void{
+  addReview(productId : string , userEmail:string , userName: string , rating: number, comment: string):void{
     const allReviews = this.loadAllReviews();
     const newReview:Review ={
       id: crypto.randomUUID(),
       productId,
-      userId,
+      userEmail,
       userName,
       rating,
       comment,
@@ -33,9 +33,9 @@ export class Reviews {
     this.saveAllReviews(allReviews);
   }
   //delete 
-  deleteReview(reviewId:string, userId:string):void{
+  deleteReview(reviewId:string, userEmail:string):void{
     const allReviews = this.loadAllReviews();
-    const reviewsAfterDeletion = allReviews.filter(r =>!(r.id === reviewId && r.userId === userId));
+    const reviewsAfterDeletion = allReviews.filter(r =>!(r.id === reviewId && r.userEmail === userEmail));
     this.saveAllReviews( reviewsAfterDeletion);
   }
 }

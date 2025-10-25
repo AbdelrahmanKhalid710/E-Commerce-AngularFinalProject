@@ -41,8 +41,9 @@ export class Login {
   // --- 🟢 SAVE USER & TOKEN IN MEMORY ---
   saveUser(user: User): void {
     this.user.set(user);
-    localStorage.setItem('userId', user._id);
-    localStorage.setItem('userEmail', user.email);
+    // localStorage.setItem('userId', user._id);
+    // localStorage.setItem('userEmail', user.email);
+    // console.log('User Id:', user._id);
   }
 
   saveToken(token: string): void {
@@ -53,8 +54,8 @@ export class Login {
   logout(): void {
     this.user.set(null);
     this.token.set(null);
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token'); 
+    // localStorage.removeItem('userId');
+    // localStorage.removeItem('token'); 
   }
 
   // --- ⚙️ ROLE HELPERS ---
@@ -86,7 +87,7 @@ async loginWithGoogle(): Promise<void> {
       this.saveToken(token);
       //save User for session persistence
       this.saveUser({
-        _id: user.uid,
+        // _id: user.uid,
         name: user.displayName || '',
         email: user.email || '',
         role: 'user'

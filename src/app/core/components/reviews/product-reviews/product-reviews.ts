@@ -3,6 +3,7 @@ import { Component, Input, inject, signal } from '@angular/core';
 import { Review } from '../../../../shared/IModels';
 import { Reviews } from '../../../services/reviews/reviews';
 import { FormsModule } from '@angular/forms';
+import { Login } from '../../../services/Auth/login';
 @Component({
   selector: 'app-product-reviews',
   standalone: true,
@@ -10,8 +11,9 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './product-reviews.html',
   styleUrl: './product-reviews.css'
 })
-export class ProductReviews { private reviewService = inject(Reviews);
-  
+export class ProductReviews { 
+  private reviewService = inject(Reviews);
+  private loginservice = inject(Login);
   @Input() productId!: string;
   
   reviews = signal<Review[]>([]);
@@ -20,9 +22,10 @@ export class ProductReviews { private reviewService = inject(Reviews);
   rating = 5;
   comment = '';
 
-  userId = localStorage.getItem('userId') || 'guest';
-  userEmail = localStorage.getItem('userEmail') || 'guest@example.com';
-
+  //  userId = localStorage.getItem('userId') || 'guest';
+  get userEmail(): string {
+    return this.loginservice.user()?.email || 'guest@example.com';
+  }
   // 👇 derive username automatically
   get userName(): string {  
     if (!this.userEmail) return 'Guest';
@@ -43,11 +46,11 @@ export class ProductReviews { private reviewService = inject(Reviews);
   }
 
   addReview(): void {
-    if (!this.comment.trim()) return;
+     if (!this.comment.trim()) return;
 
     this.reviewService.addReview(
       this.productId,
-      this.userId,
+      this.userEmail,
       this.userName,
       this.rating,
       this.comment.trim()
@@ -58,8 +61,8 @@ export class ProductReviews { private reviewService = inject(Reviews);
     this.loadReviews();
   }
 
-  deleteReview(id: string): void {
-    this.reviewService.deleteReview(id, this.userId);
+  deleteReview(email: string): void {
+    this.reviewService.deleteReview(this.productId, email);
     this.loadReviews();
   }
 
@@ -98,7 +101,7 @@ export class ProductReviews { private reviewService = inject(Reviews);
     return (distribution[rating] / totalReviews) * 100;
   }
 
-  canDeleteReview(reviewUserId: string): boolean {
-    return this.userId === reviewUserId || this.userId === 'admin';
+ canDeleteReview(reviewEmail: string): boolean {
+    return this.userEmail === reviewEmail || this.userEmail === 'admin@example.com';
   }
 }
