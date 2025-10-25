@@ -26,8 +26,11 @@ private favoritesService = inject(Favorites);
   favoriteIds: Set<string> = new Set();
   ngOnInit(): void {
     this.loadFeaturedProducts();
-    this.loadFavorites();
-  }
+this.favoritesService.getAllFavoriteProducts().subscribe({
+    next: (res) => {
+      this.favoriteIds = new Set(res.data.map((p: any) => p._id));
+    }
+  });  }
   loadFeaturedProducts(): void {
     this.apiService.getAllProducts().subscribe({
       next: (response) => {
@@ -44,45 +47,34 @@ private favoritesService = inject(Favorites);
       }
     });
   }
-  loadFavorites() {
-    this.favoritesService.getAllFavoriteProducts().subscribe({
-      next: (res) => {
-        const favs = res.data || [];
-        this.favoriteIds = new Set(favs.map((f: any) => f._id));
-      },
-      error: (err) => console.error(err)
-    });
-  }
+  // loadFavorites() {
+  //   this.favoritesService.getAllFavoriteProducts().subscribe({
+  //     next: (res) => {
+  //       const favs = res.data || [];
+  //       this.favoriteIds = new Set(favs.map((f: any) => f._id));
+  //     },
+  //     error: (err) => console.error(err)
+  //   });
+  // }
 
   onAddToCart(product: Product): void {
     console.log('Add to cart:', product);
     alert(`Added "${product.title}" to cart.`);
     this.cartService.addProductToCart(product);
   }
-
- onToggleFavorite(product: any) {
-    const productId = product._id;
-
-    if (this.favoriteIds.has(productId)) {
-      // Remove from favorites
-      this.favoritesService.removeProductFromFavoriteList(productId).subscribe({
-        next: () => {
-          this.favoriteIds.delete(productId);
-        },
-        error: (err) => console.error(err)
-      });
-    } else {
-      // Add to favorites
-      this.favoritesService.addProductToFavoriteList(productId).subscribe({
-        next: () => {
-          this.favoriteIds.add(productId);
-        },
-        error: (err) => console.error(err)
-      });
+onToggleFavorite(product: any) {
+  const productId = product._id;
+  this.favoritesService.toggleFavorite(productId).subscribe({
+    next: () => {
+      if (this.favoriteIds.has(productId)) {
+        this.favoriteIds.delete(productId);
+      } else {
+        this.favoriteIds.add(productId);
+      }
     }
-  }
-
-  isFavorite(productId: string): boolean {
-    return this.favoriteIds.has(productId);
-  }
+  });
+}
+isFavorite(productId: string) {
+  return this.favoriteIds.has(productId);
+}
 }
