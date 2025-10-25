@@ -1,20 +1,36 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideZoneChangeDetection,
+  provideBrowserGlobalErrorListeners,
+  importProvidersFrom
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { routes } from './app.routes';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-// Add these imports and providers to your existing app.config.ts
-import { FormsModule } from '@angular/forms';
-import { importProvidersFrom } from '@angular/core';
 import { AdminAuthGuard } from './core/services/AdminDashBoard/admin-auth.guard';
+
+// ✅ Firebase imports for Angular 20+
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+
+// ✅ Environment import
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
-    importProvidersFrom(FormsModule), // Needed for admin login form
-    AdminAuthGuard // Add the guard to providers
+    provideRouter(routes),
+
+    // ✅ Forms & guards
+    importProvidersFrom(FormsModule),
+    AdminAuthGuard,
+
+    // ✅ Initialize Firebase correctly
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth())
   ]
 };

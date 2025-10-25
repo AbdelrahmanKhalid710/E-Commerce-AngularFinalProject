@@ -40,22 +40,22 @@ export class UserLogin implements OnInit {
     }
 
     const credentials = this.loginForm.value;
-    console.log('📤 Sending login data:', credentials);
+    console.log(' Sending login data:', credentials);
 
     this.loginService.login(credentials).subscribe({
       next: (response) => {
-        console.log('✅ Login Successful:', response);
+        console.log(' Login Successful:', response);
 
 
         // ⚙️ Save user and token in memory (signals)
         if (response.token) this.loginService.saveToken(response.token);
         if (response.user) this.loginService.saveUser(response.user);
-        console.log('👤 Logged in user:', response.user?.email);
+        console.log(' Logged in user:', response.user?.email);
         // ✅ Navigate to homepage or favorites
         this.router.navigate(['/']);
       },
       error: (err: HttpErrorResponse) => {
-        console.error('❌ Login Failed:', err);
+        console.error(' Login Failed:', err);
 
         // More user-friendly error messages
         if (err.error?.message) this.errorMessage = err.error.message;
@@ -69,4 +69,11 @@ export class UserLogin implements OnInit {
   get currentUser() {
     return this.loginService.user();
   }
+
+  loginWithGoogle() {
+    this.loginService.loginWithGoogle();
+
+  }
+
+
 }
