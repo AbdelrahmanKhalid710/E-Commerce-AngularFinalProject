@@ -1,0 +1,2 @@
+- [x] Add updateOrderStatus method to OrderService that takes orderId and emailId, fetches the order, checks if userEmail matches emailId and status is 'pending', then updates status to 'confirmed', sets updatedAt, and PUTs the updated order back.
+- [x] In payment-success component, inject OrderService and call updateOrderStatus with orderId and emailID from query params to confirm the order.

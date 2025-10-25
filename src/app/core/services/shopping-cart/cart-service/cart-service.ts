@@ -6,6 +6,7 @@ import { Login } from '../../Auth/login';
 import { Order } from '../../../../../interfaces/iorder';
 import { OrderService } from '../../order/order-service';
 import { PaymentService } from '../../payment/payment-service';
+import { lastValueFrom } from 'rxjs';
 
 const getCartKey = (userEmail: string) => `cart-${userEmail}`;
 
@@ -84,10 +85,8 @@ export class CartService {
   }
 
   clearCart(): void {
-   
     this._cartItems.set([]);
     console.log('Cart cleared.');
-       
   }
 
   getTotal(): number {
@@ -110,10 +109,26 @@ export class CartService {
         return;
       }
 
+      // Declare and initialize order variable with data
+      const order: Order = {
+        id: 'order-' + Date.now(),
+        userEmail: user.email,
+        items: this.cartItems(),
+        total: this.getTotal(),
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        shippingAddress: '', // Assuming shipping address is not available yet
+        paymentMethod: 'card', // Assuming payment method is card
+      };
+
+      // Create the order using OrderService
+      await lastValueFrom(this.orderService.createOrder(order));
+
       const checkoutUrl = await this.paymentService.createPayment(
-        'order-' + Date.now(),
-        this.getTotal(),
-        user.email,
+        order.id,
+        order.total,
+        order.userEmail,
         user.name
         // Assuming phone is not available in User interface, you can add it later if needed
       );

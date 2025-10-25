@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CartService } from '../../services/shopping-cart/cart-service/cart-service';
+import { OrderService } from '../../services/order/order-service';
 
 @Component({
   selector: 'app-payment-success',
@@ -11,7 +12,8 @@ export class PaymentSuccess implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private cartService: CartService
+    private cartService: CartService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -22,6 +24,18 @@ export class PaymentSuccess implements OnInit {
       console.log('mode:', params['mode']);
       console.log('cuurencyCode:', params['cuurencyCode']);
       console.log('emailID:', params['emailID']);
+
+      // Confirm the order
+      if (params['orderId'] && params['emailID']) {
+        this.orderService.updateOrderStatus(params['orderId'], params['emailID']).subscribe({
+          next: (updatedOrder) => {
+            console.log('Order confirmed:', updatedOrder);
+          },
+          error: (err) => {
+            console.error('Error confirming order:', err);
+          },
+        });
+      }
 
       // Clear localStorage item with key 'emailID'
       localStorage.removeItem('emailID');
