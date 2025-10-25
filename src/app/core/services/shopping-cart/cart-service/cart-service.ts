@@ -84,8 +84,10 @@ export class CartService {
   }
 
   clearCart(): void {
+   
     this._cartItems.set([]);
     console.log('Cart cleared.');
+       
   }
 
   getTotal(): number {
@@ -109,6 +111,7 @@ export class CartService {
       }
 
       const checkoutUrl = await this.paymentService.createPayment(
+        'order-' + Date.now(),
         this.getTotal(),
         user.email,
         user.name

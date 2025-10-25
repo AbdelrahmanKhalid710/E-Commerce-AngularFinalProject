@@ -11,10 +11,12 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   async createPayment(
+    orderId:string,
     amount: number,
     customerEmail: string,
     customerName: string,
     customerPhone?: string
+    
   ): Promise<string | null> {
     try {
       const response = await this.http
@@ -22,7 +24,7 @@ export class PaymentService {
           token: this.token,
           FcmToken: this.FcmToken,
           currencyCode: 'EGP',
-          orderId: 'order-' + Date.now(),
+          orderId: orderId,
           amount: amount,
           customerEmail: customerEmail,
           customerName: customerName,
