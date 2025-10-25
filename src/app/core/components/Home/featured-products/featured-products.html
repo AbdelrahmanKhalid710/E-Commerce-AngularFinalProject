@@ -30,6 +30,7 @@
     <app-product-card
       [product]="product"
       [isFavorite]="isFavorite(product._id)"
+      (addToCart)="onAddToCart($event)"
       (toggleFavorite)="onToggleFavorite($event)"
     />
   </div>
