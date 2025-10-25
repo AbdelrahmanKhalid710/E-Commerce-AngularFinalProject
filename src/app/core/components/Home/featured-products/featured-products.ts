@@ -23,11 +23,11 @@ private favoritesService = inject(Favorites);
   featuredProducts = signal<Product[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
-
+  favoriteIds: Set<string> = new Set();
   ngOnInit(): void {
     this.loadFeaturedProducts();
+    this.loadFavorites();
   }
-
   loadFeaturedProducts(): void {
     this.apiService.getAllProducts().subscribe({
       next: (response) => {
@@ -44,6 +44,15 @@ private favoritesService = inject(Favorites);
       }
     });
   }
+  loadFavorites() {
+    this.favoritesService.getAllFavoriteProducts().subscribe({
+      next: (res) => {
+        const favs = res.data || [];
+        this.favoriteIds = new Set(favs.map((f: any) => f._id));
+      },
+      error: (err) => console.error(err)
+    });
+  }
 
   onAddToCart(product: Product): void {
     console.log('Add to cart:', product);
@@ -51,8 +60,29 @@ private favoritesService = inject(Favorites);
     this.cartService.addProductToCart(product);
   }
 
-  onToggleFavorite(product: Product): void {
-    console.log('Toggle favorite:', product);
-    this.favoritesService.addProductToFavoriteList(product._id);
+ onToggleFavorite(product: any) {
+    const productId = product._id;
+
+    if (this.favoriteIds.has(productId)) {
+      // Remove from favorites
+      this.favoritesService.removeProductFromFavoriteList(productId).subscribe({
+        next: () => {
+          this.favoriteIds.delete(productId);
+        },
+        error: (err) => console.error(err)
+      });
+    } else {
+      // Add to favorites
+      this.favoritesService.addProductToFavoriteList(productId).subscribe({
+        next: () => {
+          this.favoriteIds.add(productId);
+        },
+        error: (err) => console.error(err)
+      });
+    }
+  }
+
+  isFavorite(productId: string): boolean {
+    return this.favoriteIds.has(productId);
   }
 }

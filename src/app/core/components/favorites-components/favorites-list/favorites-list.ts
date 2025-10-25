@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Favorites } from '../../../services/favorites/favoritesService';
 import { CommonModule } from '@angular/common';
+import { ProductCard } from '../../../../shared/product-card/product-card';
+import { Product } from '../../../../../interfaces';
 
 @Component({
   selector: 'app-favorites-list',
-  imports: [CommonModule],
+  imports: [CommonModule,ProductCard],
   templateUrl: './favorites-list.html',
   styleUrl: './favorites-list.css',
   standalone: true
@@ -35,5 +37,8 @@ export class FavoritesList {
       },
       error: (err) => console.error('Error deleting favorite:', err)
     });
+  }
+   onToggleFavorite(product: Product): void {
+    this.removeFromList(product._id);
   }
 }
