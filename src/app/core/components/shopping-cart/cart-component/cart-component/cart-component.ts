@@ -8,7 +8,7 @@ import { CartItem } from '../../cart-item/cart-item/cart-item';
   selector: 'app-cart-component',
   imports: [CommonModule, CartItem],
   templateUrl: './cart-component.html',
-  styleUrl: './cart-component.css'
+  styleUrl: './cart-component.css',
 })
 export class CartComponent {
   private cartService = inject(CartService);
@@ -20,13 +20,11 @@ export class CartComponent {
     }, 0)
   );
 
-
   removeItem(id: string): void {
     this.cartService.removeFromCart(id);
   }
 
-  checkout(): void {
-    this.cartService.checkout();
+  async checkout(): Promise<void> {
+    await this.cartService.checkout();
   }
-
 }
