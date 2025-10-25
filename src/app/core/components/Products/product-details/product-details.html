@@ -1,0 +1,213 @@
+<div class="container py-5">
+  @if (loading()) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3 text-muted">Loading product details...</p>
+    </div>
+  }
+
+  @if (error() && !loading()) {
+    <div class="alert alert-danger text-center">
+      {{ error() }}
+      <button class="btn btn-outline-primary ms-2" routerLink="/products">Back to Products</button>
+    </div>
+  }
+
+  @if (product() && !loading()) {
+    <!-- Product Header -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+            <li class="breadcrumb-item active">{{ getProductTitle() }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Product Main Content -->
+    <div class="row">
+      <!-- Product Images -->
+      <div class="col-md-6">
+        <div class="main-image mb-4">
+          <img [src]="mainImage" [alt]="getProductTitle()" class="img-fluid rounded-3 w-100">
+        </div>
+        
+        @if (getProductImages().length > 1) {
+          <div class="image-thumbnails d-flex gap-2 flex-wrap">
+            @for (image of getProductImages(); track $index; let i = $index) {
+              <img [src]="image" 
+                   [alt]="getProductTitle() + ' thumbnail ' + ($index + 1)"
+                   class="thumbnail img-fluid rounded-2"
+                   [class.active]="i === selectedImageIndex()"
+                   (click)="selectImage(i)"
+                   style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;">
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Product Info -->
+      <div class="col-md-6">
+        <h1 class="h2 fw-bold mb-3">{{ getProductTitle() }}</h1>
+        
+        <div class="mb-3">
+          <span class="badge bg-secondary me-2">{{ getProductCategory() }}</span>
+          <span class="badge bg-light text-dark">{{ getProductBrand() }}</span>
+        </div>
+
+        <div class="rating mb-3">
+          <span class="text-warning">⭐ {{ getProductRating() }}</span>
+          <small class="text-muted ms-2">({{ getProductRatingCount() }} reviews)</small>
+        </div>
+
+        <p class="text-muted mb-4">{{ getProductDescription() }}</p>
+
+        <div class="price-section mb-4">
+          @if (hasDiscount()) {
+            <div>
+              <span class="h2 text-primary fw-bold">${{ getProductPriceAfterDiscount() }}</span>
+              <span class="h4 text-muted text-decoration-line-through ms-2">${{ getProductPrice() }}</span>
+              <span class="badge bg-danger ms-2">
+                Save {{ getDiscountPercentage() }}%
+              </span>
+            </div>
+          } @else {
+            <span class="h2 text-primary fw-bold">${{ getProductPrice() }}</span>
+          }
+        </div>
+
+        <div class="stock-info mb-4">
+          @if (getProductQuantity() > 0) {
+            <span class="text-success">✓ In Stock ({{ getProductQuantity() }} available)</span>
+          } @else {
+            <span class="text-danger">✗ Out of Stock</span>
+          }
+          <small class="text-muted d-block">Sold: {{ getProductSold() }}</small>
+        </div>
+
+        <div class="action-buttons d-flex gap-3">
+          <button class="btn btn-primary btn-lg flex-fill" 
+                  (click)="addToCart()"
+                  [disabled]="getProductQuantity() === 0">
+            {{ getProductQuantity() === 0 ? 'Out of Stock' : 'Add to Cart' }}
+          </button>
+          <button class="btn btn-outline-secondary btn-lg">
+            <i class="bi bi-heart"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <ul class="nav nav-tabs" id="productTabs">
+          <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab() === 'details'"
+                    (click)="setActiveTab('details')">
+              Product Details
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" 
+                    [class.active]="activeTab() === 'reviews'"
+                    (click)="setActiveTab('reviews')">
+              Reviews
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content mt-4">
+          <!-- Details Tab -->
+          <div class="tab-pane fade" 
+               [class.show]="activeTab() === 'details'" 
+               [class.active]="activeTab() === 'details'">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Product Description</h5>
+                <p class="card-text">{{ getProductDescription() }}</p>
+                
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                    <h6>Product Information</h6>
+                    <ul class="list-unstyled">
+                      <li><strong>Category:</strong> {{ getProductCategory() }}</li>
+                      <li><strong>Brand:</strong> {{ getProductBrand() }}</li>
+                      <li><strong>Product ID:</strong> {{ product()?._id }}</li>
+                      <li><strong>Added:</strong> {{ product()?.createdAt | date }}</li>
+                    </ul>
+                  </div>
+                  <div class="col-md-6">
+                    <h6>Shipping & Returns</h6>
+                    <ul class="list-unstyled">
+                      <li class="text-success">✓ Free shipping on orders over $50</li>
+                      <li class="text-success">✓ 30-day return policy</li>
+                      <li class="text-success">✓ Secure payment processing</li>
+                      <li class="text-success">✓ Fast delivery</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Additional Features -->
+                <div class="row mt-4">
+                  <div class="col-12">
+                    <h6>Key Features</h6>
+                    <div class="row">
+                      <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                          <i class="bi bi-award display-6 text-primary"></i>
+                          <p class="mt-2 mb-0"><strong>Premium Quality</strong></p>
+                          <small class="text-muted">High-quality materials</small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                          <i class="bi bi-truck display-6 text-primary"></i>
+                          <p class="mt-2 mb-0"><strong>Fast Shipping</strong></p>
+                          <small class="text-muted">2-3 business days</small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                          <i class="bi bi-shield-check display-6 text-primary"></i>
+                          <p class="mt-2 mb-0"><strong>Quality Guarantee</strong></p>
+                          <small class="text-muted">30-day warranty</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reviews Tab -->
+          <div class="tab-pane fade" 
+               [class.show]="activeTab() === 'reviews'" 
+               [class.active]="activeTab() === 'reviews'">
+            <!-- Add the reviews component here -->
+            <app-product-reviews [productId]="product()!._id"></app-product-reviews>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products Section (Optional) -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <h4 class="mb-4">You Might Also Like</h4>
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle me-2"></i>
+          Related products section can be added here to show similar items from the same category or brand.
+        </div>
+      </div>
+    </div>
+  }
+</div>

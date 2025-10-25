@@ -1,77 +1,114 @@
 <div class="register-container d-flex justify-content-center align-items-center bg-light">
-  <div class="card register-card shadow-lg p-4">
+  <div class="card register-card shadow-lg p-4 w-50">
     <h3 class="text-center mb-3 text-success">Register</h3>
 
-    <form (ngSubmit)="registerUser()" #f="ngForm"> 
+    <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+
+      <!-- Full Name -->
       <div class="form-outline mb-4">
+        <label class="form-label mt-1" for="name">Full Name</label>
         <input
           type="text"
           id="name"
           class="form-control"
           placeholder="Enter your name"
-          [(ngModel)]="signupObj.name"
-          name="name"
-          required
+          formControlName="name"
         />
-        <label class="form-label mt-1" for="name">Full Name</label>
+        @if (!isValid('name') && isTouched('name')) {
+          <small class="text-danger">
+            @if (hasError('name', 'required')) { Name is required. }
+            @else if (hasError('name', 'minlength')) { Name must be at least 3 characters. }
+          </small>
+        }
       </div>
 
+      <!-- Email -->
       <div class="form-outline mb-4">
+        <label class="form-label mt-1" for="email">Email Address</label>
         <input
           type="email"
           id="email"
           class="form-control"
           placeholder="Enter your email"
-          [(ngModel)]="signupObj.email"
-          name="email"
-          required
+          formControlName="email"
         />
-        <label class="form-label mt-1" for="email">Email address</label>
+        @if (!isValid('email') && isTouched('email')) {
+          <small class="text-danger">
+            @if (hasError('email', 'required')) { Email is required. }
+            @else if (hasError('email', 'email')) { Invalid email format. }
+          </small>
+        }
       </div>
 
+      <!-- Password -->
       <div class="form-outline mb-4">
+        <label class="form-label mt-1" for="password">Password</label>
         <input
           type="password"
           id="password"
           class="form-control"
           placeholder="Enter your password"
-          [(ngModel)]="signupObj.password"
-          name="password"
-          required
+          formControlName="password"
         />
-        <label class="form-label mt-1" for="password">Password</label>
+        @if (!isValid('password') && isTouched('password')) {
+          <small class="text-danger">
+            @if (hasError('password', 'required')) { Password is required. }
+            @else if (hasError('password', 'minlength')) { Minimum 6 characters. }
+          </small>
+        }
       </div>
 
+      <!-- Confirm Password -->
       <div class="form-outline mb-4">
+        <label class="form-label mt-1" for="rePassword">Confirm Password</label>
         <input
-          type="Password"
+          type="password"
           id="rePassword"
           class="form-control"
-          placeholder="Enter your rePassword"
-          [(ngModel)]="signupObj.rePassword"
-          name="rePassword"
-          required
+          placeholder="Re-enter your password"
+          formControlName="rePassword"
         />
-        <label class="form-label mt-1" for="rePassword">rePassword</label>
+        @if (!passwordsMatch() && isTouched('rePassword')) {
+          <small class="text-danger">Passwords do not match.</small>
+        }
       </div>
 
+      <!-- Phone -->
       <div class="form-outline mb-4">
+        <label class="form-label mt-1" for="phone">Phone Number</label>
         <input
           type="tel"
           id="phone"
           class="form-control"
           placeholder="Enter your phone number"
-          [(ngModel)]="signupObj.phone"
-          name="phone"
-          required
+          formControlName="phone"
         />
-        <label class="form-label mt-1" for="phone">Phone Number</label>
+        @if (!isValid('phone') && isTouched('phone')) {
+          <small class="text-danger">
+            @if (hasError('phone', 'required')) { Phone is required. }
+            @else if (hasError('phone', 'pattern')) { Invalid phone number format. }
+          </small>
+        }
       </div>
 
-      <button type="submit" class="btn btn-success w-100 mb-4" [disabled]="f.invalid">
+      <!-- Error or Success Message -->
+      @if (errorMessage()) {
+        <div class="alert alert-danger text-center py-2 mb-3">
+          {{ errorMessage() }}
+        </div>
+      }
+      @if (successMessage()) {
+        <div class="alert alert-success text-center py-2 mb-3">
+          {{ successMessage() }}
+        </div>
+      }
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-success w-100 mb-4" [disabled]="registerForm.invalid">
         Register
       </button>
 
+      <!-- Already Have an Account -->
       <div class="text-center">
         <p>
           Already have an account?

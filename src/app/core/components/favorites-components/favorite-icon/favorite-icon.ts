@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Favorites } from '../../../services/favorites/favoritesService';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-favorite-icon',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './favorite-icon.html',
   styleUrl: './favorite-icon.css'
 })
@@ -18,7 +20,7 @@ export class FavoriteIcon {
   ngOnInit() {
     this.isFavorite = this.favoritesList.includes(this.productId);
   }
-  toggleFavorite() {
+    toggleFavorite() {
     this.loading = true;
     if (this.isFavorite) {
       this.favoritesService.removeProductFromFavoriteList(this.productId).subscribe({

@@ -1,28 +1,15 @@
 <div class="container py-5">
-  <h2 class="text-center text-primary mb-4">Yor Favorites ❤️</h2>
+  <h2 class="text-center text-primary mb-4">Your Favorites ❤️</h2>
 
   @if (favorites.length > 0) {
     <div class="row g-4">
-      @for (item of favorites; track item._id) {
+      @for (product of favorites; track product._id) {
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-          <div class="card h-100 shadow-sm border-0 rounded-4 hover-scale">
-            <img [src]="item.imageCover" [alt]="item.title" class="card-img-top rounded-top-4 object-fit-cover" style="height: 220px;">
-            
-            <div class="card-body d-flex flex-column">
-              <h6 class="card-title fw-semibold text-dark text-truncate">{{ item.title }}</h6>
-              <p class="text-muted small mb-1">{{ item.category?.name }}</p>
-              <p class="fw-bold mb-3">Price: {{ item.price | currency }}</p>
-
-              <div class="mt-auto d-flex justify-content-between align-items-center">
-                <button class="btn btn-outline-danger btn-sm rounded-3 px-3" (click)="removeFromList(item._id)">
-                  <i class="fa-solid fa-trash me-1"></i> Remove
-                </button>
-                <!-- <button class="btn btn-primary btn-sm rounded-3 px-3" (click)="addToCart(item._id)">
-                  <i class="fa-solid fa-cart-plus me-1"></i> Add to Cart
-                </button> -->
-              </div>
-            </div>
-          </div>
+          <app-product-card
+            [product]="product"
+            [isFavorite]="true"
+            (toggleFavorite)="onToggleFavorite($event)">
+          </app-product-card>
         </div>
       }
     </div>
