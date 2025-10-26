@@ -1152,6 +1152,64 @@
       "updatedAt": "2025-10-26T04:39:43.949Z",
       "shippingAddress": "Mock Address",
       "paymentMethod": "cash"
+    },
+    {
+      "id": "e1a2b0b7-7daf-4ac5-9504-665918648d51",
+      "userEmail": "abdelrahmankhalid148@gmail.com",
+      "items": [
+        {
+          "product": {
+            "sold": 2413,
+            "images": [
+              "1680395860011-4.jpeg",
+              "1680395860011-2.jpeg",
+              "1680395860010-1.jpeg",
+              "1680395860011-3.jpeg"
+            ],
+            "subcategory": [
+              {
+                "_id": "6407f243b575d3b90bf957ac",
+                "name": "Men's Clothing",
+                "slug": "men's-clothing",
+                "category": "6439d5b90049ad0b52b90048"
+              }
+            ],
+            "ratingsQuantity": 17,
+            "_id": "6428ce55dc1175abc65ca043",
+            "title": "Court Tennis Track Pants Black",
+            "slug": "court-tennis-track-pants-black",
+            "description": "Soft and sustainable polyester fabric\nElastic waist for comfortable fit\nMultiple pockets for quick storage\nWash according to care label instructions\nNike signature branding detail",
+            "quantity": 170,
+            "price": 3159,
+            "priceAfterDiscount": 2199,
+            "imageCover": "https://ecommerce.routemisr.com/Route-Academy-products/1680395859874-cover.jpeg",
+            "category": {
+              "_id": "6439d5b90049ad0b52b90048",
+              "name": "Men's Fashion",
+              "slug": "men's-fashion",
+              "image": "https://ecommerce.routemisr.com/Route-Academy-categories/1681511865180.jpeg"
+            },
+            "brand": {
+              "_id": "64089c3924b25627a2531593",
+              "name": "Adidas",
+              "slug": "adidas",
+              "image": "https://ecommerce.routemisr.com/Route-Academy-brands/1678285881943.png"
+            },
+            "ratingsAverage": 2.8,
+            "createdAt": "2023-04-02T00:37:41.008Z",
+            "updatedAt": "2025-10-25T21:52:01.068Z",
+            "__v": 0,
+            "id": "6428ce55dc1175abc65ca043"
+          },
+          "orderQuantity": 1
+        }
+      ],
+      "total": 2199,
+      "status": "pending",
+      "createdAt": "2025-10-26T08:31:43.039Z",
+      "updatedAt": "2025-10-26T08:31:43.039Z",
+      "shippingAddress": "Mock Address",
+      "paymentMethod": "cash"
     }
   ],
   "reviews": [

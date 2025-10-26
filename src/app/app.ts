@@ -52,11 +52,12 @@ import { Router, RouterLink, RouterOutlet, NavigationEnd } from '@angular/router
 import { RouterModule } from '@angular/router';
 import { Login } from './core/services/Auth/login';
 import { CartBadge } from './core/components/shopping-cart/cart-badge/cart-badge';
+import { FavoriteIcon } from "./core/components/favorites-components/favorite-icon/favorite-icon";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, CartBadge, RouterModule],
+  imports: [CommonModule, RouterLink, RouterOutlet, CartBadge, RouterModule, FavoriteIcon],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

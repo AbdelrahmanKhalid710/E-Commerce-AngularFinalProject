@@ -22,7 +22,6 @@
         </button>
       </div>
     }
-
     @if (!loading() && !error()) {
       <div class="row g-4">
   @for (product of featuredProducts(); track product._id) {
@@ -35,7 +34,6 @@
     />
   </div>
 }
-
 </div>
     }
 
