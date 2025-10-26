@@ -100,4 +100,11 @@ export class App {
     this.loginService.logout();
     this.router.navigate(['/login']);
   }
+  searchProducts(searchTerm: string): void {
+  if (searchTerm.trim()) {
+    this.router.navigate(['/products'], {
+      queryParams: { search: searchTerm.trim() }
+    });
+  }
+}
 }

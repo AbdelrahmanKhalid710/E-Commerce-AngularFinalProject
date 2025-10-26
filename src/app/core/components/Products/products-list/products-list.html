@@ -5,93 +5,140 @@
       <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-          <li class="breadcrumb-item active">{{ currentCategoryName() }}</li> <!-- FIXED -->
+          <li class="breadcrumb-item active">{{ getDisplayName() }}</li>
         </ol>
       </nav>
 
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h1 class="h2 fw-bold">{{ currentCategoryName() }}</h1> <!-- FIXED -->
+          <h1 class="h2 fw-bold">{{ getDisplayName() }}</h1>
           <p class="text-muted mb-0">
-            {{ products().length }} products found
-            @if (currentCategoryId()) {
-              <span class="text-primary"> in this category</span>
-            }
+            {{ filteredProducts().length }} of {{ allProducts().length }} products
           </p>
         </div>
         
-        @if (currentCategoryId()) {
-          <button class="btn btn-outline-secondary" (click)="clearFilters()">
-            View All Products
-          </button>
-        }
+        <!-- Mobile Filter Toggle -->
+        <button class="btn btn-outline-primary d-lg-none" (click)="toggleFilters()">
+          <i class="bi bi-funnel"></i>
+          Filters
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Debug Info (remove in production) -->
-  <!-- @if (currentCategoryId()) {
-    <div class="alert alert-info mb-4">
-      <small>
-        <strong>Filtering by Category ID:</strong> {{ currentCategoryId() }}<br>
-        <strong>Category Name:</strong> {{ currentCategoryName() }}<br>  FIXED 
-        <strong>Products Found:</strong> {{ products().length }}
-      </small>
+  <div class="row">
+    <!-- Filters Sidebar -->
+    <div class="col-lg-3" [class.d-none]="!showFilters()" [class.d-lg-block]="!showFilters()">
+      <app-products-filter
+        [categories]="categories()"
+        [brands]="brands()"
+        (searchChange)="onSearchChange($event)"
+        (categoryChange)="onCategoryChange($event)"
+        (brandChange)="onBrandChange($event)"
+        (priceRangeChange)="onPriceRangeChange($event)"
+        (sortChange)="onSortChange($event)"
+        (clearFilters)="onClearFilters()">
+      </app-products-filter>
     </div>
-  } -->
 
-  <!-- Loading State -->
-  @if (loading()) {
-    <div class="text-center py-5">
-      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="mt-3 text-muted">Loading products...</p>
-    </div>
-  }
-
-  <!-- Error State -->
-  @if (error() && !loading()) {
-    <div class="alert alert-warning text-center">
-      {{ error() }}
-      <button class="btn btn-sm btn-outline-primary ms-2" (click)="loadProducts(currentCategoryId() || undefined)">
-        Try Again
-      </button>
-    </div>
-  }
-
-  <!-- Products Grid -->
-  @if (!loading() && !error()) {
-    <div class="row g-4">
-      @for (product of products(); track product._id) {
-        <div class="col-xl-3 col-lg-4 col-md-6">
-          <app-product-card 
-            [product]="product"
-            (addToCart)="onAddToCart($event)"
-            (toggleFavorite)="onToggleFavorite($event)">
-          </app-product-card>
+    <!-- Products Grid -->
+    <div class="col-lg-9">
+      <!-- Active Filters -->
+      @if (searchTerm() || selectedCategoryId() || selectedBrandId() || priceRange().min > 0 || priceRange().max < 10000) {
+        <div class="active-filters mb-4">
+          <div class="d-flex flex-wrap gap-2 align-items-center">
+            <small class="text-muted me-2">Active filters:</small>
+            
+            @if (searchTerm()) {
+              <span class="badge bg-primary">
+                Search: "{{ searchTerm() }}"
+                <button class="btn-close btn-close-white ms-1" (click)="searchTerm.set('')"></button>
+              </span>
+            }
+            
+            @if (selectedCategoryId()) {
+              <span class="badge bg-secondary">
+                Category: {{ getDisplayName() }}
+                <button class="btn-close btn-close-white ms-1" (click)="selectedCategoryId.set('')"></button>
+              </span>
+            }
+            
+            <!-- In the active filters section -->
+@if (selectedBrandId()) {
+  <span class="badge bg-info">
+    Brand: {{ getBrandName(selectedBrandId()) }}
+    <button class="btn-close btn-close-white ms-1" (click)="selectedBrandId.set('')"></button>
+  </span>
+}
+            
+            @if (priceRange().min > 0 || priceRange().max < 10000) {
+              <span class="badge bg-warning text-dark">
+                Price: ${{ priceRange().min }} - ${{ priceRange().max }}
+                <button class="btn-close ms-1" (click)="priceRange.set({ min: 0, max: 10000 })"></button>
+              </span>
+            }
+            
+            <button class="btn btn-sm btn-outline-secondary" (click)="onClearFilters()">
+              Clear All
+            </button>
+          </div>
         </div>
       }
+
+      <!-- Loading State -->
+      @if (loading()) {
+        <div class="text-center py-5">
+          <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-3 text-muted">Loading products...</p>
+        </div>
+      }
+
+      <!-- Error State -->
+      @if (error() && !loading()) {
+        <div class="alert alert-warning text-center">
+          {{ error() }}
+          <button class="btn btn-sm btn-outline-primary ms-2" (click)="loadInitialData()">
+            Try Again
+          </button>
+        </div>
+      }
+
+      <!-- Products Grid -->
+      @if (!loading() && !error()) {
+        <div class="row g-4">
+          @for (product of filteredProducts(); track product._id) {
+            <div class="col-xl-4 col-lg-4 col-md-6">
+              <app-product-card 
+                [product]="product"
+                (addToCart)="onAddToCart($event)"
+                (toggleFavorite)="onToggleFavorite($event)">
+              </app-product-card>
+            </div>
+          }
+        </div>
+
+        <!-- Empty State -->
+        @if (filteredProducts().length === 0) {
+          <div class="text-center py-5">
+            <i class="bi bi-search display-1 text-muted"></i>
+            <h3 class="text-muted mt-3">No products found</h3>
+            <p class="text-muted mb-4">
+              @if (searchTerm() || selectedCategoryId() || selectedBrandId()) {
+                Try adjusting your search terms or filters
+              } @else {
+                No products available at the moment
+              }
+            </p>
+            @if (searchTerm() || selectedCategoryId() || selectedBrandId()) {
+              <button class="btn btn-primary" (click)="onClearFilters()">
+                Clear Filters
+              </button>
+            }
+          </div>
+        }
+      }
     </div>
-
-    <!-- Empty State -->
-    @if (products().length === 0 && currentCategoryId()) {
-      <div class="text-center py-5">
-        <i class="bi bi-search display-1 text-muted"></i>
-        <h3 class="text-muted mt-3">No products found in "{{ currentCategoryName() }}"</h3> <!-- FIXED -->
-        <p class="text-muted mb-4">Try browsing all products or check other categories</p>
-        <button class="btn btn-primary" (click)="clearFilters()">
-          View All Products
-        </button>
-      </div>
-    }
-
-    @if (products().length === 0 && !currentCategoryId()) {
-      <div class="text-center py-5">
-        <i class="bi bi-inbox display-1 text-muted"></i>
-        <h3 class="text-muted mt-3">No products available</h3>
-        <p class="text-muted">Check back later for new arrivals</p>
-      </div>
-    }
-  }
+  </div>
 </div>
