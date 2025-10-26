@@ -8,7 +8,7 @@ import { CartComponent } from './core/components/shopping-cart/cart-component/ca
 import { UserProfile } from './core/components/Auth/UserProfile/user-profile/user-profile';
 import { ProductsList } from './core/components/Products/products-list/products-list';
 import { ProductDetails } from './core/components/Products/product-details/product-details';
-
+import { PaymentSuccess } from './core/components/payment-success/payment-success';
 // import { OrderComponent } from './core/components/order-component/order-component';
 
 // --- ADMIN DASHBOARD IMPORTS ---
@@ -30,6 +30,7 @@ export const routes: Routes = [
   // { path: 'orders', component: OrderComponent },
   { path: 'home', component: Home },
   { path: 'profile', component: UserProfile, canActivate: [authGuard] },
+  { path: 'payment-success', component: PaymentSuccess }, //added lines
 
   // --- ADMIN ROUTES ---
   { path: 'admin/login', component: AdminLoginComponent },
@@ -41,12 +42,15 @@ export const routes: Routes = [
       { path: 'users', component: AdminUsersComponent },
       { path: 'orders', component: AdminOrdersComponent },
       { path: 'analytics', component: AnalyticsComponent },
-      { path: '', redirectTo: 'users', pathMatch: 'full' }
-    ]
+      { path: '', redirectTo: 'users', pathMatch: 'full' },
+    ],
   },
   { path: 'admin', redirectTo: '/admin/dashboard', pathMatch: 'full' },
 
   // --- DEFAULT ROUTES ---
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home' }
+  { path: '**', redirectTo: '/home' },
+//   -  { path: 'payment-success', component: PaymentSuccess },
+// -  { path: '', redirectTo: '/home', pathMatch: 'full' },
+// -  { path: '**', redirectTo: '/home' },
 ];
