@@ -5,32 +5,40 @@
       <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-          <li class="breadcrumb-item active">Products</li>
+          <li class="breadcrumb-item active">{{ currentCategoryName() }}</li> <!-- FIXED -->
         </ol>
       </nav>
 
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h1 class="h2 fw-bold">
-            @if (currentCategory()) {
-              {{ currentCategory() | titlecase }}
-            } @else {
-              All Products
-            }
-          </h1>
+          <h1 class="h2 fw-bold">{{ currentCategoryName() }}</h1> <!-- FIXED -->
           <p class="text-muted mb-0">
             {{ products().length }} products found
+            @if (currentCategoryId()) {
+              <span class="text-primary"> in this category</span>
+            }
           </p>
         </div>
         
-        @if (currentCategory()) {
+        @if (currentCategoryId()) {
           <button class="btn btn-outline-secondary" (click)="clearFilters()">
-            Clear Filter
+            View All Products
           </button>
         }
       </div>
     </div>
   </div>
+
+  <!-- Debug Info (remove in production) -->
+  <!-- @if (currentCategoryId()) {
+    <div class="alert alert-info mb-4">
+      <small>
+        <strong>Filtering by Category ID:</strong> {{ currentCategoryId() }}<br>
+        <strong>Category Name:</strong> {{ currentCategoryName() }}<br>  FIXED 
+        <strong>Products Found:</strong> {{ products().length }}
+      </small>
+    </div>
+  } -->
 
   <!-- Loading State -->
   @if (loading()) {
@@ -46,7 +54,7 @@
   @if (error() && !loading()) {
     <div class="alert alert-warning text-center">
       {{ error() }}
-      <button class="btn btn-sm btn-outline-primary ms-2" (click)="loadProducts(currentCategory() || undefined)">
+      <button class="btn btn-sm btn-outline-primary ms-2" (click)="loadProducts(currentCategoryId() || undefined)">
         Try Again
       </button>
     </div>
@@ -59,7 +67,6 @@
         <div class="col-xl-3 col-lg-4 col-md-6">
           <app-product-card 
             [product]="product"
-            [isFavorite]="isFavorite(product._id)"
             (addToCart)="onAddToCart($event)"
             (toggleFavorite)="onToggleFavorite($event)">
           </app-product-card>
@@ -68,14 +75,22 @@
     </div>
 
     <!-- Empty State -->
-    @if (products().length === 0) {
+    @if (products().length === 0 && currentCategoryId()) {
       <div class="text-center py-5">
-        <i class="bi bi-inbox display-1 text-muted"></i>
-        <h3 class="text-muted mt-3">No products found</h3>
-        <p class="text-muted mb-4">Try adjusting your filters or search terms</p>
+        <i class="bi bi-search display-1 text-muted"></i>
+        <h3 class="text-muted mt-3">No products found in "{{ currentCategoryName() }}"</h3> <!-- FIXED -->
+        <p class="text-muted mb-4">Try browsing all products or check other categories</p>
         <button class="btn btn-primary" (click)="clearFilters()">
           View All Products
         </button>
+      </div>
+    }
+
+    @if (products().length === 0 && !currentCategoryId()) {
+      <div class="text-center py-5">
+        <i class="bi bi-inbox display-1 text-muted"></i>
+        <h3 class="text-muted mt-3">No products available</h3>
+        <p class="text-muted">Check back later for new arrivals</p>
       </div>
     }
   }

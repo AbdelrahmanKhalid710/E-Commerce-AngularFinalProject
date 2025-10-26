@@ -19,16 +19,20 @@ private route = inject(ActivatedRoute);
   private favoritesService = inject(Favorites);
  
   products = signal<Product[]>([]);
+  allProducts = signal<Product[]>([]); // Store all products
   loading = signal(true);
   error = signal<string | null>(null);
-  currentCategory = signal<string | null>(null);
+  currentCategoryId = signal<string | null>(null);
+  currentCategoryName = signal<string>('All Products');
   favoriteIds: Set<string> = new Set();
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const category = params['category'];
-      this.currentCategory.set(category);
-      this.loadProducts(category);
+      const categoryId = params['categoryId'];
+      const categoryName = params['categoryName'] || 'Products';
+      this.currentCategoryId.set(categoryId);
+      this.currentCategoryName.set(categoryName);
+      this.loadProducts(categoryId);
     });
      this.favoritesService.getAllFavoriteProducts().subscribe({
     next: (res) => {
@@ -37,17 +41,18 @@ private route = inject(ActivatedRoute);
   });
   }
 
-  loadProducts(category?: string): void {
+  loadProducts(categoryId?: string): void {
     this.loading.set(true);
     this.apiService.getAllProducts().subscribe({
       next: (response) => {
+        this.allProducts.set(response.data);
+        
         let filteredProducts = response.data;
         
-        // Filter by category if provided
-        if (category) {
+        // Filter by category ID if provided - EXACT MATCHING
+        if (categoryId) {
           filteredProducts = response.data.filter(product => 
-            product.category.slug.toLowerCase().includes(category.toLowerCase()) ||
-            product.category.name.toLowerCase().includes(category.toLowerCase())
+            product.category._id === categoryId
           );
         }
         
@@ -61,7 +66,6 @@ private route = inject(ActivatedRoute);
       }
     });
   }
-
   onAddToCart(product: Product): void {
     console.log('Add to cart:', product);
     // Implement cart functionality
