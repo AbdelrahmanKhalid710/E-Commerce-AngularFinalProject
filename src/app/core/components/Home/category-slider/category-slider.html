@@ -1,4 +1,4 @@
-<section class="categories-section py-5">
+<section class="categories-section py-5 bg-light">
   <div class="container">
     <h2 class="text-center mb-5 fw-bold">Shop by Category</h2>
     
@@ -14,27 +14,24 @@
     @if (error() && !loading()) {
       <div class="alert alert-warning text-center">
         {{ error() }}
-        <button class="btn btn-sm btn-outline-primary ms-2" (click)="loadCategories()">
-          Try Again
-        </button>
       </div>
     }
 
     @if (!loading() && !error()) {
-      <div class="row g-3 justify-content-center">
+      <div class="row g-4">
         @for (category of categories(); track category._id) {
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+          <div class="col-lg-2 col-md-4 col-sm-6">
             <div class="category-card text-center">
-              <div class="category-image-wrapper mb-3 mx-auto">
-                <img [src]="category.image" [alt]="category.name" 
+              <div class="category-image-wrapper mb-3">
+                <img [src]="getCategoryImage(category)" [alt]="category.name" 
                      class="category-image rounded-circle shadow">
               </div>
-              <h6 class="fw-bold mb-2 text-truncate px-2" [title]="category.name">
-                {{ category.name }}
-              </h6>
-              <a [routerLink]="['/products']" [queryParams]="{category: category.slug}" 
-                class="btn btn-outline-primary btn-sm">
-              Shop Now
+              <h6 class="fw-bold mb-1">{{ category.name }}</h6>
+              <!-- UPDATED: Pass category ID and name -->
+              <a [routerLink]="['/products']" 
+                 [queryParams]="{categoryId: category._id, categoryName: category.name}" 
+                 class="btn btn-outline-primary btn-sm">
+                Shop Now
               </a>
             </div>
           </div>

@@ -1,12 +1,13 @@
-<button class="btn btn-light border-0"(click)="toggleFavorite()">
-  @if (loading) {
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-  }
-  @else{
-    @if(isFavorite) {
-      <i class="fa-solid fa-heart text-danger"></i>
-    }@else {
-      <i class="fa-regular fa-heart text-secondary"></i>
-    }
-  }
-</button>
+<div class="position-relative" style="cursor: pointer;" (click)="navigateToFavorites()">
+  <!-- Dynamic heart icon -->
+  <i [class]="iconClass" title="Favorites" style="font-size: 1.5rem;"></i>
+
+  <!-- Small red counter -->
+  <span
+    *ngIf="count > 0"
+    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+    style="font-size: 0.7rem;"
+  >
+    {{ count }}
+  </span>
+</div>

@@ -8,13 +8,7 @@
       <a class="nav-link text-white mx-2" routerLink="/home">Home</a>
 
       <!-- 🔹 Favorites (visible only when logged in) -->
-      <a
-        *ngIf="isLoggedIn()"
-        class="nav-link text-white mx-2"
-        routerLink="/favorites">
-        Favorites
-      </a>
-
+     <app-favorite-icon class="mx-2" *ngIf="isLoggedIn()"></app-favorite-icon>      
       <!-- 🔹 Cart -->
       <app-cart-badge class="mx-2"></app-cart-badge>
 

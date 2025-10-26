@@ -43,9 +43,12 @@
       </div>
 
       <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary w-100 mb-4" [disabled]="loginForm.invalid">
-        Login
-      </button>
+      <button class="btn btn-primary w-100 mb-3" type="submit">Login</button>
+
+      <div class="text-center mb-2">OR</div>
+
+      <button class="btn btn-danger w-100 mb-3" type="button" (click)="loginWithGoogle()">Login with Google</button>
+
 
       <!-- Register Link -->
       <div class="text-center">

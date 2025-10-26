@@ -8,6 +8,7 @@
           <app-product-card
             [product]="product"
             [isFavorite]="true"
+            (addToCart)="onAddToCart($event)"
             (toggleFavorite)="onToggleFavorite($event)">
           </app-product-card>
         </div>

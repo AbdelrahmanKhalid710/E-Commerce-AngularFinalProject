@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, computed, effect, inject, Input } from '@angular/core';
 import { Favorites } from '../../../services/favorites/favoritesService';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -10,38 +11,18 @@ import { CommonModule } from '@angular/common';
   styleUrl: './favorite-icon.css'
 })
 export class FavoriteIcon {
-  @Input() productId!: string;
-  @Input() favoritesList!: string[];
-
-  isFavorite = false;
-  loading = false;
-
-  constructor(private favoritesService: Favorites) { }
-  ngOnInit() {
-    this.isFavorite = this.favoritesList.includes(this.productId);
+count = 0;
+private favoritesService = inject(Favorites); 
+private router = inject(Router);
+constructor() {
+  effect(() => {
+    this.count = this.favoritesService.favoriteCount();
+  });
+}
+navigateToFavorites() {
+    this.router.navigate(['/favorites']);
   }
-    toggleFavorite() {
-    this.loading = true;
-    if (this.isFavorite) {
-      this.favoritesService.removeProductFromFavoriteList(this.productId).subscribe({
-        next: () => {
-          this.isFavorite = false;
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-        }
-      });
-    } else {
-      this.favoritesService.addProductToFavoriteList(this.productId).subscribe({
-        next: () => {
-          this.isFavorite = true;
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-        }
-      });
-    }
+  get iconClass(): string {
+    return this.count > 0 ? 'bi bi-heart-fill text-danger' : 'bi bi-heart text-white';
   }
 }

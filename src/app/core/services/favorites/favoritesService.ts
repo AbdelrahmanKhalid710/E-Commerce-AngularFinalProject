@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Login } from '../Auth/login';
 
 @Injectable({
@@ -9,21 +9,19 @@ import { Login } from '../Auth/login';
 export class Favorites {
   private baseUrl = 'https://ecommerce.routemisr.com/api/v1/wishlist';
   private favoriteIds = signal<Set<string>>(new Set());
-
+  favoriteCount = computed(() => this.favoriteIds().size);
   constructor(private http: HttpClient, private auth: Login) { }
-  
-  
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token') || '';
     console.log(token);
-    
+
     return new HttpHeaders({
       token: `${token}`
     });
   }
   //AddProductToFavorite
-     addProductToFavoriteList(productId: string) {
+  addProductToFavoriteList(productId: string) {
     return this.http.post(this.baseUrl, { productId }, { headers: this.getAuthHeaders() }).pipe(
       tap(() => this.favoriteIds.update(ids => new Set(ids).add(productId)))
     );
@@ -47,7 +45,7 @@ export class Favorites {
     );
   }
   //Toggle Favorite
- toggleFavorite(productId: string) {
+  toggleFavorite(productId: string) {
     if (this.isFavorite(productId)) {
       return this.removeProductFromFavoriteList(productId);
     } else {
