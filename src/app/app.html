@@ -35,6 +35,17 @@
         Logout
       </button>
 
+      <!--Route to Admin Login-->
+      <button
+      *ngIf="!isLoggedIn()"
+        type="button"
+        class="btn btn-light mx-2"
+        routerLink="admin/login">
+
+        Log As Admin
+       
+      </button>
+
     </div>
     <!-- <div>
       <a class="nav-link d-inline text-white" routerLink="/orders">Orders</a>

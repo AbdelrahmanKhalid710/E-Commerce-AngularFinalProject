@@ -6,15 +6,22 @@
         <span class="admin-welcome" *ngIf="currentAdmin">
           Welcome, {{ currentAdmin.username }}
         </span>
-        <span class="admin-role" *ngIf="currentAdmin">
-          ({{ currentAdmin.role }})
-        </span>
+    
         <button 
           (click)="adminLogout()" 
           class="btn-admin-logout"
           aria-label="Logout from admin dashboard">
           Logout
         </button>
+         <button
+      
+        type="button"
+        class="btn btn-light mx-2"
+        routerLink="/login">
+
+        Log As User
+       
+      </button>
       </div>
     </div>
   </header>
