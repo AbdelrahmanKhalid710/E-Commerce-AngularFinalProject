@@ -5,6 +5,7 @@ import { ApiService } from '../../../services/api-service';
 import { Product } from '../../../../../interfaces';
 import { ProductReviews } from '../../reviews/product-reviews/product-reviews';
 import { CartService } from '../../../services/shopping-cart/cart-service/cart-service';
+import { Favorites } from '../../../services/favorites/favoritesService';
 
 @Component({
   selector: 'app-product-details',
@@ -18,13 +19,14 @@ export class ProductDetails {
   private router = inject(Router);
   private apiService = inject(ApiService);
   private cartService = inject(CartService);
+  public favoriteService = inject(Favorites); // Placeholder for favorite service
 
   product = signal<Product | null>(null);
   loading = signal(true);
   error = signal<string | null>(null);
   selectedImageIndex = signal(0);
   activeTab = signal('details'); // Add tab state
-
+  favoriteIds: Set<string> = new Set();
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const productId = params.get('id');
@@ -32,6 +34,11 @@ export class ProductDetails {
         this.loadProductDetails(productId);
       }
     });
+    this.favoriteService.getAllFavoriteProducts().subscribe({
+    next: (res) => {
+      this.favoriteIds = new Set(res.data.map((p: any) => p._id));
+    }
+  }); 
   }
 
   loadProductDetails(productId: string): void {
@@ -60,6 +67,20 @@ export class ProductDetails {
       this.cartService.addProductToCart(product);
     }
   }
+toggleFavorite(productId: string): void {
+  const product = this.product();
+  if (!product) return;
+  this.favoriteService.toggleFavorite(productId).subscribe({
+    next: (res) => {
+      // Optionally re-fetch all favorites to refresh state
+      this.favoriteService.getAllFavoriteProducts().subscribe();
+    },
+    error: (err) => {
+      console.error('Error toggling favorite:', err);
+    }
+  });
+}
+
 
   // Helper methods to safely access product properties
   hasDiscount(): boolean {

@@ -22,6 +22,7 @@ export class Favorites {
   }
   //AddProductToFavorite
   addProductToFavoriteList(productId: string) {
+    console.log('add to favorite function', productId);
     return this.http.post(this.baseUrl, { productId }, { headers: this.getAuthHeaders() }).pipe(
       tap(() => this.favoriteIds.update(ids => new Set(ids).add(productId)))
     );
@@ -36,7 +37,6 @@ export class Favorites {
       }))
     );
   }
-
   getAllFavoriteProducts() {
     return this.http.get(this.baseUrl, { headers: this.getAuthHeaders() }).pipe(
       tap((response: any) => {
@@ -49,6 +49,7 @@ export class Favorites {
     if (this.isFavorite(productId)) {
       return this.removeProductFromFavoriteList(productId);
     } else {
+      console.log('Adding to favorites:', productId);
       return this.addProductToFavoriteList(productId);
     }
   }

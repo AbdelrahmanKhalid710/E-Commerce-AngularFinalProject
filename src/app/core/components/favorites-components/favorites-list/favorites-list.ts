@@ -21,6 +21,7 @@ export class FavoritesList {
     this.getFavorites();
   }
   getFavorites() {
+
     this.favoritesService.getAllFavoriteProducts().subscribe({
       next: (res: any) => {
         this.favorites = res?.data || [];
