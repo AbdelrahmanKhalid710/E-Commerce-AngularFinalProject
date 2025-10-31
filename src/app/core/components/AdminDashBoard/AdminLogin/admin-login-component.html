@@ -36,13 +36,19 @@
         type="submit" 
         [disabled]="!adminLoginForm.valid || isLoading" 
         class="btn btn-admin-login">
-        <span *ngIf="!isLoading">Access Admin Dashboard</span>
-        <span *ngIf="isLoading">Authenticating...</span>
+        
+        @if (!isLoading) {
+          <span>Access Admin Dashboard</span>
+        } @else {
+          <span>Authenticating...</span>
+        }
       </button>
       
-      <div *ngIf="error" class="error-message">
-        {{ error }}
-      </div>
+      @if (error) {
+        <div class="error-message">
+          {{ error }}
+        </div>
+      }
 
       <div class="admin-help">
         <p><strong>Admin Access Only</strong></p>
