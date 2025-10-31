@@ -49,5 +49,6 @@ export class FavoritesList {
     console.log('Add to cart:', product);
     alert(`Added "${product.title}" to cart.`);
     this.cartService.addProductToCart(product);
+    this.removeFromList(product._id);
   }
 }
