@@ -39,6 +39,7 @@ export class PaymentSuccess implements OnInit {
 
       // Clear localStorage item with key 'emailID'
       localStorage.removeItem('emailID');
+      this.cartService.clearCart();
 
       // Clear the cart for the user based on emailID
       const cartKey = `cart-${params['emailID']}`;

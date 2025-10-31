@@ -22,11 +22,9 @@
     rating = 5;
     comment = '';
 
-    //  userId = localStorage.getItem('userId') || 'guest';
     get userEmail(): string {
       return this.loginservice.user()?.email || 'guest@example.com';
     }
-    // 👇 derive username automatically
     get userName(): string {  
       if (!this.userEmail) return 'Guest';
       return this.userEmail.split('@')[0];
@@ -49,14 +47,14 @@
 
     addReview(): void {
       if (!this.comment.trim()) return;
-        console.log('Submitting review...'); // 👈 Add this line
+        console.log('Submitting review...');
     this.reviewService
       .addReview(this.productId, this.userEmail, this.userName, this.rating, this.comment.trim())
       .subscribe({
         next: () => {
           this.comment = '';
           this.rating = 5;
-          this.loadReviews(); // reload from server
+          this.loadReviews();
         }
       });
     }

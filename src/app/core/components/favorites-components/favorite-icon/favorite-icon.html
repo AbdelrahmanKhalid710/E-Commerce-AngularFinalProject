@@ -1,13 +1,14 @@
 <div class="position-relative" style="cursor: pointer;" (click)="navigateToFavorites()">
-  <!-- Dynamic heart icon -->
+  <!-- heart icon -->
   <i [class]="iconClass" title="Favorites" style="font-size: 1.5rem;"></i>
 
   <!-- Small red counter -->
-  <span
-    *ngIf="count > 0"
-    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-    style="font-size: 0.6rem; padding: 0.4rem 0.6rem;"
-  >
-    {{ count }}
-  </span>
+  @if (count > 0) {
+    <span
+      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+      style="font-size: 0.6rem; padding: 0.4rem 0.6rem;"
+    >
+      {{ count }}
+    </span>
+  }
 </div>
