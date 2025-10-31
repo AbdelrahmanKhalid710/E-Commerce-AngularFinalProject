@@ -96,9 +96,10 @@
                   [disabled]="getProductQuantity() === 0">
             {{ getProductQuantity() === 0 ? 'Out of Stock' : 'Add to Cart' }}
           </button>
-          <button class="btn btn-outline-secondary btn-lg">
-            <i class="bi bi-heart"></i>
-          </button>
+      <button class="btn btn-outline-secondary btn-lg"
+        (click)="toggleFavorite(product()!._id)">
+  <i [ngClass]="favoriteService.isFavorite(product()!._id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"></i>
+</button>
         </div>
       </div>
     </div>
