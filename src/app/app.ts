@@ -8,11 +8,12 @@ import { CartBadge } from './core/components/shopping-cart/cart-badge/cart-badge
 import { FavoriteIcon } from "./core/components/favorites-components/favorite-icon/favorite-icon";
 import { Navbar } from './core/components/layout/navbar/navbar';
 import { Footer } from './core/components/layout/footer/footer';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, CartBadge, RouterModule, FavoriteIcon, Navbar, Footer],
+  imports: [CommonModule, RouterLink, RouterOutlet, CartBadge, RouterModule, FavoriteIcon, Navbar, Footer, MatSnackBarModule],
   template: `
     <app-navbar></app-navbar>
     <main>

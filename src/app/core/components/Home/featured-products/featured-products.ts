@@ -59,7 +59,6 @@ this.favoritesService.getAllFavoriteProducts().subscribe({
 
   onAddToCart(product: Product): void {
     console.log('Add to cart:', product);
-    alert(`Added "${product.title}" to cart.`);
     this.cartService.addProductToCart(product);
   }
 onToggleFavorite(product: any) {

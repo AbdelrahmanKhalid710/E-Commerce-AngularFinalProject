@@ -63,7 +63,6 @@ export class ProductDetails {
     const product = this.product();
     if (product) {
       console.log('Add to cart:', product);
-      alert(`Added "${product.title}" to cart.`);
       this.cartService.addProductToCart(product);
     }
   }

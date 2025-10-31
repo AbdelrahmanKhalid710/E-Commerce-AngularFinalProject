@@ -7,6 +7,7 @@ import { Order } from '../../../../../interfaces/iorder';
 import { OrderService } from '../../order/order-service';
 import { PaymentService } from '../../payment/payment-service';
 import { lastValueFrom } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const getCartKey = (userEmail: string) => `cart-${userEmail}`;
 
@@ -19,6 +20,7 @@ export class CartService {
   private auth = inject(Login);
   private orderService = inject(OrderService);
   private paymentService = inject(PaymentService);
+  private snackBar = inject(MatSnackBar);
 
   constructor() {
     // EFFECT 1: Load the cart whenever the user changes.
@@ -77,6 +79,11 @@ export class CartService {
   addProductToCart(product: Product): void {
     const item = toCartItem(product);
     this.addToCart(item);
+    this.snackBar.open(`Added "${product.title}" to cart ✅`, 'Close', {
+      duration: 3000, // milliseconds
+      horizontalPosition: 'right',
+      verticalPosition: 'top'
+    });
   }
 
   removeFromCart(productId: string): void {
@@ -130,7 +137,6 @@ export class CartService {
         order.total,
         order.userEmail,
         user.name
-        // Assuming phone is not available in User interface, you can add it later if needed
       );
 
       if (checkoutUrl) {
