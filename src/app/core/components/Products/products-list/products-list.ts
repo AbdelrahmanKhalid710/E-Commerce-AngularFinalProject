@@ -7,6 +7,7 @@ import { ApiService } from '../../../services/api-service';
 import { Product, Category, Brand } from '../../../../../interfaces';
 import { Favorites } from '../../../services/favorites/favoritesService';
 import { ProductsFilter } from '../../../../shared/products-filter/products-filter';
+import { CartService } from '../../../services/shopping-cart/cart-service/cart-service';
 @Component({
   selector: 'app-products-list',
   standalone: true,
@@ -19,6 +20,7 @@ private route = inject(ActivatedRoute);
   private router = inject(Router);
   private apiService = inject(ApiService);
   private favoritesService = inject(Favorites);
+  private cartService = inject(CartService);
  
   // Data signals
   //products = signal<Product[]>([]);
@@ -278,7 +280,8 @@ this.apiService.getAllBrands().subscribe({
 
   onAddToCart(product: Product): void {
     console.log('Add to cart:', product);
-    // Implement cart functionality
+    alert(`Added "${product.title}" to cart.`);
+    this.cartService.addProductToCart(product);
   }
 
 onToggleFavorite(product: any) {
