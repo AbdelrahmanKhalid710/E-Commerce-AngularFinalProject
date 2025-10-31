@@ -81,7 +81,7 @@ export class AnalyticsService {
   constructor(private adminDataService: AdminDataService) { }
 
   /**
- * 🌍 GEOGRAPHIC METRICS
+ *  GEOGRAPHIC METRICS
  */
 private calculateGeographicMetrics(users: AdminUser[], orders: AdminOrder[]): AnalyticsData['geographic'] {
   const ordersByCity: { [key: string]: number } = {};
@@ -129,7 +129,7 @@ private calculateGeographicMetrics(users: AdminUser[], orders: AdminOrder[]): An
 }
 
 /**
- * 📅 TEMPORAL METRICS
+ * TEMPORAL METRICS
  */
 private calculateTemporalMetrics(users: AdminUser[], orders: AdminOrder[]): AnalyticsData['temporal'] {
   // Monthly metrics for orders
@@ -228,7 +228,7 @@ private calculateTemporalMetrics(users: AdminUser[], orders: AdminOrder[]): Anal
 }
 
 /**
- * 🔙 HELPER: GET PREVIOUS MONTH
+ * HELPER: GET PREVIOUS MONTH
  */
 private getPreviousMonth(monthKey: string): string {
   const [year, month] = monthKey.split('-').map(Number);
@@ -244,7 +244,7 @@ private getPreviousMonth(monthKey: string): string {
 }
 
   /**
-   * 🎯 OPTIMIZED ANALYTICS FUNCTION
+   *  OPTIMIZED ANALYTICS FUNCTION
    * Uses limited data for performance
    */
   getOptimizedAnalytics(): Observable<AnalyticsData> {
@@ -263,7 +263,7 @@ private getPreviousMonth(monthKey: string): string {
   }
 
   /**
-   * 🔄 LIMITED USERS FETCHER (Performance Optimized)
+   *  LIMITED USERS FETCHER (Performance Optimized)
    * Fetches only first 10 pages instead of 3,452 pages
    */
   private getLimitedUsers(maxPages: number = 10): Observable<AdminUser[]> {
@@ -290,7 +290,7 @@ private getPreviousMonth(monthKey: string): string {
   }
 
   /**
-   * 🔄 LIMITED ORDERS FETCHER (Performance Optimized)
+   *  LIMITED ORDERS FETCHER (Performance Optimized)
    * Fetches only first 20 pages instead of 1,773 pages
    */
   private getLimitedOrders(maxPages: number = 20): Observable<AdminOrder[]> {
@@ -317,7 +317,7 @@ private getPreviousMonth(monthKey: string): string {
   }
 
   /**
-   * 🧮 CALCULATE ALL METRICS
+   *  CALCULATE ALL METRICS
    */
   private calculateAllMetrics(users: AdminUser[], orders: AdminOrder[]): AnalyticsData {
     return {
@@ -331,7 +331,7 @@ private getPreviousMonth(monthKey: string): string {
   }
 
   /**
-   * 💰 FINANCIAL METRICS
+   *  FINANCIAL METRICS
    */
   private calculateFinancialMetrics(orders: AdminOrder[]): AnalyticsData['financial'] {
     let totalRevenue = 0;
@@ -372,7 +372,7 @@ private getPreviousMonth(monthKey: string): string {
   }
 
   /**
-   * 📦 ORDER METRICS
+   *  ORDER METRICS
    */
   private calculateOrderMetrics(orders: AdminOrder[]): AnalyticsData['orders'] {
     let paidOrders = 0;
@@ -404,7 +404,7 @@ private getPreviousMonth(monthKey: string): string {
   }
 
   /**
-   * 👥 USER METRICS
+   *  USER METRICS
    */
   private calculateUserMetrics(users: AdminUser[], orders: AdminOrder[]): AnalyticsData['users'] {
     const sevenDaysAgo = new Date();
@@ -439,7 +439,7 @@ private getPreviousMonth(monthKey: string): string {
   }
 
   /**
-   * 🏆 TOP PERFORMERS
+   *  TOP PERFORMERS
    */
   private calculateTopPerformers(orders: AdminOrder[]): AnalyticsData['topPerformers'] {
     const productSales: { [key: string]: { sales: number; revenue: number } } = {};
@@ -474,7 +474,7 @@ private getPreviousMonth(monthKey: string): string {
   }
 
   /**
-   * 📊 QUICK DASHBOARD STATS
+   *  QUICK DASHBOARD STATS
    */
   getDashboardStats(): Observable<{
     totalRevenue: number;

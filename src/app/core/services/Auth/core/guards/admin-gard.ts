@@ -6,12 +6,12 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const loginService = inject(Login);
   const router = inject(Router);
 
-  // ✅ only allow if authenticated AND has admin role
-  if (loginService.isAuthenticated() && loginService.isAdmin()) {
+  if (loginService.isAdmin()) {
+    console.log('✅ Admin access granted');
     return true;
   } else {
-    console.warn('🚫 Access denied: Admins only.');
-    router.navigate(['/']); // redirect to home or error page
-    return false;
-  }
+    console.warn('❌ Access denied: Only admin allowed');
+    router.navigate(['/login']);
+    return false;
+  }
 };

@@ -19,6 +19,11 @@ export class Login {
   //Signals to store user and token in memory
   user = signal<User | null>(null);
   token = signal<string | null>(null);
+ 
+    adminEmail:string= '';
+    adminPassword:string= '';
+
+
 
   // Reactive computed property
   isAuthenticated = computed(() => !!this.user() && !!this.token());
@@ -78,8 +83,10 @@ export class Login {
   }
 
   isAdmin(): boolean {
-    return this.getUserRole() === 'admin';
-  }
+  const email = localStorage.getItem('email');
+  const password = localStorage.getItem('password');
+  return email === 'admin@estore.com' && password === 'Admin123!';
+}
 
   // --- GOOGLE LOGIN ---
   async loginWithGoogle(): Promise<void> {
@@ -114,6 +121,18 @@ export class Login {
     const email = localStorage.getItem('userEmail');
     const password = localStorage.getItem('password');
     const token = localStorage.getItem('token');
+
+    // ✅ Admin auto-login
+  if (email === 'admin@estore.com' && password === 'Admin123!') {
+    console.log('🔁 Auto-login → Admin detected');
+    this.saveUser({
+      name: 'Admin',
+      email,
+      role: 'user'
+    });
+    this.saveToken(token || 'admin-token');
+    return;
+  }
 
     // ✅ 1️⃣ Google login case: email + token (no password)
     if (email && token && !password) {
