@@ -14,6 +14,7 @@
           placeholder="Enter your name"
           formControlName="name"
         />
+        <!-- control flow syntax -->
         @if (!isValid('name') && isTouched('name')) {
           <small class="text-danger">
             @if (hasError('name', 'required')) { Name is required. }

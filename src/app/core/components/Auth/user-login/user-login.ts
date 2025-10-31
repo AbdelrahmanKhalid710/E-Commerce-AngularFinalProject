@@ -32,7 +32,7 @@ export class UserLogin implements OnInit {
     this.router.navigate(['/profile']);
   }
 }
-  // ✅ Handle Login Form Submission
+  //  Handle Login Form Submission
   loginUser() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -47,11 +47,13 @@ export class UserLogin implements OnInit {
         console.log(' Login Successful:', response);
 
 
-        // ⚙️ Save user and token in memory (signals)
-        if (response.token) this.loginService.saveToken(response.token);
-        if (response.user) this.loginService.saveUser(response.user);
+        // //  Save user and token in memory (signals)
+        // if (response.token) this.loginService.saveToken(response.token);
+        // if (response.user) this.loginService.saveUser(response.user);
+        //   this.loginService.saveEmailInLocalStorage(credentials.email!);
+        // this.loginService.savePasswordInLocalStorage(credentials.password!);
         console.log(' Logged in user:', response.user?.email);
-        // ✅ Navigate to homepage or favorites
+        //  Navigate to homepage or favorites
         this.router.navigate(['/']);
       },
       error: (err: HttpErrorResponse) => {

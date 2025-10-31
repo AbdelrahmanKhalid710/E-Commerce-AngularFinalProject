@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs'; // Import map operator for transforming the response & Observable for typing the return type of responses
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ import { map, Observable } from 'rxjs';
 export class Signup {
   private baseUrl = 'https://ecommerce.routemisr.com';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}//to send http requests for API + Dependency Injection
 
   /**
    * Registers a new user.

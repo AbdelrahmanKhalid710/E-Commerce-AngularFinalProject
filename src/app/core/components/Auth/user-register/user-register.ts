@@ -25,21 +25,19 @@ export class UserRegister {
     phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]],
   });
 
-  // ✅ Signals for UI feedback
+  // Signals for UI feedback
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
   isSubmitting = signal<boolean>(false);
 
-  // ✅ Computed property for password match
+  //  Computed property for password match
   passwordsMatch = computed(() => {
     const pass = this.registerForm.get('password')?.value;
     const rePass = this.registerForm.get('rePassword')?.value;
     return pass === rePass;
   });
 
-  // ------------------------------
-  // ✅ Utility methods for HTML checks
-  // ------------------------------
+  //  methods for HTML checks
   getControl(controlName: string): AbstractControl | null {
     return this.registerForm.get(controlName);
   }
@@ -59,9 +57,7 @@ export class UserRegister {
     return !!c?.errors?.[errorCode];
   }
 
-  // ------------------------------
-  // ✅ Form submission
-  // ------------------------------
+  // Form submission
   registerUser(): void {
     this.errorMessage.set(null);
     this.successMessage.set(null);

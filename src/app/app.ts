@@ -74,6 +74,11 @@ export class App {
       }
     });
   }
+  ngOnInit(): void {
+    // Auto login check on app start
+    this.loginService.autoLogin();
+  }
+  
 
   @HostListener('window:scroll', [])
   onWindowScroll() {

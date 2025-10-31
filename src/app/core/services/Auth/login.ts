@@ -1,64 +1,79 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { User } from '../../../../interfaces/iuser';
-import { inject } from '@angular/core';
 import {
   Auth,
   GoogleAuthProvider,
-  
   signInWithPopup
 } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+
 @Injectable({
   providedIn: 'root'
 })
 export class Login {
   private baseUrl = 'https://ecommerce.routemisr.com';
 
-  // 🧠 Signals to store data in memory (not in localStorage)
+  // 🧠 Signals to store user and token in memory
   user = signal<User | null>(null);
   token = signal<string | null>(null);
 
-  // ✅ Computed signal: automatically updates when user or token changes
+  // 🧩 Reactive computed property
   isAuthenticated = computed(() => !!this.user() && !!this.token());
 
-  constructor(private http: HttpClient) { }
+  private auth = inject(Auth);
+  private router = inject(Router);
 
-  // --- 🟢 LOGIN ---
+  constructor(private http: HttpClient) {}
+
+  // --- NORMAL LOGIN (API) ---
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/v1/auth/signin`, credentials).pipe(
       tap((response: any) => {
-        // Save user and token in memory using signals
         if (response.token) this.saveToken(response.token);
         if (response.user) this.saveUser(response.user);
-        if (response.token) this.SaveTokenInLocalStorage(response.token);
+        if (response.token) this.saveTokenInLocalStorage(response.token);
+        if (credentials.email) this.saveEmailInLocalStorage(credentials.email);
+        if (credentials.password) this.savePasswordInLocalStorage(credentials.password);
       })
     );
   }
 
-  // --- 🟢 SAVE USER & TOKEN IN MEMORY ---
+  // --- SAVE USER & TOKEN IN MEMORY ---
   saveUser(user: User): void {
     this.user.set(user);
-    // localStorage.setItem('userId', user._id);
-    // localStorage.setItem('userEmail', user.email);
-    // console.log('User Id:', user._id);
+    localStorage.setItem('userEmail', user.email);
   }
 
   saveToken(token: string): void {
     this.token.set(token);
   }
 
-  // --- 🔴 LOGOUT ---
+  // --- SAVE TO LOCAL STORAGE ---
+  saveEmailInLocalStorage(email: string): void {
+    localStorage.setItem('email', email);
+  }
+
+  savePasswordInLocalStorage(password: string): void {
+    localStorage.setItem('password', password);
+  }
+
+  saveTokenInLocalStorage(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  // --- LOGOUT ---
   logout(): void {
     this.user.set(null);
     this.token.set(null);
-    // localStorage.removeItem('userId');
-    // localStorage.removeItem('token'); 
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+    localStorage.removeItem('token');
   }
 
-  // --- ⚙️ ROLE HELPERS ---
+  // --- ROLE HELPERS ---
   getUserRole(): string | null {
     return this.user()?.role ?? null;
   }
@@ -67,35 +82,81 @@ export class Login {
     return this.getUserRole() === 'admin';
   }
 
-  SaveTokenInLocalStorage(token: string): void {
-    localStorage.setItem('token', token);
-  }
-  private auth = inject(Auth);
-private router = inject(Router);
-
-async loginWithGoogle(): Promise<void> {
+  // --- GOOGLE LOGIN ---
+  async loginWithGoogle(): Promise<void> {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
       const user = result.user;
 
-      console.log('Google Login Success:', user);
+      console.log('✅ Google Login Success:', user);
 
-
-      // Save token for session persistence
       const token = await user.getIdToken();
       this.saveToken(token);
-      //save User for session persistence
       this.saveUser({
-        // _id: user.uid,
         name: user.displayName || '',
         email: user.email || '',
         role: 'user'
       });
-      // Redirect after login
+
+      // Save for persistence
+      this.saveEmailInLocalStorage(user.email!);
+      localStorage.removeItem('password'); // Google users have no password
+      this.saveTokenInLocalStorage(token);
+
       await this.router.navigate(['/home']);
     } catch (error) {
-      console.error(' Google login error:', error);
+      console.error('❌ Google login error:', error);
+    }
+  }
+
+  // --- AUTO LOGIN ON APP START ---
+  autoLogin(): void {
+    const email = localStorage.getItem('userEmail');
+    const password = localStorage.getItem('password');
+    const token = localStorage.getItem('token');
+
+    // ✅ 1️⃣ Google login case: email + token (no password)
+    if (email && token && !password) {
+      console.log('🔁 Auto-login → Google user');
+      this.saveUser({
+        name: email.split('@')[0],
+        email,
+        role: 'user'
+      });
+      this.saveToken(token);
+      return;
+    }
+
+    // ✅ 2️⃣ API login case: email + password
+    if (email && password) {
+      console.log('🔁 Auto-login → API user');
+
+      // If we already have token → just restore
+      if (token) {
+        this.saveUser({
+          name: email.split('@')[0],
+          email,
+          role: 'user'
+        });
+        this.saveToken(token);
+        return;
+      }
+      console.log('🔄 Auto-login');
+      // Else revalidate with backend
+      const credentials = { email, password };
+      this.login(credentials).subscribe({
+        next: (res) => {
+          if (res.token) this.saveToken(res.token);
+          if (res.token) this.saveTokenInLocalStorage(res.token);
+          if (res.user) this.saveUser(res.user);
+          console.log('✅ Auto-login success for API user');
+        },
+        error: (err) => {
+          console.error('❌ Auto-login failed:', err);
+          this.logout(); // clear bad data
+        }
+      });
     }
   }
 }
