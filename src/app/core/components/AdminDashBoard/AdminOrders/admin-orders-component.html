@@ -11,13 +11,11 @@
   <div class="admin-table-header">
     <h3>All Orders ({{ totalOrders }} total)</h3>
     <div class="admin-table-actions">
-      <button class="btn-admin-refresh" (click)="loadAdminOrders()">
-        🔄 Refresh
-      </button>
+      <button class="btn-admin-refresh" (click)="loadAdminOrders()">🔄 Refresh</button>
     </div>
   </div>
-  
-  <!-- Enhanced table with better spacing and layout -->
+
+  <!-- Enhanced table with modern syntax -->
   <div class="table-responsive">
     <table class="admin-data-table">
       <thead>
@@ -34,133 +32,153 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let order of adminOrders; let i = index" [class.even-row]="i % 2 === 0">
-          <td class="admin-order-id">
-            <div class="order-id-wrapper">
-              <span class="order-hash">#</span>
-              {{ order._id?.slice(-8) || 'N/A' }}
-            </div>
-          </td>
-          
-          <td class="customer-cell">
-            <div class="admin-user-info-small">
-              <div class="admin-user-name">{{ order.user?.name || 'Guest' }}</div>
-              <div class="admin-user-email">{{ order.user?.email || 'No email' }}</div>
-              <div class="admin-user-phone">{{ order.user?.phone || 'No Phone' }}</div>
-            </div>
-          </td>
-          
-          <td class="address-cell">
-            <div class="address-details">
-              <div class="city-name">
-                <span class="location-icon">📍</span>
-                {{ order.shippingAddress?.city || 'Not mentioned' }}
+        @for (order of adminOrders; track order._id; let i = $index) {
+          <tr [class.even-row]="i % 2 === 0">
+            <td class="admin-order-id">
+              <div class="order-id-wrapper">
+                <span class="order-hash">#</span>
+                {{ order._id?.slice(-8) || 'N/A' }}
               </div>
-            </div>
-          </td>
-          
-          <td class="items-cell">
-            <div class="items-count">
-              <span class="items-badge">{{ order.cartItems?.length || 0 }}</span>
-              <span class="items-text">items</span>
-            </div>
-          </td>
-          
-          <td class="total-cell">
-            <div class="total-amount">
-              <span class="currency">EGP</span>
-              <span class="amount">{{ order.totalOrderPrice }}</span>
-            </div>
-          </td>
-          
-          <td class="payment-cell">
-            <div class="payment-info">
-              <span [class]="'admin-payment-method admin-payment-' + order.paymentMethodType">
-                {{ order.paymentMethodType | titlecase }}
+            </td>
+
+            <td class="customer-cell">
+              <div class="admin-user-info-small">
+                <div class="admin-user-name">{{ order.user?.name || 'Guest' }}</div>
+                <div class="admin-user-email">{{ order.user?.email || 'No email' }}</div>
+                <div class="admin-user-phone">{{ order.user?.phone || 'No Phone' }}</div>
+              </div>
+            </td>
+
+            <td class="address-cell">
+              <div class="address-details">
+                <div class="city-name">
+                  <span class="location-icon">📍</span>
+                  {{ order.shippingAddress?.city || 'Not mentioned' }}
+                </div>
+              </div>
+            </td>
+
+            <td class="items-cell">
+              <div class="items-count">
+                <span class="items-badge">{{ order.cartItems?.length || 0 }}</span>
+                <span class="items-text">items</span>
+              </div>
+            </td>
+
+            <td class="total-cell">
+              <div class="total-amount">
+                <span class="currency">EGP</span>
+                <span class="amount">{{ order.totalOrderPrice }}</span>
+              </div>
+            </td>
+
+            <td class="payment-cell">
+              <div class="payment-info">
+                <span [class]="'admin-payment-method admin-payment-' + order.paymentMethodType">
+                  {{ order.paymentMethodType | titlecase }}
+                </span>
+                <div
+                  class="payment-status"
+                  [class.paid]="order.isPaid"
+                  [class.unpaid]="!order.isPaid"
+                >
+                  <span
+                    class="status-dot"
+                    [class.paid-dot]="order.isPaid"
+                    [class.unpaid-dot]="!order.isPaid"
+                  ></span>
+                  {{ order.isPaid ? 'Paid' : 'Unpaid' }}
+                </div>
+              </div>
+            </td>
+
+            <td class="status-cell">
+              <span [class]="'admin-order-status admin-order-status-' + getOrderStatus(order)">
+                {{ getOrderStatus(order) | titlecase }}
               </span>
-              <div class="payment-status" [class.paid]="order.isPaid" [class.unpaid]="!order.isPaid">
-                <span class="status-dot" [class.paid-dot]="order.isPaid" [class.unpaid-dot]="!order.isPaid"></span>
-                {{ order.isPaid ? 'Paid' : 'Unpaid' }}
+            </td>
+
+            <td class="date-cell">
+              <div class="order-date">
+                <div class="date-short">{{ order.createdAt | date: 'MMM dd' }}</div>
+                <div class="time-short">{{ order.createdAt | date: 'HH:mm' }}</div>
               </div>
-            </div>
-          </td>
-          
-          <td class="status-cell">
-            <span [class]="'admin-order-status admin-order-status-' + getOrderStatus(order)">
-              {{ getOrderStatus(order) | titlecase }}
-            </span>
-          </td>
-          
-          <td class="date-cell">
-            <div class="order-date">
-              <div class="date-short">{{ order.createdAt | date:'MMM dd' }}</div>
-              <div class="time-short">{{ order.createdAt | date:'HH:mm' }}</div>
-            </div>
-          </td>
-          
-          <td class="actions-cell">
-            <button class="btn-admin-action btn-admin-view">
-              <span class="action-icon">👁️</span>
-              View
-            </button>
-          </td>
-        </tr>
+            </td>
+
+            <td class="actions-cell">
+              <button class="btn-admin-action btn-admin-view">
+                <span class="action-icon">👁️</span>
+                View
+              </button>
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>
-  
-  <!-- Enhanced Pagination -->
-  <div class="admin-pagination" *ngIf="totalPages > 1">
-    <div class="pagination-controls">
-      <button 
-        class="btn-pagination btn-prev" 
-        [disabled]="currentPage === 1"
-        (click)="goToPage(currentPage - 1)">
-        <span class="pagination-arrow">←</span>
-        Previous
-      </button>
-      
-      <div class="pagination-info">
-        Page <strong>{{ currentPage }}</strong> of <strong>{{ totalPages }}</strong>
+
+  <!-- Pagination -->
+  @if (totalPages > 1) {
+    <div class="admin-pagination">
+      <div class="pagination-controls">
+        <button
+          class="btn-pagination btn-prev"
+          [disabled]="currentPage === 1"
+          (click)="goToPage(currentPage - 1)"
+        >
+          <span class="pagination-arrow">←</span>
+          Previous
+        </button>
+
+        <div class="pagination-info">
+          Page <strong>{{ currentPage }}</strong> of <strong>{{ totalPages }}</strong>
+        </div>
+
+        <button
+          class="btn-pagination btn-next"
+          [disabled]="currentPage === totalPages"
+          (click)="goToPage(currentPage + 1)"
+        >
+          Next
+          <span class="pagination-arrow">→</span>
+        </button>
       </div>
-      
-      <button 
-        class="btn-pagination btn-next" 
-        [disabled]="currentPage === totalPages"
-        (click)="goToPage(currentPage + 1)">
-        Next
-        <span class="pagination-arrow">→</span>
-      </button>
     </div>
-  </div>
-  
-  <!-- Enhanced Loading State -->
-  <div *ngIf="adminLoading" class="admin-loading">
-    <div class="loading-content">
-      <div class="admin-loading-spinner"></div>
-      <div class="loading-text">Loading orders...</div>
-      <div class="loading-subtext">Please wait while we fetch the latest data</div>
+  }
+
+  <!-- Loading State -->
+  @if (adminLoading) {
+    <div class="admin-loading">
+      <div class="loading-content">
+        <div class="admin-loading-spinner"></div>
+        <div class="loading-text">Loading orders...</div>
+        <div class="loading-subtext">Please wait while we fetch the latest data</div>
+      </div>
     </div>
-  </div>
-  
-  <!-- Enhanced Error State -->
-  <div *ngIf="adminError" class="admin-error">
-    <div class="error-content">
-      <div class="error-icon">❌</div>
-      <div class="error-text">{{ adminError }}</div>
-      <button class="btn-admin-retry" (click)="loadAdminOrders()">
-        <span class="retry-icon">🔄</span>
-        Try Again
-      </button>
+  }
+
+  <!-- Error State -->
+  @if (adminError) {
+    <div class="admin-error">
+      <div class="error-content">
+        <div class="error-icon">❌</div>
+        <div class="error-text">{{ adminError }}</div>
+        <button class="btn-admin-retry" (click)="loadAdminOrders()">
+          <span class="retry-icon">🔄</span>
+          Try Again
+        </button>
+      </div>
     </div>
-  </div>
-  
+  }
+
   <!-- Empty State -->
-  <div *ngIf="!adminLoading && adminOrders.length === 0" class="admin-empty">
-    <div class="empty-content">
-      <div class="empty-icon">📦</div>
-      <div class="empty-text">No orders found</div>
-      <div class="empty-subtext">There are no orders to display at the moment</div>
+  @if (!adminLoading && adminOrders.length === 0) {
+    <div class="admin-empty">
+      <div class="empty-content">
+        <div class="empty-icon">📦</div>
+        <div class="empty-text">No orders found</div>
+        <div class="empty-subtext">There are no orders to display at the moment</div>
+      </div>
     </div>
-  </div>
+  }
 </div>
