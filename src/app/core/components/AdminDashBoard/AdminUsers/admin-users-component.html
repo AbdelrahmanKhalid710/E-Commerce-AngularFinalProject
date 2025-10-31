@@ -7,11 +7,14 @@
   </div>
 </div>
 
-<div class="admin-table-container">
+<div class="admin-table-container card">
   <div class="admin-table-header">
     <h3>All Users ({{ totalUsers }} total)</h3>
     <div class="admin-table-actions">
-      <button class="btn-admin-refresh" (click)="loadAdminUsers()">🔄 Refresh</button>
+      <button class="btn-admin-refresh" (click)="loadAdminUsers()">
+        <i class="fas fa-sync-alt"></i>
+        Refresh
+      </button>
     </div>
   </div>
 
@@ -44,7 +47,7 @@
 
             <td class="email-cell">
               <div class="email-wrapper">
-                <span class="email-icon">✉️</span>
+                <i class="fas fa-envelope email-icon"></i>
                 {{ user.email }}
               </div>
             </td>
@@ -53,6 +56,34 @@
               <div class="date-wrapper">
                 <div class="date-full">{{ user.createdAt | date: 'mediumDate' }}</div>
                 <div class="date-time">{{ user.createdAt | date: 'shortTime' }}</div>
+              </div>
+            </td>
+          </tr>
+        }
+        
+        <!-- Loading State -->
+        @if (adminLoading && adminUsers.length === 0) {
+          <tr>
+            <td colspan="4">
+              <div class="admin-loading">
+                <div class="loading-content">
+                  <div class="admin-loading-spinner"></div>
+                  <div class="loading-text">Loading Users...</div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        }
+        
+        <!-- Empty State -->
+        @if (!adminLoading && adminUsers.length === 0) {
+          <tr>
+            <td colspan="4">
+              <div class="admin-empty">
+                <div class="empty-content">
+                  <i class="fas fa-users empty-icon"></i>
+                  <div class="empty-text">No Users Found</div>
+                </div>
               </div>
             </td>
           </tr>
@@ -70,7 +101,8 @@
           [disabled]="currentPage === 1"
           (click)="goToPage(currentPage - 1)"
         >
-          ← Previous
+          <i class="fas fa-chevron-left"></i>
+          Previous
         </button>
 
         <div class="pagination-info">
@@ -82,18 +114,9 @@
           [disabled]="currentPage === totalPages"
           (click)="goToPage(currentPage + 1)"
         >
-          Next →
+          Next
+          <i class="fas fa-chevron-right"></i>
         </button>
-      </div>
-    </div>
-  }
-
-  <!-- Loading State -->
-  @if (adminLoading) {
-    <div class="admin-loading">
-      <div class="loading-content">
-        <div class="admin-loading-spinner"></div>
-        <div class="loading-text">Loading users...</div>
       </div>
     </div>
   }
@@ -102,19 +125,12 @@
   @if (adminError) {
     <div class="admin-error">
       <div class="error-content">
-        <div class="error-icon">❌</div>
+        <i class="fas fa-exclamation-triangle error-icon"></i>
         <div class="error-text">{{ adminError }}</div>
-        <button class="btn-admin-retry" (click)="loadAdminUsers()">Retry</button>
-      </div>
-    </div>
-  }
-
-  <!-- Empty State -->
-  @if (!adminLoading && adminUsers.length === 0) {
-    <div class="admin-empty">
-      <div class="empty-content">
-        <div class="empty-icon">👥</div>
-        <div class="empty-text">No users found</div>
+        <button class="btn-admin-retry" (click)="loadAdminUsers()">
+          <i class="fas fa-redo"></i>
+          Retry
+        </button>
       </div>
     </div>
   }

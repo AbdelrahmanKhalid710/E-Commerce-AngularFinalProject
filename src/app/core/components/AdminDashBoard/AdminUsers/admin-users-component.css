@@ -1,13 +1,15 @@
 /* Enhanced Table Container */
 .admin-table-container {
-  background: white;
-  border-radius: 8px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: var(--spacing-2xl);
 }
 
 .table-responsive {
   overflow-x: auto;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
 
 /* Enhanced Table */
@@ -15,14 +17,15 @@
   width: 100%;
   border-collapse: collapse;
   min-width: 800px;
+  background: var(--white);
 }
 
 .admin-data-table th {
-  background-color: #f8f9fa;
+  background: var(--primary-gradient);
   font-weight: 600;
-  color: #495057;
+  color: var(--primary-light);
   padding: 1rem;
-  border-bottom: 2px solid #dee2e6;
+  border-bottom: 2px solid var(--primary-medium);
   text-align: left;
   font-size: 0.875rem;
   text-transform: uppercase;
@@ -31,8 +34,9 @@
 
 .admin-data-table td {
   padding: 1rem;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid rgba(57, 62, 70, 0.1);
   vertical-align: middle;
+  color: var(--text-dark);
 }
 
 /* Column widths */
@@ -43,12 +47,12 @@
 
 /* Row styling */
 .even-row {
-  background-color: #fafbfc;
+  background-color: rgba(238, 238, 238, 0.3);
 }
 
 .admin-data-table tr:hover {
-  background-color: #f8f9fa;
-  transition: background-color 0.2s ease;
+  background-color: rgba(0, 173, 181, 0.08);
+  transition: background-color var(--transition-normal);
 }
 
 /* Enhanced User ID */
@@ -63,8 +67,8 @@
 }
 
 .id-prefix {
-  color: #6c757d;
-  font-weight: 600;
+  color: var(--primary-accent);
+  font-weight: 700;
 }
 
 /* Enhanced Name Column */
@@ -79,13 +83,13 @@
 }
 
 .name-text {
-  color: #343a40;
-  font-weight: 500;
+  color: var(--text-dark);
+  font-weight: 600;
 }
 
 /* Enhanced Email Column */
 .email-cell {
-  color: #495057;
+  color: var(--text-medium);
 }
 
 .email-wrapper {
@@ -96,12 +100,13 @@
 
 .email-icon {
   font-size: 0.8rem;
-  opacity: 0.7;
+  color: var(--primary-accent);
+  opacity: 0.8;
 }
 
 /* Enhanced Date Column */
 .date-cell {
-  color: #6c757d;
+  color: var(--text-medium);
 }
 
 .date-wrapper {
@@ -112,12 +117,14 @@
 
 .date-full {
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--text-dark);
 }
 
 .date-time {
   font-size: 0.8rem;
   opacity: 0.8;
+  color: var(--text-light);
 }
 
 /* Enhanced Header */
@@ -125,30 +132,35 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #e9ecef;
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 2px solid rgba(57, 62, 70, 0.1);
 }
 
 .admin-page-header h2 {
-  color: #343a40;
+  color: var(--text-dark);
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .admin-stats {
   display: flex;
-  gap: 1rem;
+  gap: var(--spacing-md);
 }
 
 .admin-stat-badge {
-  background-color: #007bff;
-  color: white;
+  background: var(--accent-gradient);
+  color: var(--primary-light);
   padding: 0.5rem 1rem;
-  border-radius: 20px;
+  border-radius: var(--radius-pill);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
 }
 
 /* Enhanced Table Header */
@@ -157,37 +169,44 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  background: rgba(57, 62, 70, 0.05);
+  border-bottom: 1px solid rgba(57, 62, 70, 0.1);
 }
 
 .admin-table-header h3 {
   margin: 0;
-  color: #495057;
+  color: var(--text-dark);
   font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .btn-admin-refresh {
-  background-color: #6c757d;
-  color: white;
+  background: var(--accent-gradient);
+  color: var(--primary-light);
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   font-size: 0.875rem;
   font-weight: 500;
-  transition: all 0.3s;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .btn-admin-refresh:hover {
-  background-color: #5a6268;
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #00858f 0%, #006a72 100%);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 /* Enhanced Pagination */
 .admin-pagination {
   padding: 1.5rem;
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid rgba(57, 62, 70, 0.1);
+  background: rgba(57, 62, 70, 0.02);
 }
 
 .pagination-controls {
@@ -199,37 +218,44 @@
 
 .btn-pagination {
   padding: 0.5rem 1rem;
-  border: 1px solid #007bff;
-  background-color: white;
-  color: #007bff;
-  border-radius: 6px;
+  border: 2px solid var(--primary-accent);
+  background-color: var(--white);
+  color: var(--primary-accent);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s;
+  font-weight: 600;
+  transition: all var(--transition-normal);
   min-width: 100px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .btn-pagination:hover:not(:disabled) {
-  background-color: #007bff;
-  color: white;
+  background: var(--accent-gradient);
+  color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-pagination:disabled {
-  border-color: #6c757d;
-  color: #6c757d;
+  border-color: var(--text-light);
+  color: var(--text-light);
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .pagination-info {
-  color: #495057;
-  font-weight: 500;
+  color: var(--text-dark);
+  font-weight: 600;
 }
 
 /* Enhanced Loading State */
 .admin-loading {
   padding: 3rem;
   text-align: center;
-  color: #6c757d;
+  color: var(--text-light);
 }
 
 .loading-content {
@@ -240,8 +266,8 @@
 }
 
 .admin-loading-spinner {
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #007bff;
+  border: 3px solid rgba(57, 62, 70, 0.1);
+  border-top: 3px solid var(--primary-accent);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -256,15 +282,17 @@
 .loading-text {
   font-size: 1rem;
   font-weight: 500;
+  color: var(--text-dark);
 }
 
 /* Enhanced Error State */
 .admin-error {
   padding: 2rem;
   text-align: center;
-  background-color: #f8d7da;
-  border-radius: 6px;
+  background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+  border-radius: var(--radius-lg);
   margin: 1rem;
+  border-left: 4px solid #dc3545;
 }
 
 .error-content {
@@ -276,6 +304,7 @@
 
 .error-icon {
   font-size: 1.5rem;
+  color: #dc3545;
 }
 
 .error-text {
@@ -284,24 +313,31 @@
 }
 
 .btn-admin-retry {
-  background-color: #dc3545;
-  color: white;
+  background: var(--accent-gradient);
+  color: var(--primary-light);
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   font-weight: 500;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .btn-admin-retry:hover {
-  background-color: #c82333;
+  background: linear-gradient(135deg, #00858f 0%, #006a72 100%);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 /* Enhanced Empty State */
 .admin-empty {
   padding: 3rem;
   text-align: center;
-  color: #6c757d;
+  color: var(--text-light);
 }
 
 .empty-content {
@@ -314,9 +350,54 @@
 .empty-icon {
   font-size: 2rem;
   opacity: 0.7;
+  color: var(--primary-accent);
 }
 
 .empty-text {
   font-size: 1.1rem;
   font-weight: 500;
+  color: var(--text-dark);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-page-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: flex-start;
+  }
+  
+  .admin-stats {
+    flex-wrap: wrap;
+  }
+  
+  .admin-table-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: flex-start;
+  }
+  
+  .admin-stat-badge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .pagination-controls {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-page-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .admin-data-table {
+    min-width: 600px;
+  }
+  
+  .admin-table-header h3 {
+    font-size: 1rem;
+  }
 }

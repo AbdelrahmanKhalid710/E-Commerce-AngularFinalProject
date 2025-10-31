@@ -4,9 +4,10 @@
 
     <!-- Header -->
     <div class="header">
-      <h1 class="title">📊 Analytics Dashboard</h1>
+      <h1 class="title">Analytics Dashboard</h1>
       <button class="refresh-btn" (click)="refreshData()" [disabled]="isLoading">
-        🔄 Refresh Data
+        <i class="fas fa-sync-alt"></i>
+        Refresh Data
       </button>
     </div>
 
@@ -16,7 +17,7 @@
       <!-- Revenue Card -->
       <div class="metric-card revenue-card">
         <div class="card-header">
-          <span class="card-icon">💰</span>
+          <i class="fas fa-money-bill-wave card-icon"></i>
           <h3>Total Revenue</h3>
         </div>
         <div class="card-content">
@@ -28,7 +29,7 @@
       <!-- Orders Card -->
       <div class="metric-card orders-card">
         <div class="card-header">
-          <span class="card-icon">📦</span>
+          <i class="fas fa-box card-icon"></i>
           <h3>Total Orders</h3>
         </div>
         <div class="card-content">
@@ -42,7 +43,7 @@
       <!-- Users Card -->
       <div class="metric-card users-card">
         <div class="card-header">
-          <span class="card-icon">👥</span>
+          <i class="fas fa-users card-icon"></i>
           <h3>Total Users</h3>
         </div>
         <div class="card-content">
@@ -56,7 +57,7 @@
       <!-- AOV Card -->
       <div class="metric-card aov-card">
         <div class="card-header">
-          <span class="card-icon">📊</span>
+          <i class="fas fa-chart-bar card-icon"></i>
           <h3>Avg Order Value</h3>
         </div>
         <div class="card-content">
@@ -72,7 +73,7 @@
 
       <!-- Payment Methods Chart -->
       <div class="chart-card">
-        <h3>💳 Payment Methods Distribution</h3>
+        <h3><i class="fas fa-credit-card"></i> Payment Methods Distribution</h3>
         <div class="chart-container">
           <div class="bar-chart">
 
@@ -110,32 +111,32 @@
 
       <!-- Order Status Chart -->
       <div class="chart-card">
-        <h3>📦 Order Status Overview</h3>
+        <h3><i class="fas fa-box-open"></i> Order Status Overview</h3>
         <div class="chart-container">
           <div class="status-grid">
             <div class="status-item paid">
-              <div class="status-icon">✅</div>
+              <i class="fas fa-check-circle status-icon"></i>
               <div class="status-info">
                 <div class="status-count">{{ getPaidOrders() }}</div>
                 <div class="status-label">Paid Orders</div>
               </div>
             </div>
             <div class="status-item unpaid">
-              <div class="status-icon">⏳</div>
+              <i class="fas fa-clock status-icon"></i>
               <div class="status-info">
                 <div class="status-count">{{ getUnpaidOrders() }}</div>
                 <div class="status-label">Unpaid Orders</div>
               </div>
             </div>
             <div class="status-item delivered">
-              <div class="status-icon">🚚</div>
+              <i class="fas fa-truck status-icon"></i>
               <div class="status-info">
                 <div class="status-count">{{ getDeliveredOrders() }}</div>
                 <div class="status-label">Delivered</div>
               </div>
             </div>
             <div class="status-item pending">
-              <div class="status-icon">📦</div>
+              <i class="fas fa-box status-icon"></i>
               <div class="status-info">
                 <div class="status-count">{{ getPendingDeliveryOrders() }}</div>
                 <div class="status-label">Pending Delivery</div>
@@ -147,7 +148,7 @@
 
       <!-- Top Products Chart -->
       <div class="chart-card full-width">
-        <h3>🏆 Top Selling Products</h3>
+        <h3><i class="fas fa-trophy"></i> Top Selling Products</h3>
         <div class="chart-container">
           <div class="products-list">
             @for (product of getTopProducts(); track product) {
@@ -175,10 +176,10 @@
 
     </div>
 
-    <!-- 🌍 Geographic Analytics Section -->
+    <!-- Geographic Analytics Section -->
     <div class="charts-section">
       <div class="chart-card">
-        <h3>🏙️ Top Cities by Revenue</h3>
+        <h3><i class="fas fa-city"></i> Top Cities by Revenue</h3>
         <div class="chart-container">
           <div class="cities-list">
             @for (city of getTopCities(); let i = $index; track city) {
@@ -226,13 +227,13 @@
 
       <!-- Monthly Patterns -->
       <div class="chart-card">
-        <h3>📅 Monthly Performance</h3>
+        <h3><i class="fas fa-calendar-alt"></i> Monthly Performance</h3>
         <div class="chart-container">
 
           @if (getBusiestMonth()) {
-            <div class="monthly-highlight">
+            <div class="monthly-highlight busiest-month">
               <div class="highlight-header">
-                <span class="highlight-icon">📦</span>
+                <i class="fas fa-box highlight-icon"></i>
                 <h4>Busiest Order Month</h4>
               </div>
               <div class="highlight-content">
@@ -249,9 +250,9 @@
           }
 
           @if (getPeakRegistrationMonth()) {
-            <div class="monthly-highlight">
+            <div class="monthly-highlight registration-month">
               <div class="highlight-header">
-                <span class="highlight-icon">👥</span>
+                <i class="fas fa-users highlight-icon"></i>
                 <h4>Peak Registration Month</h4>
               </div>
               <div class="highlight-content">
@@ -272,12 +273,12 @@
       </div>
     </div>
 
-    <!-- 📊 Time Patterns Section -->
+    <!-- Time Patterns Section -->
     <div class="charts-section">
 
       <!-- Peak Hours -->
       <div class="chart-card">
-        <h3>⏰ Peak Ordering Hours</h3>
+        <h3><i class="fas fa-clock"></i> Peak Ordering Hours</h3>
         <div class="chart-container">
           <div class="hours-list">
             @for (hour of getPeakHours(); track hour) {
@@ -299,7 +300,7 @@
 
       <!-- Weekly Pattern -->
       <div class="chart-card">
-        <h3>📆 Weekly Order Pattern</h3>
+        <h3><i class="fas fa-calendar-week"></i> Weekly Order Pattern</h3>
         <div class="chart-container">
           <div class="weekly-pattern">
             @for (day of getWeeklyPattern(); track day) {
