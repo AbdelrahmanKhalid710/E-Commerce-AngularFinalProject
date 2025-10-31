@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <!-- Enhanced table with modern syntax -->
+  <!-- Modern Angular table -->
   <div class="table-responsive">
     <table class="admin-data-table">
       <thead>
@@ -28,178 +28,19 @@
           <th class="col-payment">Payment</th>
           <th class="col-status">Status</th>
           <th class="col-date">Date</th>
-        
+          <th class="col-actions">Actions</th>
         </tr>
       </thead>
+
       <tbody>
         @for (order of adminOrders; track order._id; let i = $index) {
           <tr [class.even-row]="i % 2 === 0">
+            <!-- ID -->
             <td class="admin-order-id">
               <div class="order-id-wrapper">
                 <span class="order-hash">#</span>
                 {{ order._id?.slice(-8) || 'N/A' }}
               </div>
             </td>
-
-            <td class="customer-cell">
-              <div class="admin-user-info-small">
-                <div class="admin-user-name">{{ order.user?.name || 'Guest' }}</div>
-                <div class="admin-user-email">{{ order.user?.email || 'No email' }}</div>
-                <div class="admin-user-phone">{{ order.user?.phone || 'No Phone' }}</div>
-              </div>
-            </td>
-
-            <td class="address-cell">
-              <div class="address-details">
-                <div class="city-name">
-                  <span class="location-icon">📍</span>
-                  {{ order.shippingAddress?.city || 'Not mentioned' }}
-                </div>
-              </div>
-            </td>
-
-            <td class="items-cell">
-              <div class="items-count">
-                <span class="items-badge">{{ order.cartItems?.length || 0 }}</span>
-                <span class="items-text">items</span>
-              </div>
-            </td>
-
-            <td class="total-cell">
-              <div class="total-amount">
-                <span class="currency">EGP</span>
-                <span class="amount">{{ order.totalOrderPrice }}</span>
-              </div>
-            </td>
-
-            <td class="payment-cell">
-              <div class="payment-info">
-                <span [class]="'admin-payment-method admin-payment-' + order.paymentMethodType">
-                  {{ order.paymentMethodType | titlecase }}
-                </span>
-                <div
-                  class="payment-status"
-                  [class.paid]="order.isPaid"
-                  [class.unpaid]="!order.isPaid"
-                >
-                  <span
-                    class="status-dot"
-                    [class.paid-dot]="order.isPaid"
-                    [class.unpaid-dot]="!order.isPaid"
-                  ></span>
-                  {{ order.isPaid ? 'Paid' : 'Unpaid' }}
-                </div>
-              </div>
-            </td>
-
-            <td class="status-cell">
-              <span [class]="'admin-order-status admin-order-status-' + getOrderStatus(order)">
-                {{ getOrderStatus(order) | titlecase }}
-              </span>
-            </td>
-
-            <td class="date-cell">
-              <div class="order-date">
-                <div class="date-short">{{ order.createdAt | date: 'MMM dd' }}</div>
-                <div class="time-short">{{ order.createdAt | date: 'HH:mm' }}</div>
-              </div>
-<<<<<<< HEAD
-            </div>
-          </td>
-          
-          <td class="status-cell">
-            <span [class]="'admin-order-status admin-order-status-' + getOrderStatus(order)">
-              {{ getOrderStatus(order) | titlecase }}
-            </span>
-          </td>
-          
-          <td class="date-cell">
-            <div class="order-date">
-              <div class="date-short">{{ order.createdAt | date:'MMM dd' }}</div>
-              <div class="time-short">{{ order.createdAt | date:'HH:mm' }}</div>
-            </div>
-          </td>
-          
-          
-        </tr>
-=======
-            </td>
-
-            <td class="actions-cell">
-              <button class="btn-admin-action btn-admin-view">
-                <span class="action-icon">👁️</span>
-                View
-              </button>
-            </td>
-          </tr>
-        }
->>>>>>> merge-test
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Pagination -->
-  @if (totalPages > 1) {
-    <div class="admin-pagination">
-      <div class="pagination-controls">
-        <button
-          class="btn-pagination btn-prev"
-          [disabled]="currentPage === 1"
-          (click)="goToPage(currentPage - 1)"
-        >
-          <span class="pagination-arrow">←</span>
-          Previous
-        </button>
-
-        <div class="pagination-info">
-          Page <strong>{{ currentPage }}</strong> of <strong>{{ totalPages }}</strong>
-        </div>
-
-        <button
-          class="btn-pagination btn-next"
-          [disabled]="currentPage === totalPages"
-          (click)="goToPage(currentPage + 1)"
-        >
-          Next
-          <span class="pagination-arrow">→</span>
-        </button>
-      </div>
-    </div>
-  }
-
-  <!-- Loading State -->
-  @if (adminLoading) {
-    <div class="admin-loading">
-      <div class="loading-content">
-        <div class="admin-loading-spinner"></div>
-        <div class="loading-text">Loading orders...</div>
-        <div class="loading-subtext">Please wait while we fetch the latest data</div>
-      </div>
-    </div>
-  }
-
-  <!-- Error State -->
-  @if (adminError) {
-    <div class="admin-error">
-      <div class="error-content">
-        <div class="error-icon">❌</div>
-        <div class="error-text">{{ adminError }}</div>
-        <button class="btn-admin-retry" (click)="loadAdminOrders()">
-          <span class="retry-icon">🔄</span>
-          Try Again
-        </button>
-      </div>
-    </div>
-  }
-
-  <!-- Empty State -->
-  @if (!adminLoading && adminOrders.length === 0) {
-    <div class="admin-empty">
-      <div class="empty-content">
-        <div class="empty-icon">📦</div>
-        <div class="empty-text">No orders found</div>
-        <div class="empty-subtext">There are no orders to display at the moment</div>
-      </div>
-    </div>
-  }
-</div>
+          }
+            <!-- Customer -->
