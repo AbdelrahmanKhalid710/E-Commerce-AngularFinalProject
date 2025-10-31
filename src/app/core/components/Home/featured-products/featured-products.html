@@ -22,18 +22,19 @@
         </button>
       </div>
     }
-
     @if (!loading() && !error()) {
       <div class="row g-4">
-        @for (product of featuredProducts(); track product._id) {
-          <div class="col-xl-3 col-lg-4 col-md-6">
-            <app-product-card 
-              [product]="product"
-              (addToCart)="onAddToCart($event)"
-              (toggleFavorite)="onToggleFavorite($event)" />
-          </div>
-        }
-      </div>
+  @for (product of featuredProducts(); track product._id) {
+  <div class="col-xl-3 col-lg-4 col-md-6">
+    <app-product-card
+      [product]="product"
+      [isFavorite]="isFavorite(product._id)"
+      (addToCart)="onAddToCart($event)"
+      (toggleFavorite)="onToggleFavorite($event)"
+    />
+  </div>
+}
+</div>
     }
 
     @if (!loading() && !error() && featuredProducts().length === 0) {

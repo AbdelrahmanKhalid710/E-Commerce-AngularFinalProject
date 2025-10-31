@@ -32,7 +32,7 @@
             <td class="user-id-cell">
               <div class="user-id-wrapper">
                 <span class="id-prefix">#</span>
-                {{ user._id?.slice(-8) || 'N/A' }}
+                {{ user._id!.slice(-8) || 'N/A' }}
               </div>
             </td>
 

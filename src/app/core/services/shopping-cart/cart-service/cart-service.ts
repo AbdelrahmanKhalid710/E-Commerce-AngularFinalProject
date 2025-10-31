@@ -3,19 +3,24 @@ import { ICartItem } from '../../../../../interfaces/icart-item';
 import { toCartItem } from '../../../../../app/shared/cart-util';
 import { Product } from '../../../../../interfaces';
 import { Login } from '../../Auth/login';
+import { Order } from '../../../../../interfaces/iorder';
+import { OrderService } from '../../order/order-service';
+import { PaymentService } from '../../payment/payment-service';
+import { lastValueFrom } from 'rxjs';
 
 const getCartKey = (userEmail: string) => `cart-${userEmail}`;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
   private _cartItems = signal<ICartItem[]>([]);
   readonly cartItems = this._cartItems;
   private auth = inject(Login);
+  private orderService = inject(OrderService);
+  private paymentService = inject(PaymentService);
 
   constructor() {
-
     // EFFECT 1: Load the cart whenever the user changes.
     // This effect runs immediately and re-runs when auth.currentUser() changes.
     effect(() => {
@@ -35,7 +40,6 @@ export class CartService {
       console.log(`Saving cart to ${key}`, currentCart);
       localStorage.setItem(key, JSON.stringify(currentCart));
     });
-
   }
 
   loadCartForUser(userEmail: string): void {
@@ -56,12 +60,11 @@ export class CartService {
       // No cart found, start with an empty one
       this._cartItems.set([]);
     }
-
   }
 
   addToCart(item: ICartItem): void {
     const items = this._cartItems();
-    const existing = items.find(p => p.product._id === item.product._id);
+    const existing = items.find((p) => p.product._id === item.product._id);
 
     if (existing) {
       existing.orderQuantity += item.orderQuantity;
@@ -77,7 +80,7 @@ export class CartService {
   }
 
   removeFromCart(productId: string): void {
-    const updated = this._cartItems().filter(p => p.product._id !== productId);
+    const updated = this._cartItems().filter((p) => p.product._id !== productId);
     this._cartItems.set(updated);
   }
 
@@ -93,15 +96,49 @@ export class CartService {
     }, 0);
   }
 
-  checkout(): void {
+  async checkout(): Promise<void> {
     if (this.cartItems().length > 0) {
       console.log('Proceeding to checkout with:', {
         items: this.cartItems(),
         total: this.getTotal(),
       });
-      // In a real app, you would typically navigate to another route or open a payment modal.
-      alert('Checkout process started! Check the console for details.');
+
+      const user = this.auth.user();
+      if (!user) {
+        alert('Please log in to proceed with checkout.');
+        return;
+      }
+
+      // Declare and initialize order variable with data
+      const order: Order = {
+        id: 'order-' + Date.now(),
+        userEmail: user.email,
+        items: this.cartItems(),
+        total: this.getTotal(),
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        shippingAddress: '', // Assuming shipping address is not available yet
+        paymentMethod: 'card', // Assuming payment method is card
+      };
+
+      // Create the order using OrderService
+      await lastValueFrom(this.orderService.createOrder(order));
+
+      const checkoutUrl = await this.paymentService.createPayment(
+        order.id,
+        order.total,
+        order.userEmail,
+        user.name
+        // Assuming phone is not available in User interface, you can add it later if needed
+      );
+
+      if (checkoutUrl) {
+        // Redirect to payment gateway
+        window.location.href = checkoutUrl;
+      } else {
+        alert('Failed to initiate payment. Please try again.');
+      }
     }
   }
-
 }

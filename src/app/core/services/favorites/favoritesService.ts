@@ -1,31 +1,64 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Login } from '../Auth/login';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Favorites {
   private baseUrl = 'https://ecommerce.routemisr.com/api/v1/wishlist';
-  constructor(private http: HttpClient) { }
-  
+  private favoriteIds = signal<Set<string>>(new Set());
+  favoriteCount = computed(() => this.favoriteIds().size);
+  constructor(private http: HttpClient, private auth: Login) { }
+
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token') || '';
+    console.log(token);
+
     return new HttpHeaders({
-      Authorization: `Bearer ${token}`
+      token: `${token}`
     });
   }
   //AddProductToFavorite
-  addProductToFavoriteList(productId: string): Observable<any> {
-    return this.http.post(this.baseUrl, { productId }, { headers: this.getAuthHeaders() });
+  addProductToFavoriteList(productId: string) {
+    console.log('add to favorite function', productId);
+    return this.http.post(this.baseUrl, { productId }, { headers: this.getAuthHeaders() }).pipe(
+      tap(() => this.favoriteIds.update(ids => new Set(ids).add(productId)))
+    );
   }
 
-  //Remove
-  removeProductFromFavoriteList(productId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${productId}`, { headers: this.getAuthHeaders() });
+  removeProductFromFavoriteList(productId: string) {
+    return this.http.delete(`${this.baseUrl}/${productId}`, { headers: this.getAuthHeaders() }).pipe(
+      tap(() => this.favoriteIds.update(ids => {
+        const newSet = new Set(ids);
+        newSet.delete(productId);
+        return newSet;
+      }))
+    );
   }
-  //Get All Favorties for logged user
-  getAllFavoriteProducts(): Observable<any> {
-    return this.http.get(this.baseUrl, { headers: this.getAuthHeaders() });
+  getAllFavoriteProducts() {
+    return this.http.get(this.baseUrl, { headers: this.getAuthHeaders() }).pipe(
+      tap((response: any) => {
+        this.favoriteIds.set(new Set(response.data.map((p: any) => p._id)));
+      })
+    );
+  }
+  //Toggle Favorite
+  toggleFavorite(productId: string) {
+    if (this.isFavorite(productId)) {
+      return this.removeProductFromFavoriteList(productId);
+    } else {
+      console.log('Adding to favorites:', productId);
+      return this.addProductToFavoriteList(productId);
+    }
+  }
+
+  // check if a product is favorite
+  isFavorite(productId: string): boolean {
+    return this.favoriteIds().has(productId);
+  }
+  favoritesSignal() {
+    return this.favoriteIds;
   }
 }

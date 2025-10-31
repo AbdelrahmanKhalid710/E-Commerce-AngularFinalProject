@@ -1,5 +1,5 @@
- import { Routes } from '@angular/router';
-import { authGuard } from './core/services/Auth/core/guards/auth-gard'; // fix path as needed
+import { Routes } from '@angular/router';
+import { authGuard } from './core/services/Auth/core/guards/auth-gard';
 import { UserLogin } from './core/components/Auth/user-login/user-login';
 import { UserRegister } from './core/components/Auth/user-register/user-register';
 import { FavoritesList } from './core/components/favorites-components/favorites-list/favorites-list';
@@ -8,21 +8,31 @@ import { CartComponent } from './core/components/shopping-cart/cart-component/ca
 import { UserProfile } from './core/components/Auth/UserProfile/user-profile/user-profile';
 import { ProductsList } from './core/components/Products/products-list/products-list';
 import { ProductDetails } from './core/components/Products/product-details/product-details';
+import { PaymentSuccess } from './core/components/payment-success/payment-success';
+// import { OrderComponent } from './core/components/order-component/order-component';
+
+// --- ADMIN DASHBOARD IMPORTS ---
 import { AdminLoginComponent } from './core/components/AdminDashBoard/AdminLogin/admin-login.component';
 import { AdminDashboardComponent } from './core/components/AdminDashBoard/AdminDashBoardUI/admin-dashboard.component';
 import { AdminUsersComponent } from './core/components/AdminDashBoard/AdminUsers/admin-users.component';
 import { AdminOrdersComponent } from './core/components/AdminDashBoard/AdminOrders/admin-orders.component';
-import { AdminAuthGuard } from './core/services/AdminDashBoard/admin-auth.guard'; 
-import {AnalyticsComponent} from './core/components/AdminDashBoard/AdminAnalysis/Admin-Analysis-Comonent'
+import { AnalyticsComponent } from './core/components/AdminDashBoard/AdminAnalysis/Admin-Analysis-Comonent';
+import { AdminAuthGuard } from './core/services/AdminDashBoard/admin-auth.guard';
+
 export const routes: Routes = [
+  // --- USER ROUTES ---
   { path: 'login', component: UserLogin },
   { path: 'register', component: UserRegister },
-  { path: 'favorites', component: FavoritesList, canActivate: [authGuard] },
+  { path: 'favorites', component: FavoritesList },
   { path: 'cart', component: CartComponent },
-  { path: 'products', component: ProductsList},
-  { path: 'products/:id', component: ProductDetails},
+  { path: 'products', component: ProductsList },
+  { path: 'products/:id', component: ProductDetails },
+  // { path: 'orders', component: OrderComponent },
   { path: 'home', component: Home },
-    // ADMIN ROUTES (without lazy loading)
+  { path: 'profile', component: UserProfile, canActivate: [authGuard] },
+  { path: 'payment-success', component: PaymentSuccess }, //added lines
+
+  // --- ADMIN ROUTES ---
   { path: 'admin/login', component: AdminLoginComponent },
   {
     path: 'admin/dashboard',
@@ -32,15 +42,15 @@ export const routes: Routes = [
       { path: 'users', component: AdminUsersComponent },
       { path: 'orders', component: AdminOrdersComponent },
       { path: 'analytics', component: AnalyticsComponent },
-      { path: '', redirectTo: 'users', pathMatch: 'full' }
-    ]
+      { path: '', redirectTo: 'users', pathMatch: 'full' },
+    ],
   },
-  { path: 'admin', redirectTo: '/admin/dashboard', pathMatch: 'full' }
+  { path: 'admin', redirectTo: '/admin/dashboard', pathMatch: 'full' },
 
-  // YOUR EXISTING DEFAULT ROUTES...
-  ,
-
-  {path: 'profile', component: UserProfile, canActivate: [authGuard] },
+  // --- DEFAULT ROUTES ---
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home' }
+  { path: '**', redirectTo: '/home' },
+//   -  { path: 'payment-success', component: PaymentSuccess },
+// -  { path: '', redirectTo: '/home', pathMatch: 'full' },
+// -  { path: '**', redirectTo: '/home' },
 ];

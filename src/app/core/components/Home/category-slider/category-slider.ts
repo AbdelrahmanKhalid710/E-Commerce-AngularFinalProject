@@ -25,13 +25,7 @@ export class CategorySlider {
   loadCategories(): void {
     this.apiService.getAllCategories().subscribe({
       next: (response) => {
-        // Ensure we have proper category names and images
-        const processedCategories = response.data.slice(0, 6).map(category => ({
-          ...category,
-          name: this.formatCategoryName(category.name),
-          image: this.getCategoryImage(category)
-        }));
-        this.categories.set(processedCategories);
+        this.categories.set(response.data.slice(0, 6));
         this.loading.set(false);
       },
       error: (error) => {
@@ -42,31 +36,8 @@ export class CategorySlider {
     });
   }
 
-  private formatCategoryName(name: string): string {
-    // Fix abbreviated names
-    const nameMap: { [key: string]: string } = {
-      'Cooking S.': 'Cooking Supplies',
-      'Appliance': 'Home Appliances',
-      'SuperMarket': 'Supermarket',
-      'Baby & Toys': 'Baby & Toys'
-      // Add more mappings as needed
-    };
-    
-    return nameMap[name] || name;
-  }
-
-  private getCategoryImage(category: Category): string {
-    // Use category image if available, otherwise use a relevant placeholder
-    if (category.image) return category.image;
-    
-    const imageMap: { [key: string]: string } = {
-      'Cooking Supplies': 'https://via.placeholder.com/200x200/FF6B6B/FFFFFF?text=Cooking',
-      'Diapers': 'https://via.placeholder.com/200x200/4ECDC4/FFFFFF?text=Diapers',
-      'Home Appliances': 'https://via.placeholder.com/200x200/45B7D1/FFFFFF?text=Appliances',
-      'Supermarket': 'https://via.placeholder.com/200x200/96CEB4/FFFFFF?text=Grocery',
-      'Baby & Toys': 'https://via.placeholder.com/200x200/FECA57/FFFFFF?text=Baby+Toys'
-    };
-    
-    return imageMap[category.name] || `https://via.placeholder.com/200x200/4A90E2/FFFFFF?text=${encodeURIComponent(category.name)}`;
+  // CHANGE: Make this method public instead of private
+  getCategoryImage(category: Category): string {
+    return category.image || `https://via.placeholder.com/200x200/4A90E2/FFFFFF?text=${encodeURIComponent(category.name)}`;
   }
 }

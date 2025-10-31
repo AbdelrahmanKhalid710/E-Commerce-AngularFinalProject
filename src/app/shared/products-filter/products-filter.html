@@ -1,0 +1,86 @@
+<div class="products-filter card">
+  <div class="card-body">
+    <!-- Search Box -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Search Products</label>
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" 
+               class="form-control" 
+               placeholder="Search products..."
+               [ngModel]="searchTerm()"
+               (ngModelChange)="searchTerm.set($event); onSearchChange()">
+      </div>
+    </div>
+
+    <!-- Sort By -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Sort By</label>
+      <select class="form-select" 
+              [ngModel]="sortBy()"
+              (ngModelChange)="sortBy.set($event); onSortChange()">
+        @for (option of sortOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Categories Filter -->
+    @if (categories().length > 0) {
+      <div class="mb-4">
+        <label class="form-label fw-bold">Categories</label>
+        <select class="form-select" 
+                [ngModel]="selectedCategory()"
+                (ngModelChange)="selectedCategory.set($event); onCategoryChange()">
+          <option value="all">All Categories</option>
+          @for (category of categories(); track category._id) {
+            <option [value]="category._id">{{ category.name }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    <!-- Brands Filter -->
+    @if (brands().length > 0) {
+      <div class="mb-4">
+        <label class="form-label fw-bold">Brands</label>
+        <select class="form-select" 
+                [ngModel]="selectedBrand()"
+                (ngModelChange)="selectedBrand.set($event); onBrandChange()">
+          <option value="all">All Brands</option>
+          @for (brand of brands(); track brand._id) {
+            <option [value]="brand._id">{{ brand.name }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    <!-- Price Range -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Price Range</label>
+      <div class="price-ranges">
+        @for (range of priceRanges; track range.label) {
+          <div class="form-check">
+            <input class="form-check-input" 
+                   type="radio" 
+                   name="priceRange"
+                   [id]="'price-' + $index"
+                   [checked]="priceRange().min === range.min && priceRange().max === range.max"
+                   (change)="onPriceRangeChange(range.min, range.max)">
+            <label class="form-check-label" [for]="'price-' + $index">
+              {{ range.label }}
+            </label>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Clear Filters -->
+    <button class="btn btn-outline-secondary w-100" (click)="onClearFilters()">
+      <i class="bi bi-arrow-clockwise me-2"></i>
+      Clear All Filters
+    </button>
+  </div>
+</div>

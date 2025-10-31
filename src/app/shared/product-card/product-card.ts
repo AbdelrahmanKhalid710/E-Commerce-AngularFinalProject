@@ -12,9 +12,10 @@ import { RouterModule } from '@angular/router';
   styleUrl: './product-card.css'
 })
 export class ProductCard {
-product = input.required<Product>();
+  product = input.required<Product>();
   addToCart = output<Product>();
   toggleFavorite = output<Product>();
+  isFavorite = input<boolean>(false);
 
   get mainImage(): string {
     const product = this.product();
@@ -37,8 +38,8 @@ product = input.required<Product>();
     this.addToCart.emit(this.product());
   }
 
-  onToggleFavorite(event: Event): void {
-    event.stopPropagation(); // Prevent navigation when clicking favorite
+    onToggle(event: Event): void {
+    event.stopPropagation();
     this.toggleFavorite.emit(this.product());
   }
 }

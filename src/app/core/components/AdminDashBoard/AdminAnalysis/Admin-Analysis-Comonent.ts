@@ -1,20 +1,3 @@
-// // analytics.component.ts
-// import { Component, OnInit } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-
-// @Component({
-//   selector: 'app-analytics',
-//   standalone: true,
-//   imports: [
-//     CommonModule,
-    
-//   ],
-//   templateUrl: './Admin-Analysis-Comonent.html',
-//   styleUrls: ['./Admin-Analysis-Comonent.css']
-// })
-// export class AnalyticsComponent {
- 
-// }
 
 // analytics.component.ts
 import { Component, OnInit } from '@angular/core';

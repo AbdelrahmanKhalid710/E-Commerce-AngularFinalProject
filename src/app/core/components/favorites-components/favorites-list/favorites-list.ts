@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Favorites } from '../../../services/favorites/favoritesService';
 import { CommonModule } from '@angular/common';
+import { ProductCard } from '../../../../shared/product-card/product-card';
+import { Product } from '../../../../../interfaces';
+import { CartService } from '../../../services/shopping-cart/cart-service/cart-service';
 
 @Component({
   selector: 'app-favorites-list',
-  imports: [CommonModule],
+  imports: [CommonModule,ProductCard],
   templateUrl: './favorites-list.html',
   styleUrl: './favorites-list.css',
   standalone: true
@@ -12,11 +15,13 @@ import { CommonModule } from '@angular/common';
 export class FavoritesList {
   favorites: any[] = [];
   loading = true;
+  private cartService = inject(CartService);
   constructor(private favoritesService: Favorites) { }
   ngOnInit(): void {
     this.getFavorites();
   }
   getFavorites() {
+
     this.favoritesService.getAllFavoriteProducts().subscribe({
       next: (res: any) => {
         this.favorites = res?.data || [];
@@ -35,5 +40,14 @@ export class FavoritesList {
       },
       error: (err) => console.error('Error deleting favorite:', err)
     });
+  }
+   onToggleFavorite(product: Product): void {
+    this.removeFromList(product._id);
+  }
+  
+  onAddToCart(product: Product): void {
+    console.log('Add to cart:', product);
+    alert(`Added "${product.title}" to cart.`);
+    this.cartService.addProductToCart(product);
   }
 }

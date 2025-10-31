@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { HeroSlider } from '../hero-slider/hero-slider/hero-slider';
 import { CategorySlider } from '../category-slider/category-slider';
 import { FeaturedProducts } from '../featured-products/featured-products';
+import { FavoriteIcon } from '../../favorites-components/favorite-icon/favorite-icon';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ import { FeaturedProducts } from '../featured-products/featured-products';
     RouterModule,
     HeroSlider,
     CategorySlider,
-    FeaturedProducts
+    FeaturedProducts,
+    FavoriteIcon
   ],
   templateUrl: './home.html',
   styleUrl: './home.css'
