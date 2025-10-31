@@ -60,3 +60,140 @@
     font-size: 0.9rem;
   }
 }
+/* Logo Component - Navbar Ready */
+        .nova-brand {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .nova-brand:hover {
+            transform: translateY(-2px);
+        }
+
+        .brand-icon-wrapper {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon {
+            font-size: 24px;
+            color: #ffd700;
+            animation: rotateStar 4s linear infinite, glowPulse 2s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+        }
+
+        .sparkle-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: sparkleFloat 2s ease-in-out infinite;
+            box-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+        }
+
+        .sparkle-particle:nth-child(1) {
+            top: 5px;
+            left: 5px;
+            animation-delay: 0s;
+        }
+
+        .sparkle-particle:nth-child(2) {
+            top: 5px;
+            right: 5px;
+            animation-delay: 0.5s;
+        }
+
+        .sparkle-particle:nth-child(3) {
+            bottom: 5px;
+            left: 8px;
+            animation-delay: 1s;
+        }
+
+        .sparkle-particle:nth-child(4) {
+            bottom: 5px;
+            right: 8px;
+            animation-delay: 1.5s;
+        }
+
+        .brand-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .nova-text {
+            color: white;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .shop-text {
+            color: #ffd700;
+            margin-left: 6px;
+            animation: slideInRight 0.8s ease-out;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes rotateStar {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { 
+                filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+            }
+            50% { 
+                filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.9));
+            }
+        }
+
+        @keyframes sparkleFloat {
+            0%, 100% { 
+                opacity: 0;
+                transform: scale(0) translateY(0);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.5) translateY(-3px);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .nova-brand:hover .brand-icon {
+            animation: rotateStar 1s linear infinite, glowPulse 0.5s ease-in-out infinite;
+        }

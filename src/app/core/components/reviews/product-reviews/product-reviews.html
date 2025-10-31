@@ -46,7 +46,7 @@
             @for (star of [1,2,3,4,5]; track star) {
               <button type="button" 
                       class="btn btn-link p-0 me-1"
-                      (click)="rating = star">
+                      (click)="rating = star" style="text-decoration: none;">
                 <span [class.text-warning]="star <= rating" 
                       [class.text-muted]="star > rating"
                       style="font-size: 1.5rem;">
