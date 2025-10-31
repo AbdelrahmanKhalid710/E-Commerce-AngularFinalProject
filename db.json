@@ -1685,6 +1685,64 @@
       "updatedAt": "2025-10-27T17:51:40.380Z",
       "shippingAddress": "",
       "paymentMethod": "card"
+    },
+    {
+      "id": "order-1761907702248",
+      "userEmail": "ahmedmuvvvvtti@gmail.com",
+      "items": [
+        {
+          "product": {
+            "sold": null,
+            "images": [
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680402411883-2.jpeg",
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680402411883-3.jpeg",
+              "https://ecommerce.routemisr.com/Route-Academy-products/1680402411883-1.jpeg"
+            ],
+            "subcategory": [
+              {
+                "_id": "6407f1bcb575d3b90bf95797",
+                "name": "Women's Clothing",
+                "slug": "women's-clothing",
+                "category": "6439d58a0049ad0b52b9003f"
+              }
+            ],
+            "ratingsQuantity": 10,
+            "_id": "6428e7ecdc1175abc65ca090",
+            "title": "Woman Bordeaux Long Sleeve Blouse BORDEAUX",
+            "slug": "woman-bordeaux-long-sleeve-blouse-bordeaux",
+            "description": "ShellFabric1 Cotton 65% Polyester 35%",
+            "quantity": 228,
+            "price": 499,
+            "priceAfterDiscount": 349,
+            "imageCover": "https://ecommerce.routemisr.com/Route-Academy-products/1680402411833-cover.jpeg",
+            "category": {
+              "_id": "6439d58a0049ad0b52b9003f",
+              "name": "Women's Fashion",
+              "slug": "women's-fashion",
+              "image": "https://ecommerce.routemisr.com/Route-Academy-categories/1681511818071.jpeg"
+            },
+            "brand": {
+              "_id": "64089bbe24b25627a253158b",
+              "name": "DeFacto",
+              "slug": "defacto",
+              "image": "https://ecommerce.routemisr.com/Route-Academy-brands/1678285758109.png"
+            },
+            "ratingsAverage": 4.2,
+            "createdAt": "2023-04-02T02:26:52.509Z",
+            "updatedAt": "2025-10-30T23:53:25.704Z",
+            "__v": 0,
+            "reviews": [],
+            "id": "6428e7ecdc1175abc65ca090"
+          },
+          "orderQuantity": 1
+        }
+      ],
+      "total": 349,
+      "status": "confirmed",
+      "createdAt": "2025-10-31T10:48:22.248Z",
+      "updatedAt": "2025-10-31T10:48:34.593Z",
+      "shippingAddress": "",
+      "paymentMethod": "card"
     }
   ],
   "reviews": [
