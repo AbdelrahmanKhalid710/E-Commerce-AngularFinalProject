@@ -24,7 +24,7 @@ export class Reviews {
     const newReview: Review = {
       id: crypto.randomUUID(),
       productId,
-      userEmail: userEmail, // use email as unique ID
+      userEmail: userEmail,
       userName,
       rating,
       comment,
@@ -35,8 +35,7 @@ export class Reviews {
   }
   //delete 
  deleteReview(reviewId: string, userEmail: string): Observable<void> {
-    // In JSON Server, we can only delete by ID
-    // So make sure you stored unique `id` for each review
+    // In JSON Server delete by ID
     return this.http.delete<void>(`${this.baseUrl}/${reviewId}`);
   }
 }
