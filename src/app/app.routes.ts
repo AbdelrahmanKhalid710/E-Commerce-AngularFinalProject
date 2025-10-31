@@ -9,9 +9,8 @@ import { UserProfile } from './core/components/Auth/UserProfile/user-profile/use
 import { ProductsList } from './core/components/Products/products-list/products-list';
 import { ProductDetails } from './core/components/Products/product-details/product-details';
 import { PaymentSuccess } from './core/components/payment-success/payment-success';
-// import { OrderComponent } from './core/components/order-component/order-component';
 
-// --- ADMIN DASHBOARD IMPORTS ---
+// --- Admin Dashboard MVC ---
 import { AdminLoginComponent } from './core/components/AdminDashBoard/AdminLogin/admin-login.component';
 import { AdminDashboardComponent } from './core/components/AdminDashBoard/AdminDashBoardUI/admin-dashboard.component';
 import { AdminUsersComponent } from './core/components/AdminDashBoard/AdminUsers/admin-users.component';
@@ -20,19 +19,18 @@ import { AnalyticsComponent } from './core/components/AdminDashBoard/AdminAnalys
 import { AdminAuthGuard } from './core/services/AdminDashBoard/admin-auth.guard';
 
 export const routes: Routes = [
-  // --- USER ROUTES ---
+  // --- User Routes ---
   { path: 'login', component: UserLogin },
   { path: 'register', component: UserRegister },
   { path: 'favorites', component: FavoritesList },
   { path: 'cart', component: CartComponent },
   { path: 'products', component: ProductsList },
   { path: 'products/:id', component: ProductDetails },
-  // { path: 'orders', component: OrderComponent },
   { path: 'home', component: Home },
   { path: 'profile', component: UserProfile, canActivate: [authGuard] },
-  { path: 'payment-success', component: PaymentSuccess }, //added lines
+  { path: 'payment-success', component: PaymentSuccess },
 
-  // --- ADMIN ROUTES ---
+  // --- Admin Routes ---
   { path: 'admin/login', component: AdminLoginComponent },
   {
     path: 'admin/dashboard',
@@ -47,10 +45,8 @@ export const routes: Routes = [
   },
   { path: 'admin', redirectTo: '/admin/dashboard', pathMatch: 'full' },
 
-  // --- DEFAULT ROUTES ---
+  // --- Default Routes ---
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
-//   -  { path: 'payment-success', component: PaymentSuccess },
-// -  { path: '', redirectTo: '/home', pathMatch: 'full' },
-// -  { path: '**', redirectTo: '/home' },
+
 ];
