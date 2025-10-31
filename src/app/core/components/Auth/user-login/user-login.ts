@@ -1,9 +1,10 @@
+import { Login } from './../../../services/Auth/login';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Login } from '../../../services/Auth/login';
+
 
 @Component({
   selector: 'app-user-login',
@@ -20,6 +21,9 @@ export class UserLogin implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
   });
 
+  
+ 
+
   errorMessage: string = '';
 
   constructor(
@@ -30,16 +34,44 @@ export class UserLogin implements OnInit {
   ngOnInit() {
   if (this.loginService.isAuthenticated()) {
     this.router.navigate(['/profile']);
+  this.loginService.adminEmail=this.loginForm.value.email!;
+  this.loginService.adminPassword=this.loginForm.value.password!;
   }
 }
+
   //  Handle Login Form Submission
   loginUser() {
-    if(this.loginForm.value.email==="admin@estore.com" && this.loginForm.value.password==="Admin123!")
-          this.router.navigate(['/admin/dashboard']);
+    // if(this.loginForm.value.email==="admin@estore.com" && this.loginForm.value.password==="Admin123!")
+    //       this.router.navigate(['/admin/dashboard']);
+   
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
+
+
+    const email = this.loginForm.value.email!;
+  const password = this.loginForm.value.password!;
+    // ✅ 1️⃣ Check Admin Login
+  if (email === 'admin@estore.com' && password === 'Admin123!') {
+    console.log('🧑‍💼 Admin login detected');
+
+    // Save admin credentials for persistence
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+    localStorage.setItem('token', 'admin-token');
+
+    // Set signals (for consistency)
+    this.loginService.user.set({
+      name: 'Admin',
+      email,
+      role: 'user' // optional placeholder
+    });
+    this.loginService.token.set('admin-token');
+
+    this.router.navigate(['/admin/dashboard']);
+    return;
+  }
 
     const credentials = this.loginForm.value;
     console.log(' Sending login data:', credentials);

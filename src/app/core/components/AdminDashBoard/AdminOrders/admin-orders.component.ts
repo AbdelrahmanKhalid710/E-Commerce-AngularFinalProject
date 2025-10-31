@@ -24,7 +24,7 @@ export class AdminOrdersComponent implements OnInit {
   }
 
   loadAdminOrders(page: number = 1): void {
-    console.log(page);
+
     this.adminLoading = true;
     this.adminError = '';
     

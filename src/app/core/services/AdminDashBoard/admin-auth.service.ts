@@ -1,3 +1,4 @@
+import { Login } from './../Auth/login';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -28,7 +29,9 @@ export class AdminAuthService {
     role: 'super-admin'
   };
 
-  constructor(private router: Router) {
+  
+  constructor(private router: Router,private loginService: Login) {
+    
     const savedAdmin = localStorage.getItem('currentAdmin');
     if (savedAdmin) {
       this.currentAdminSubject.next(JSON.parse(savedAdmin));
@@ -49,7 +52,9 @@ export class AdminAuthService {
   adminLogout(): void {
     this.currentAdminSubject.next(null);
     localStorage.removeItem('currentAdmin');
-    this.router.navigate(['/admin/login']);
+    this.loginService.logout();
+
+    this.router.navigate(['/login']);
   }
 
   isAdminAuthenticated(): boolean {
