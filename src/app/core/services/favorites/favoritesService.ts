@@ -54,7 +54,7 @@ export class Favorites {
     }
   }
 
-  // check if a product is favorite
+  //Is the product favorited
   isFavorite(productId: string): boolean {
     return this.favoriteIds().has(productId);
   }
