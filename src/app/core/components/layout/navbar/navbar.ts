@@ -4,10 +4,11 @@ import { RouterLink, RouterModule, Router, NavigationEnd } from '@angular/router
 import { CartBadge } from '../../shopping-cart/cart-badge/cart-badge';
 import { FavoriteIcon } from '../../favorites-components/favorite-icon/favorite-icon';
 import { Login } from '../../../services/Auth/login';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterLink, CartBadge, FavoriteIcon],
+  imports: [CommonModule, RouterModule, RouterLink, CartBadge, FavoriteIcon, FormsModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
@@ -16,6 +17,7 @@ private loginService = inject(Login);
   private router = inject(Router);
   currentRoute: string = '';
   isScrolled = false;
+  searchTerm: string = '';
 
   constructor() {
     this.router.events.subscribe((event) => {
@@ -52,11 +54,19 @@ private loginService = inject(Login);
     this.router.navigate(['/login']);
   }
 
-  searchProducts(searchTerm: string): void {
-    if (searchTerm.trim()) {
+  // Search functionality
+  searchProducts(): void {
+    if (this.searchTerm.trim()) {
       this.router.navigate(['/products'], {
-        queryParams: { search: searchTerm.trim() }
+        queryParams: { search: this.searchTerm.trim() }
       });
+      this.searchTerm = ''; // Clear search term after navigation
+    }
+  }
+
+  onSearchKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.searchProducts();
     }
   }
 }
