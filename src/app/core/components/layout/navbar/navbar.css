@@ -1,0 +1,62 @@
+/* Search Bar Styles */
+.navbar-search {
+  position: relative;
+}
+
+.search-input {
+  border: none;
+  border-radius: 8px 0 0 8px;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #6c757d;
+}
+
+.btn-search {
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 0 8px 8px 0;
+  color: #667eea;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-search:hover:not(:disabled) {
+  background: #fff;
+  color: #764ba2;
+  transform: translateY(-1px);
+}
+
+.btn-search:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive Search */
+@media (max-width: 991px) {
+  .navbar-search {
+    order: 3;
+    max-width: 100% !important;
+    margin: 1rem 0 0 0;
+    width: 100%;
+  }
+  
+  .navbar .container {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-input::placeholder {
+    font-size: 0.9rem;
+  }
+}

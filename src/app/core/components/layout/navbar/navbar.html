@@ -1,0 +1,72 @@
+<nav *ngIf="!isAdminRoute()" class="navbar navbar-expand-lg navbar-dark bg-primary" [class.scrolled]="isScrolled">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/home">
+      <i class="bi bi-shop brand-icon"></i>
+      <span class="brand-text">MyApp</span>
+    </a>
+    <!-- Search Bar -->
+    <div class="navbar-search mx-3 flex-grow-1" style="max-width: 400px;">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control search-input"
+          placeholder="Search products..."
+          [(ngModel)]="searchTerm"
+          (keypress)="onSearchKeyPress($event)"
+          aria-label="Search products">
+        <button
+          class="btn btn-search"
+          type="button"
+          (click)="searchProducts()"
+          [disabled]="!searchTerm.trim()">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+    <div class="d-flex align-items-center ms-auto">
+      
+        <!-- Home -->
+      <a class="nav-link-custom" routerLink="/home" routerLinkActive="active">
+        <i class="bi bi-house"></i>
+        <span>Home</span>
+      </a>
+
+      <!-- Favorites -->
+      <app-favorite-icon class="nav-item-custom" *ngIf="isLoggedIn()"></app-favorite-icon>
+
+      <!-- Cart -->
+      <app-cart-badge class="nav-item-custom"></app-cart-badge>
+
+      <!-- Profile Button -->
+      <button
+        type="button"
+        class="btn btn-profile"
+        (click)="onLoginClick()">
+        <i class="bi bi-person"></i>
+        {{ isLoggedIn() ? 'Profile' : 'Login' }}
+      </button>
+
+      <!-- Logout -->
+      <button
+        *ngIf="isLoggedIn()"
+        type="button"
+        class="btn btn-logout"
+        (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+      </button>
+
+      <!-- Admin Login -->
+      <button
+        *ngIf="!isLoggedIn()"
+        type="button"
+        class="btn btn-profile"
+        routerLink="/admin/login">
+        <i class="bi bi-shield-lock"></i>
+        Admin Login
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div *ngIf="!isAdminRoute()" class="navbar-spacer"></div>

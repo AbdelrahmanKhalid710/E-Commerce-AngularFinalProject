@@ -81,10 +81,4 @@ export class AdminDataService {
     return this.http.get<OrdersApiResponse>(`${this.baseUrl}/api/v1/orders/?page=${page}`);
   }
 
-  // REMOVED the problematic method that used 'map'
-  // getAllOrdersArray(): Observable<AdminOrder[]> {
-  //   return this.http.get<OrdersApiResponse>(`${this.baseUrl}/api/v1/orders/`).pipe(
-  //     map(response => response.data)
-  //   );
-  // }
 }

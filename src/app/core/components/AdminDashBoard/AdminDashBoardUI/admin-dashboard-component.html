@@ -3,25 +3,29 @@
     <div class="admin-header-content">
       <h1>Admin Dashboard</h1>
       <div class="admin-user-info">
-        <span class="admin-welcome" *ngIf="currentAdmin">
-          Welcome, {{ currentAdmin.username }}
-        </span>
-    
+
+        @if (currentAdmin) {
+          <span class="admin-welcome">
+            Welcome, {{ currentAdmin.username }}
+          </span>
+          <span class="admin-role">
+            ({{ currentAdmin.role }})
+          </span>
+        }
+
         <button 
           (click)="adminLogout()" 
           class="btn-admin-logout"
           aria-label="Logout from admin dashboard">
           Logout
         </button>
-         <button
-      
-        type="button"
-        class="btn btn-light mx-2"
-        routerLink="/login">
 
-        Log As User
-       
-      </button>
+        <button
+          type="button"
+          class="btn btn-light mx-2"
+          routerLink="/login">
+          Log As User
+        </button>
       </div>
     </div>
   </header>
@@ -37,6 +41,7 @@
           Users Management
         </a>
       </li>
+
       <li class="admin-nav-item">
         <a 
           routerLink="/admin/dashboard/orders" 
@@ -46,6 +51,7 @@
           Orders Management
         </a>
       </li>
+
       <li class="admin-nav-item">
         <a 
           routerLink="/admin/dashboard/analytics" 
