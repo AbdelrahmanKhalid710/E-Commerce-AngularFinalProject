@@ -78,7 +78,7 @@ export class UserRegister {
 
     this.signupService.signUp(formData).subscribe({
       next: (res) => {
-        console.log('✅ Registration success:', res);
+        console.log(' Registration success:', res);
         this.successMessage.set('Registration successful! Redirecting...');
         setTimeout(() => {
           this.router.navigate(['/login']);
@@ -86,7 +86,7 @@ export class UserRegister {
         }, 1500);
       },
       error: (err: HttpErrorResponse) => {
-        console.error('❌ Registration failed:', err);
+        console.error(' Registration failed:', err);
         this.errorMessage.set(err.error?.message || 'Registration failed. Try again.');
         this.isSubmitting.set(false);
       },

@@ -16,11 +16,11 @@ import {
 export class Login {
   private baseUrl = 'https://ecommerce.routemisr.com';
 
-  // 🧠 Signals to store user and token in memory
+  //Signals to store user and token in memory
   user = signal<User | null>(null);
   token = signal<string | null>(null);
 
-  // 🧩 Reactive computed property
+  // Reactive computed property
   isAuthenticated = computed(() => !!this.user() && !!this.token());
 
   private auth = inject(Auth);
@@ -28,7 +28,7 @@ export class Login {
 
   constructor(private http: HttpClient) {}
 
-  // --- NORMAL LOGIN (API) ---
+  // --- Normal Login---
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/v1/auth/signin`, credentials).pipe(
       tap((response: any) => {
@@ -41,7 +41,7 @@ export class Login {
     );
   }
 
-  // --- SAVE USER & TOKEN IN MEMORY ---
+  // --- Save User and Token in Memory ---
   saveUser(user: User): void {
     this.user.set(user);
     localStorage.setItem('userEmail', user.email);
@@ -51,7 +51,6 @@ export class Login {
     this.token.set(token);
   }
 
-  // --- SAVE TO LOCAL STORAGE ---
   saveEmailInLocalStorage(email: string): void {
     localStorage.setItem('email', email);
   }
@@ -64,7 +63,7 @@ export class Login {
     localStorage.setItem('token', token);
   }
 
-  // --- LOGOUT ---
+  // --- Logunt Service ---
   logout(): void {
     this.user.set(null);
     this.token.set(null);

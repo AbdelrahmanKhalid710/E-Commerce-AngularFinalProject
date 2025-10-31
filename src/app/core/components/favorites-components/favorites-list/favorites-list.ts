@@ -48,5 +48,6 @@ export class FavoritesList {
   onAddToCart(product: Product): void {
     console.log('Add to cart:', product);
     this.cartService.addProductToCart(product);
+    this.removeFromList(product._id);
   }
 }
