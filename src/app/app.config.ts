@@ -9,7 +9,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 
 import { routes } from './app.routes';
-import { AdminAuthGuard } from './core/services/AdminDashBoard/admin-auth.guard';
+
 
 // ✅ Firebase imports for Angular 20+
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -27,7 +27,6 @@ export const appConfig: ApplicationConfig = {
 
     // ✅ Forms & guards
     importProvidersFrom(FormsModule),
-    AdminAuthGuard,
 
     // ✅ Initialize Firebase correctly
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
